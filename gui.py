@@ -162,7 +162,7 @@ class MainFrame(wx.Frame):
         # begin wxGlade: MainFrame.__init__
         kwds["style"] = wx.DEFAULT_FRAME_STYLE
         wx.Frame.__init__(self, *args, **kwds)
-        self.logo = wx.StaticBitmap(self, -1, wx.Bitmap("/home/filipe/CA/logo.png", wx.BITMAP_TYPE_ANY))
+        self.logo = wx.StaticBitmap(self, -1, wx.Bitmap("./logo.png", wx.BITMAP_TYPE_ANY))
         self.button_Adm = wx.Button(self, -1, u"Administração")
         self.button_horarios = wx.Button(self, -1, u"Horários", style=wx.BU_BOTTOM)
         self.Label_Titulo1 = wx.StaticText(self, -1, u"Mecajun\nMecatrônica Júnior de Brasília", style=wx.ALIGN_CENTRE)
