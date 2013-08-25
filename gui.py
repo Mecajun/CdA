@@ -66,7 +66,9 @@ class MainFrame(wx.Frame):
         # end wxGlade
 
     def adm_Button_Clicked(self, event):  # wxGlade: MainFrame.<event_handler>
-        print "Event handler `adm_Button_Clicked' not implemented!"
+       	frameWindow=Frame(self)
+	frameWindow.Show()
+	print "Event handler `adm_Button_Clicked' not implemented!"
         event.Skip()
 
     def horarios_Button_Clicked(self, event):  # wxGlade: MainFrame.<event_handler>
