@@ -225,10 +225,4 @@ class Frame(wx.Frame):
         event.Skip()
 
 # end of class Frame
-if __name__ == "__main__":
-    app = wx.PySimpleApp(0)
-    wx.InitAllImageHandlers()
-    janela_principal = MainFrame(None, -1, "")
-    app.SetTopWindow(janela_principal)
-    janela_principal.Show()
-    app.MainLoop()
+
