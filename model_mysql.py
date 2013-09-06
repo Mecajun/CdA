@@ -50,6 +50,13 @@ class Connect_MySQL:
         self.curs.execute("SELECT * FROM funcionarios WHERE id_funcionario=%s",(id_funcionario))
         linhas = self.curs.fetchall()
         return linhas[0] if len(linhas)>0 else None
+        
+    ##  Retorna todas as informações do funcionario
+    #   @param id_funcionario Id do funcionario
+    def obter_Funcionario_Basico(self,id_funcionario):
+        self.curs.execute("SELECT id_funcionario,nome FROM funcionarios WHERE id_funcionario=%s",(id_funcionario))
+        linhas = self.curs.fetchall()
+        return linhas[0] if len(linhas)>0 else None
 
     ##  Retorna o Id do funcionario com o nome igual o da entrada
     #   @param nome Nome do funcionario    
@@ -71,6 +78,14 @@ class Connect_MySQL:
         self.curs.execute("SELECT id_funcionario FROM funcionarios WHERE rfid=%s",(rfid))
         linhas = self.curs.fetchall()
         return linhas[0][0] if len(linhas)>0 else None
+
+    ##  Retorna os dados de um funcionario
+    #   @param id_funcionario Id do funcionario   
+    def obter_Dados_Funcionario(self, id_funcionario):
+        self.curs.execute("SELECT * FROM funcionarios WHERE id_funcionario=%s",(id_funcionario))
+        linhas = self.curs.fetchall()
+        return linhas[0] if len(linhas)>0 else None
+
 
     ##  Cria um horario para um funcionario
     #   @param id_funcionario Id do funcionario
@@ -121,7 +136,7 @@ class Connect_MySQL:
     def buscar_Horarios_de_Funcionario(self,id_funcionario):
         self.curs.execute("SELECT * FROM horarios WHERE id_funcionario=%s",(id_funcionario))
         linhas = self.curs.fetchall()
-        return linhas[0] if len(linhas)>0 else None
+        return linhas if len(linhas)>0 else None
         
     ##  Retorna o horario mais proximo de um funcionario
     #   @param id_funcionario Id do funcionario 
@@ -208,14 +223,15 @@ def test_Connect_MySQL(criar,remover):
         db.curs.execute('DROP TABLE IF EXISTS log_porta')
         
         db.criar_Tabelas()
+        '''        
         db.criar_Funcionario('filipe','100129706','8001')
         db.criar_Funcionario('bacon da silva','100129707','8002')
-        db.criar_Funcionario('pombo','100129708','8003')
+        db.criar_Funcionario('pombo raimundo','100129708','8003')
         db.criar_Funcionario('unicornio pereira','100129709')
         print db.obter_Id_Funcionario_por_Nome('bacon da silva')
         print db.obter_Id_Funcionario_por_Matricula('100129707')
         print db.obter_Id_Funcionario_por_Rfid('8003')
-        db.criar_Horario(2,1,'12:00:00','14:00:00')
+        db.criar_Horario(2,1,'12:05:00','14:13:00')
         db.criar_Horario(2,2,'12:00:00','14:00:00')
         db.criar_Horario(2,2,'16:00:00','18:00:00')
         db.criar_Horario(1,3,'14:00:00','15:00:00')
@@ -225,8 +241,8 @@ def test_Connect_MySQL(criar,remover):
         db.criar_Ponto(0,4,'2013-08-24 16:10:00','00:10:00')
         db.finaliza_Ponto(0,'2013-08-24 17:20:00','00:20:00',1)
         db.criar_Ponto(1,2,'2013-08-25 12:09:00','00:09:00')
-        print db.buscar_Horarios_de_Funcionario(2)
-        print db.buscar_Horario_Mais_Proximo_de_Funcionario(2,2,'14:00:00','01:00:00','00:50:00')
+        print 'horarios',db.buscar_Horarios_de_Funcionario(2)
+        print 'horarios proximo',db.buscar_Horario_Mais_Proximo_de_Funcionario(2,2,'14:00:00','01:00:00','00:50:00')
         print db.buscar_Horario_Mais_Proximo_de_Funcionario(2,2,'15:30:00','01:00:00','00:50:00')
         print db.buscar_Ponto_Aberto_de_Funcionario(1)
         db.adicionar_Log_Porta(0,'2013-08-23 15:30:00')
@@ -234,15 +250,9 @@ def test_Connect_MySQL(criar,remover):
         print db.obter_Log_Porta('2013-08-23 15:20:00','2013-08-25 15:30:00')
         db.atualizar_Funcionario(4,nome='unicornio miranda', rfid='9001')     
         print db.obter_Log_Pontos('2012-08-23 15:20:00','2014-08-25 15:30:00',presentes=True,faltas=False,atrazos=True)
-    
+        print db.obter_Dados_Funcionario(2)
+        '''     
     if remover==True:
         db.remover_Funcionario(3)
         db.remover_Horario_Data_Hora(1,1,'17:00:00')
         db.remover_Horario_Funcionario(2)
-    
-    
-    
-    
-    
-    
-    
