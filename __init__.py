@@ -15,7 +15,9 @@ if __name__ == "__main__":
     Frame1 = gui.MainFrame(None, -1, "")
     app.SetTopWindow(Frame1)
 
-    arduino=controller.Comunica_Arduino()
+    #arduino=controller.Comunica_Arduino()
+    hora=controller.Relogio()
+    hora.start()
 
     Frame1.Show()
     app.MainLoop()

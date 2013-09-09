@@ -72,3 +72,15 @@ def cadastrar_Funcionario(db,dados):
         
 def remover_Funcionario(db,id_funcionario):
     db.remover_Funcionario(id_funcionario)
+
+
+
+class Relogio(threading.Thread):
+    def __init__ (self):
+        super(Relogio, self).__init__()
+        hora=""
+    def run (self):
+        while True:
+            print time.asctime()
+            time.sleep(1)
+
