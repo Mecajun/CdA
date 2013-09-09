@@ -70,4 +70,5 @@ def cadastrar_Funcionario(db,dados):
         db.criar_Horario(id_funcionario=id_func,dia_da_semana=horario['dia_semana'],hora_inicial=horario['hora_inicial'],hora_final=horario['hora_final'])
     print  detalha_Funcionario(db,id_funcionario=id_func)
         
-def remover_Funcionario(id_funcionario):
+def remover_Funcionario(db,id_funcionario):
+    db.remover_Funcionario(id_funcionario)

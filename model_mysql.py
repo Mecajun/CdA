@@ -256,3 +256,4 @@ def test_Connect_MySQL(criar,remover):
         db.remover_Funcionario(3)
         db.remover_Horario_Data_Hora(1,1,'17:00:00')
         db.remover_Horario_Funcionario(2)
+
