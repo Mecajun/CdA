@@ -31,7 +31,10 @@ class MainFrame(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.horarios_Button_Clicked, self.button_horarios)
         self.Bind(wx.EVT_TEXT_ENTER, self.entrada_Teclado_Matricula, self.text_box_matricula)
 
-        Publisher().subscribe(self.troca_Debug, "evento_chegaram_dados_arduino")
+       # Publisher().subscribe(self.troca_Debug, "evento_chegaram_dados_arduino")
+        Publisher().subscribe(self.troca_Debug, "evento_mostrar_relogio")
+
+
 
         # end wxGlade
 

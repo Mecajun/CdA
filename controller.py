@@ -78,9 +78,10 @@ def remover_Funcionario(db,id_funcionario):
 class Relogio(threading.Thread):
     def __init__ (self):
         super(Relogio, self).__init__()
-        hora=""
     def run (self):
         while True:
-            print time.asctime()
+            hora=time.asctime()
+            wx.CallAfter(Publisher().sendMessage, "evento_mostrar_relogio", hora)
             time.sleep(1)
+        
 
