@@ -22,6 +22,30 @@ class Connect_MySQL:
         self.curs.execute("CREATE TABLE horarios (id_horario INT NOT NULL AUTO_INCREMENT PRIMARY KEY, id_funcionario INT NOT NULL, dia_da_semana INT NOT NULL, hora_inicial TIME NOT NULL, hora_final TIME NOT NULL)")
         self.curs.execute("CREATE TABLE pontos (id_ponto INT NOT NULL AUTO_INCREMENT PRIMARY KEY, id_funcionario INT NOT NULL, id_horario INT NOT NULL, horario_entrada DATETIME NOT NULL, horario_saida DATETIME, atraso_entrada TIME, atraso_saida TIME, presenca INT)")
         self.curs.execute("CREATE TABLE log_porta (id_log INT NOT NULL AUTO_INCREMENT PRIMARY KEY, id_funcionario INT NOT NULL, horario_entrada DATETIME NOT NULL)")
+        self.curs.execute("CREATE TABLE configuracoes (id_config INT NOT NULL AUTO_INCREMENT PRIMARY KEY, tipo VARCHAR(100) NOT NULL, dado VARCHAR(100) NOT NULL)")
+
+    ##  Obtem as configurações do programa
+    #   @param config Nome da configuração
+    def obter_Configuracoes(self,config):
+        self.curs.execute("SELECT * FROM configuracoes WHERE tipo=%s",(config))
+        linhas = self.curs.fetchall()
+        return linhas[0] if len(linhas)>0 else None
+
+    ##  Atualiza as configurações do programa
+    #   @param config Nome da configuração
+    #   @param dado Dado que vai ser inserido
+    def atualizar_Configuracoes(self,config,dado):
+        sql="UPDATE configuracoes SET dado=%s WHERE tipo=%s"
+        self.curs.execute(sql,(dado,config))
+        self.conn.commit()
+
+    ##  Cria as configurações do programa
+    #   @param config Nome da configuração
+    #   @param dado Dado que vai ser inserido
+    def criar_Configuracoes(self,config,dado):
+        sql="INSERT INTO configuracoes (tipo,dado) VALUES (%s,%s)"
+        self.curs.execute(sql,(config,dado))
+        self.conn.commit()
 
     ##  Cria um funcionario na tabela funcionarios.
     #   @param nome Nome do funcionario
@@ -178,13 +202,13 @@ class Connect_MySQL:
     #   @param presentes Mostrar presença de funcionarios
     #   @param faltas Mostrar falta de funcionarios
     #   @param atrazos Mostrar atrazos de funcionarios
-    def obter_Log_Pontos(self,data_inicial,data_final,presentes=True,faltas=True,atrazos=True):
+    def obter_Log_Pontos(self,data_inicial,data_final,presentes=True,faltas=True,atrasos=True):
         sql="SELECT * FROM pontos WHERE (horario_entrada >= %s AND horario_entrada <= %s AND ("
         if presentes == True:
             sql=sql+" presenca=1 OR"
         if faltas == True:
             sql=sql+" presenca=0 OR"
-        if atrazos == True:
+        if atrasos == True:
             sql=sql+" presenca=2 OR"
         if sql[-1]=='R':
             sql=sql[0:-2]+"))"
@@ -221,9 +245,10 @@ def test_Connect_MySQL(criar,remover):
         db.curs.execute('DROP TABLE IF EXISTS horarios')
         db.curs.execute('DROP TABLE IF EXISTS pontos')
         db.curs.execute('DROP TABLE IF EXISTS log_porta')
+        db.curs.execute('DROP TABLE IF EXISTS configuracoes')
         
         db.criar_Tabelas()
-        '''        
+               
         db.criar_Funcionario('filipe','100129706','8001')
         db.criar_Funcionario('bacon da silva','100129707','8002')
         db.criar_Funcionario('pombo raimundo','100129708','8003')
@@ -251,9 +276,11 @@ def test_Connect_MySQL(criar,remover):
         db.atualizar_Funcionario(4,nome='unicornio miranda', rfid='9001')     
         print db.obter_Log_Pontos('2012-08-23 15:20:00','2014-08-25 15:30:00',presentes=True,faltas=False,atrazos=True)
         print db.obter_Dados_Funcionario(2)
-        '''     
+            
     if remover==True:
         db.remover_Funcionario(3)
         db.remover_Horario_Data_Hora(1,1,'17:00:00')
         db.remover_Horario_Funcionario(2)
 
+if __name__ == "__main__":
+    test_Connect_MySQL(True,False)

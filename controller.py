@@ -7,6 +7,7 @@ import time
 import datetime
 import os
 from wx.lib.pubsub import Publisher
+import md5
 
 class Comunica_Arduino(threading.Thread):
     def __init__(self):
@@ -17,31 +18,43 @@ class Comunica_Arduino(threading.Thread):
         except:
             print "Arduino não conectado"
         Publisher().subscribe(self.mandar_Dados, "evento_enviar_dados_arduino")
-        self.start()        
-        
+        self.start()
+
     def run(self):
          while True:
              wx.CallAfter(Publisher().sendMessage, "evento_chegaram_dados_arduino", self.obter_Dados())
-        
+
     def obter_Dados(self):
         time.sleep(1)
         try:
             return self.ser.readline()
         except:
             return "Falha ao obter dados do arduino"
-        
+
     def mandar_Dados(self,dados):
         try:
             self.ser.write(dados.data)
         except:
             return "Falha ao obter mandar dados para o arduino"
-        
 
 class Main_Controller():
     horarios_temp=None
     
     def falar(texto):
         os.system('espeak -v brazil "'+texto+'"')
+
+def criptografar_Senha(senha):
+    m = md5.new()
+    for i in range(32):
+        m.update(senha)
+    return m.hexdigest()
+
+def verifica_Senha_Adm(db,senha):
+    temp_senha = db.obter_Configuracoes("adm_senha")
+    if temp_senha[2] == criptografar_Senha(senha):
+        return True
+    else:
+        return False
     
 def dia_Semana_Int2str(num):
     dias=['Dom','Seg','Ter','Qua','Qui','Sex','Sab']
@@ -73,15 +86,39 @@ def cadastrar_Funcionario(db,dados):
 def remover_Funcionario(db,id_funcionario):
     db.remover_Funcionario(id_funcionario)
 
+def obter_Rfid(id_funcionario):
+    "nada"    
 
+def gerar_Relatorio(db,inicial,final,condicoes):
+    log_porta=db.obter_Log_Porta(inicial,final)
+    log_pontos=db.obter_Log_Pontos(inicial,final,condicoes['pontuais'],condicoes['faltas'],condicoes['atrasos'])
+    print log_porta
+    print log_pontos
+
+def atualizar_Rfid(db,id_funcionario,rfid):
+    db.atualizar_Funcionario(id_funcionario,rfid=rfid)
 
 class Relogio(threading.Thread):
     def __init__ (self):
         super(Relogio, self).__init__()
+        self.start()
+
     def run (self):
         while True:
             hora=time.asctime()
             wx.CallAfter(Publisher().sendMessage, "evento_mostrar_relogio", hora)
             time.sleep(1)
-        
 
+class Instalar():
+    def __init__(self,db):
+        self.db=db
+    def criar_Data_Base(self):
+        db.criar_Tabelas()
+    def configurar_Data_Base(self):
+        db.criar_Configuracoes('adm_senha',criptografar_Senha('42'))
+
+if __name__ == "__main__":
+    db=model_mysql.Connect_MySQL('localhost','root','42')
+    ins=Instalar(db)
+    ins.criar_Data_Base()
+    ins.configurar_Data_Base()
