@@ -18,6 +18,7 @@ class Comunica_Arduino(threading.Thread):
         except:
             print "Arduino não conectado"
         Publisher().subscribe(self.mandar_Dados, "evento_enviar_dados_arduino")
+
         self.start()
 
     def run(self):
@@ -37,11 +38,10 @@ class Comunica_Arduino(threading.Thread):
         except:
             return "Falha ao obter mandar dados para o arduino"
 
-class Main_Controller():
-    horarios_temp=None
-    
-    def falar(texto):
-        os.system('espeak -v brazil "'+texto+'"')
+def falar(texto):
+    texto="Olá "+texto+", seja bem vindo a Mecajun"
+    print texto
+    os.system('espeak -v brazil "'+texto+'"')
 
 def criptografar_Senha(senha):
     m = md5.new()
@@ -104,6 +104,68 @@ def atualizar_Rfid(db,id_funcionario,rfid):
 def listar_Funcionarios(db):
     funcionarios=db.obter_Funcionarios()
     return funcionarios
+
+def obter_Configuracoes(db):
+    dados={}
+    dados['tol_ent_ant']=int(db.obter_Configuracoes('tol_ent_ant')[2])
+    dados['tol_ent_dep']=int(db.obter_Configuracoes('tol_ent_dep')[2])
+    dados['tol_sai_ant']=int(db.obter_Configuracoes('tol_sai_ant')[2])
+    dados['tol_sai_dep']=int(db.obter_Configuracoes('tol_sai_dep')[2])
+    dados['considerar_atraso']=int(db.obter_Configuracoes('considerar_atraso')[2])
+    return dados
+
+def atualizar_Configuracao(db,config,dado):
+    db.atualizar_Configuracoes(config,str(dado))
+
+def obter_Horario_Atual():
+    horario_atual=datetime.datetime.now()
+    dia_semana=horario_atual.weekday()
+    dia_semana=dia_semana+2
+    if dia_semana==8:
+        dia_semana=1
+    return {'dia_semana':dia_semana,'horario':horario_atual.strftime("%H:%M:%S"),'data':horario_atual.strftime("%Y:%m:%d")}
+
+def obter_Data_Hora():
+    data=datetime.datetime.now()
+    return data.strftime("%Y-%m-%d %H:%M")
+
+def transforma_Horario_Int_Str(hora,minuto):
+    return str(hora+minuto/60)+":"+str(minuto%60)+":00"
+
+def dar_Ponto(db,matricula):
+    id_func=db.obter_Id_Funcionario_por_Matricula(matricula)
+    horario_atual=obter_Horario_Atual()
+
+    # Obtem os limites de tempo para considerar o ponto entrada
+    limite_inferior=transforma_Horario_Int_Str(0,int(db.obter_Configuracoes('tol_ent_ant')[2]))
+    limite_superior=transforma_Horario_Int_Str(0,int(db.obter_Configuracoes('tol_ent_dep')[2]))
+
+    #  Obtem os limites de tempo para considerar o ponto de saida
+    limite_inferior_saida=transforma_Horario_Int_Str(0,int(db.obter_Configuracoes('tol_sai_ant')[2]))
+    limite_superior_saida=transforma_Horario_Int_Str(0,int(db.obter_Configuracoes('tol_sai_dep')[2]))
+
+    # Verifica se existe algum ponto aberto
+    ponto_antigo=db.buscar_Ponto_Aberto_de_Funcionario(id_func)
+
+    # Tempo desde o ultimo ponto
+    intervalo=None
+    if ponto_antigo!=None:
+        intervalo=datetime.datetime.now()-ponto_antigo[3]
+        intervalo=intervalo.seconds/60
+    
+    # if intervalo!=None and intervalo>limite_superior:
+    #     sda
+
+    # Verifica se tem horario para bater o ponto
+    horario=db.buscar_Horario_Mais_Proximo_de_Funcionario(int(id_func),horario_atual['dia_semana'],horario_atual['horario'],limite_inferior,limite_superior)
+
+
+    print horario,ponto_antigo
+    if horario!=None and ponto_antigo!=-1:
+        db.criar_Ponto(id_func,horario[0],obter_Data_Hora(),"00:00:00")
+        falar(db.obter_Funcionario_Basico(id_func)[1])
+    else:
+        print "não tem ponto"
 
 class Relogio(threading.Thread):
     def __init__ (self):

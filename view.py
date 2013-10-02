@@ -5,6 +5,7 @@
 import wx
 from wx.lib.pubsub import Publisher
 import controller
+import time
 # begin wxGlade: extracode
 # end wxGlade
 
@@ -95,7 +96,8 @@ class MainFrame(wx.Frame):
         event.Skip()
 
     def entrada_Teclado_Matricula(self, event):  # wxGlade: MainFrame.<event_handler>
-        print "Event handler `entrada_Teclado_Matricula' not implemented!"
+        print "passou aqui"
+        controller.dar_Ponto(self.db,self.text_box_matricula.GetValue())
         event.Skip()
 
     def atualiza_Relogio(self,hora):
@@ -178,6 +180,13 @@ class Adm_Frame(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.button_Adicionar_Hora, self.button_adicionar)
         self.Bind(wx.EVT_BUTTON, self.button_Remover_Hora, self.button_remover)
         self.Bind(wx.EVT_BUTTON, self.button_Salvar_Alteracoes, self.button_salvar_alteracoes)
+
+        self.Bind(wx.EVT_SPINCTRL, self.mudou_Configuracoes_Tol_Ent_Ant, self.spin_ctrl_1)
+        self.Bind(wx.EVT_SPINCTRL, self.mudou_Configuracoes_Tol_Ent_Dep, self.spin_ctrl_3)
+        self.Bind(wx.EVT_SPINCTRL, self.mudou_Configuracoes_Tol_Sai_Ant, self.spin_ctrl_2)
+        self.Bind(wx.EVT_SPINCTRL, self.mudou_Configuracoes_Tol_Sai_Dep, self.spin_ctrl_4)
+        self.Bind(wx.EVT_SPINCTRL, self.mudou_Configuracoes_Considerar_Atraso, self.spin_ctrl_5)
+
         # end wxGlade
 
     def __set_properties(self):
@@ -337,12 +346,30 @@ class Adm_Frame(wx.Frame):
         self.lista_funcionarios=controller.listar_Funcionarios(self.db)
         for x in self.lista_funcionarios:
             self.list_funcionarios.Append(x[1])
-    def temp(self):
-        self.spin_ctrl_1
-        self.spin_ctrl_3
-        self.spin_ctrl_2
-        self.spin_ctrl_4
-        self.spin_ctrl_5 
+
+    def mudou_Configuracoes_Tol_Ent_Ant(self,event):
+        controller.atualizar_Configuracao(self.db, 'tol_ent_ant', self.spin_ctrl_1.GetValue())
+
+    def mudou_Configuracoes_Tol_Ent_Dep(self,event):
+        controller.atualizar_Configuracao(self.db, 'tol_ent_dep', self.spin_ctrl_3.GetValue())
+
+    def mudou_Configuracoes_Tol_Sai_Ant(self,event):
+        controller.atualizar_Configuracao(self.db, 'tol_sai_ant', self.spin_ctrl_2.GetValue())
+
+    def mudou_Configuracoes_Tol_Sai_Dep(self,event):
+        controller.atualizar_Configuracao(self.db, 'tol_sai_dep', self.spin_ctrl_4.GetValue())
+
+    def mudou_Configuracoes_Considerar_Atraso(self,event):
+        controller.atualizar_Configuracao(self.db, 'considerar_atraso', self.spin_ctrl_5.GetValue())
+
+            
+    def configuracoes_Dados(self):
+        dados=controller.obter_Configuracoes(self.db)
+        self.spin_ctrl_1.SetValue(dados['tol_ent_ant'])
+        self.spin_ctrl_3.SetValue(dados['tol_ent_dep'])
+        self.spin_ctrl_2.SetValue(dados['tol_sai_ant'])
+        self.spin_ctrl_4.SetValue(dados['tol_sai_dep'])
+        self.spin_ctrl_5.SetValue(dados['considerar_atraso'])
 
     def button_Gerar_Relatorio(self, event):  # wxGlade: Frame.<event_handler>
         inicial = self.datepicker_box_data_inicial.GetValue()
@@ -399,7 +426,7 @@ class Adm_Frame(wx.Frame):
         dados['rfid']=None
         return dados
 
-    def limpa_campos(self):
+    def limpa_Campos(self):
         self.text_box_nome_adicionar_func.Clear()
         self.text_ctrl_4.Clear()
         self.list_box_horarios.Clear()
@@ -414,13 +441,14 @@ class Adm_Frame(wx.Frame):
         dados=self.obter_Detalhes_Usuario()
         if (dados['nome']!='' and dados['matricula']!=''):
             controller.cadastrar_Funcionario(self.db,dados)
-            self.limpa_campos()
+            self.limpa_Campos()
             self.list_Funcionarios()
         event.Skip()
 
     def set_Db(self,db):
         self.db=db
         self.list_Funcionarios()
+        self.configuracoes_Dados()
 
 # end of class Frame
 

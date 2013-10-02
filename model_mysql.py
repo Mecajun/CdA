@@ -171,14 +171,14 @@ class Connect_MySQL:
     def buscar_Horario_Mais_Proximo_de_Funcionario(self,id_funcionario,dia_da_semana,horario_base,limite_inferior,limite_superior):
         self.curs.execute("SELECT * FROM horarios WHERE (id_funcionario=%s AND dia_da_semana=%s AND hora_inicial >= SUBTIME(%s,%s) AND hora_inicial <= ADDTIME(%s,%s)  ) ORDER BY ABS(SUBTIME(hora_inicial,%s)) LIMIT 1",(id_funcionario,dia_da_semana,horario_base,limite_inferior,horario_base,limite_superior,horario_base))
         linhas = self.curs.fetchall()
-        return linhas if len(linhas)>0 else None
+        return linhas[0] if len(linhas)>0 else None
 
     ##  Verifica se existe ponto aberto de um funcionario
     #   @param id_funcionario Id do funcionario 
     def buscar_Ponto_Aberto_de_Funcionario(self,id_funcionario):
-        self.curs.execute("SELECT presenca FROM pontos WHERE (presenca=-1 AND id_funcionario=%s)",(id_funcionario))
+        self.curs.execute("SELECT pontos.presenca,pontos.horario_entrada,horarios.hora_inicial,horarios.hora_final FROM pontos INNER JOIN horarios on pontos.id_horario = horarios.id_horario WHERE pontos.presenca=-1 AND pontos.id_funcionario=%s",(id_funcionario))
         linhas = self.curs.fetchall()
-        return linhas[0][0] if len(linhas)>0 else None
+        return linhas[0] if len(linhas)>0 else None
 
     ##  Adiciona no log da porta o funcionario que entrou e o horario
     #   @param id_funcionario Id do funcionario
@@ -191,8 +191,9 @@ class Connect_MySQL:
     ##  Obtem o log da porta dentro de um periodo de tempo
     #   @param data_inicial Data inicial do log. Formato YYYY-MM-DD HH:MM:SS
     #   @param data_final Data final do log. Formato YYYY-MM-DD HH:MM:SS    
+    #   @return Nome,Matricula,Horario_entrada
     def obter_Log_Porta(self,data_inicial,data_final):
-        self.curs.execute("SELECT * FROM log_porta WHERE (horario_entrada >= %s AND horario_entrada <= %s )",(data_inicial,data_final))
+        self.curs.execute("SELECT funcionarios.nome,funcionarios.matricula,log_porta.horario_entrada FROM log_porta INNER JOIN funcionarios on log_porta.id_funcionario = funcionarios.id_funcionario WHERE (log_porta.horario_entrada >= %s AND log_porta.horario_entrada <= %s )",(data_inicial,data_final))
         linhas = self.curs.fetchall()
         return linhas if len(linhas)>0 else None
         
@@ -202,14 +203,17 @@ class Connect_MySQL:
     #   @param presentes Mostrar presença de funcionarios
     #   @param faltas Mostrar falta de funcionarios
     #   @param atrazos Mostrar atrazos de funcionarios
+    #   @return Nome,Matricula,Horario_entrada,Horario_saida,Atraso_entrada,Atraso_saida,Presenca
     def obter_Log_Pontos(self,data_inicial,data_final,presentes=True,faltas=True,atrasos=True):
-        sql="SELECT * FROM pontos WHERE (horario_entrada >= %s AND horario_entrada <= %s AND ("
+        sql="SELECT funcionarios.nome,funcionarios.matricula,pontos.horario_entrada,pontos.horario_saida,pontos.atraso_entrada,pontos.atraso_saida,pontos.presenca FROM pontos INNER JOIN funcionarios on pontos.id_funcionario = funcionarios.id_funcionario WHERE (pontos.horario_entrada >= %s AND pontos.horario_entrada <= %s AND ("
         if presentes == True:
-            sql=sql+" presenca=1 OR"
+            sql=sql+" pontos.presenca=1 OR"
         if faltas == True:
-            sql=sql+" presenca=0 OR"
+            sql=sql+" pontos.presenca=0 OR"
+        if "Aberto" == "Aberto":
+            sql=sql+" pontos.presenca=-1 OR"
         if atrasos == True:
-            sql=sql+" presenca=2 OR"
+            sql=sql+" pontos.presenca=2 OR"
         if sql[-1]=='R':
             sql=sql[0:-2]+"))"
         else:
