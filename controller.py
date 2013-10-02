@@ -55,6 +55,9 @@ def verifica_Senha_Adm(db,senha):
         return True
     else:
         return False
+
+def alterar_Senha_Adm(db,senha):
+    db.atualizar_Configuracoes("adm_senha",criptografar_Senha(senha))
     
 def dia_Semana_Int2str(num):
     dias=['Dom','Seg','Ter','Qua','Qui','Sex','Sab']
@@ -97,6 +100,10 @@ def gerar_Relatorio(db,inicial,final,condicoes):
 
 def atualizar_Rfid(db,id_funcionario,rfid):
     db.atualizar_Funcionario(id_funcionario,rfid=rfid)
+
+def listar_Funcionarios(db):
+    funcionarios=db.obter_Funcionarios()
+    return funcionarios
 
 class Relogio(threading.Thread):
     def __init__ (self):

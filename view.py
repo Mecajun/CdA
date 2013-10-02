@@ -120,17 +120,17 @@ class Adm_Frame(wx.Frame):
         self.button_gerar_relatorio = wx.Button(self.notebook_relatorio, -1, "Gerar")
         self.panel_9 = wx.Panel(self.notebook_pages, -1)
         self.label_6 = wx.StaticText(self.panel_9, -1, u"Tolerância de Entrada:")
-        self.spin_ctrl_1 = wx.SpinCtrl(self.panel_9, -1, "", min=0, max=100)
+        self.spin_ctrl_1 = wx.SpinCtrl(self.panel_9, -1, "", min=0, max=500)
         self.label_9 = wx.StaticText(self.panel_9, -1, "      antes e")
-        self.spin_ctrl_3 = wx.SpinCtrl(self.panel_9, -1, "", min=0, max=100)
+        self.spin_ctrl_3 = wx.SpinCtrl(self.panel_9, -1, "", min=0, max=500)
         self.label_11 = wx.StaticText(self.panel_9, -1, "    depois")
         self.label_7 = wx.StaticText(self.panel_9, -1, u"Tolerância de Saída:")
-        self.spin_ctrl_2 = wx.SpinCtrl(self.panel_9, -1, "", min=0, max=100)
+        self.spin_ctrl_2 = wx.SpinCtrl(self.panel_9, -1, "", min=0, max=500)
         self.label_10 = wx.StaticText(self.panel_9, -1, "      antes e")
-        self.spin_ctrl_4 = wx.SpinCtrl(self.panel_9, -1, "", min=0, max=100)
+        self.spin_ctrl_4 = wx.SpinCtrl(self.panel_9, -1, "", min=0, max=500)
         self.label_12 = wx.StaticText(self.panel_9, -1, "    depois")
         self.label_8 = wx.StaticText(self.panel_9, -1, u"Considerar atraso após")
-        self.spin_ctrl_5 = wx.SpinCtrl(self.panel_9, -1, "", min=0, max=100)
+        self.spin_ctrl_5 = wx.SpinCtrl(self.panel_9, -1, "", min=0, max=500)
         self.label_13 = wx.StaticText(self.panel_9, -1, "       depois")
         self.panel_1 = wx.Panel(self.panel_9, -1)
         self.button_alterar_senha = wx.Button(self.panel_9, -1, "Alterar senha do Administrador")
@@ -148,34 +148,36 @@ class Adm_Frame(wx.Frame):
         self.label_26 = wx.StaticText(self.notebook_1_funcionarios, -1, "RFID                                             ")
         self.button_7 = wx.Button(self.notebook_1_funcionarios, -1, "Obter RFID")
         self.label_27 = wx.StaticText(self.notebook_1_funcionarios, -1, "Data                                            ")
-        self.combo_box_5 = wx.ComboBox(self.notebook_1_funcionarios, -1, choices=["Domingo", "Segunda", u"Terça", "Quarta", "Quinta", "Sexta", u"Sábado"], style=wx.CB_DROPDOWN)
+        self.combo_box_data = wx.ComboBox(self.notebook_1_funcionarios, -1, choices=["Domingo", "Segunda", u"Terça", "Quarta", "Quinta", "Sexta", u"Sábado"], style=wx.CB_DROPDOWN)
         self.label_14 = wx.StaticText(self.notebook_1_funcionarios, -1, u"Horários:")
         self.label_15 = wx.StaticText(self.notebook_1_funcionarios, -1, u"         Início  ")
-        self.combo_box_1 = wx.ComboBox(self.notebook_1_funcionarios, -1, choices=["08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18"], style=wx.CB_DROPDOWN)
+        self.spin_horario_inicio_horas = wx.SpinCtrl(self.notebook_1_funcionarios, -1, "", min=0, max=23)
         self.label_16 = wx.StaticText(self.notebook_1_funcionarios, -1, "      horas e   ")
-        self.combo_box_2 = wx.ComboBox(self.notebook_1_funcionarios, -1, choices=["00", "10", "20", "30", "40", "50"], style=wx.CB_DROPDOWN)
+        self.spin_horario_inicio_minutos = wx.SpinCtrl(self.notebook_1_funcionarios, -1, "", min=0, max=59)
         self.label_17 = wx.StaticText(self.notebook_1_funcionarios, -1, "     minutos")
         self.label_18 = wx.StaticText(self.notebook_1_funcionarios, -1, "Fim      ")
-        self.combo_box_3 = wx.ComboBox(self.notebook_1_funcionarios, -1, choices=["08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18"], style=wx.CB_DROPDOWN)
+        self.spin_horario_fim_horas = wx.SpinCtrl(self.notebook_1_funcionarios, -1, "", min=0, max=23)
         self.label_19 = wx.StaticText(self.notebook_1_funcionarios, -1, "      horas e   ")
-        self.combo_box_4 = wx.ComboBox(self.notebook_1_funcionarios, -1, choices=["00", "10", "20", "30", "40", "50"], style=wx.CB_DROPDOWN)
+        self.spin_horario_fim_minutos = wx.SpinCtrl(self.notebook_1_funcionarios, -1, "", min=0, max=59)
         self.label_20 = wx.StaticText(self.notebook_1_funcionarios, -1, "     minutos")
         self.list_box_horarios = wx.ListBox(self.notebook_1_funcionarios, -1, choices=[])
-        self.button_5 = wx.Button(self.notebook_1_funcionarios, -1, "Adicionar")
-        self.button_6 = wx.Button(self.notebook_1_funcionarios, -1, "Remover")
-        self.button_1 = wx.Button(self.notebook_1_funcionarios, -1, u"Salvar Alterações")
+        self.button_adicionar = wx.Button(self.notebook_1_funcionarios, -1, "Adicionar")
+        self.button_remover = wx.Button(self.notebook_1_funcionarios, -1, "Remover")
+        self.button_salvar_alteracoes = wx.Button(self.notebook_1_funcionarios, -1, u"Salvar Alterações")
 
         self.__set_properties()
         self.__do_layout()
 
+        self.horarios_box=[]
+
         self.Bind(wx.EVT_BUTTON, self.button_Gerar_Relatorio, self.button_gerar_relatorio)
         self.Bind(wx.EVT_BUTTON, self.alterar_Senha_Adm_Button_Clicked, self.button_alterar_senha)
-        self.Bind(wx.EVT_LISTBOX, self.detalhar_funcionario, self.list_funcionarios)
+        self.Bind(wx.EVT_LISTBOX, self.detalhar_Funcionario, self.list_funcionarios)
         self.Bind(wx.EVT_BUTTON, self.button_Remover_Funcionario, self.button_remover_funcionario)
         self.Bind(wx.EVT_BUTTON, self.button_Obter_Rfid, self.button_7)
-        self.Bind(wx.EVT_BUTTON, self.button_Adicionar_Hora, self.button_5)
-        self.Bind(wx.EVT_BUTTON, self.button_Remover_Hora, self.button_6)
-        self.Bind(wx.EVT_BUTTON, self.button_Salvar_Alteracoes, self.button_1)
+        self.Bind(wx.EVT_BUTTON, self.button_Adicionar_Hora, self.button_adicionar)
+        self.Bind(wx.EVT_BUTTON, self.button_Remover_Hora, self.button_remover)
+        self.Bind(wx.EVT_BUTTON, self.button_Salvar_Alteracoes, self.button_salvar_alteracoes)
         # end wxGlade
 
     def __set_properties(self):
@@ -191,15 +193,11 @@ class Adm_Frame(wx.Frame):
         self.label_8.SetFont(wx.Font(12, wx.DEFAULT, wx.NORMAL, wx.NORMAL, 0, "Ubuntu"))
         self.list_funcionarios.SetMinSize((220, 300))
         self.text_box_nome_adicionar_func.SetMinSize((200, 27))
-        self.combo_box_5.SetSelection(0)
-        self.combo_box_1.SetMinSize((59, 29))
-        self.combo_box_1.SetSelection(-1)
-        self.combo_box_2.SetMinSize((59, 29))
-        self.combo_box_2.SetSelection(-1)
-        self.combo_box_3.SetMinSize((59, 29))
-        self.combo_box_3.SetSelection(-1)
-        self.combo_box_4.SetMinSize((59, 29))
-        self.combo_box_4.SetSelection(-1)
+        self.combo_box_data.SetSelection(0)
+        self.spin_horario_inicio_horas.SetMinSize((49, 27))
+        self.spin_horario_inicio_minutos.SetMinSize((49, 27))
+        self.spin_horario_fim_horas.SetMinSize((49, 27))
+        self.spin_horario_fim_minutos.SetMinSize((49, 27))
         self.list_box_horarios.SetMinSize((400, 63))
         self.Centre()
         # end wxGlade
@@ -296,30 +294,30 @@ class Adm_Frame(wx.Frame):
         sizer_40.Add(self.button_7, 0, 0, 0)
         sizer_35.Add(sizer_40, 1, wx.EXPAND, 0)
         sizer_41.Add(self.label_27, 0, 0, 0)
-        sizer_41.Add(self.combo_box_5, 0, 0, 0)
+        sizer_41.Add(self.combo_box_data, 0, 0, 0)
         sizer_35.Add(sizer_41, 1, wx.EXPAND, 0)
         sizer_15.Add(sizer_35, 1, wx.EXPAND, 0)
         sizer_33.Add(self.label_14, 0, 0, 0)
         sizer_33.Add(self.label_15, 0, 0, 0)
-        sizer_33.Add(self.combo_box_1, 0, 0, 0)
+        sizer_33.Add(self.spin_horario_inicio_horas, 0, 0, 0)
         sizer_33.Add(self.label_16, 0, 0, 0)
-        sizer_33.Add(self.combo_box_2, 0, 0, 0)
+        sizer_33.Add(self.spin_horario_inicio_minutos, 0, 0, 0)
         sizer_33.Add(self.label_17, 0, 0, 0)
         sizer_19.Add(sizer_33, 1, wx.EXPAND, 0)
         sizer_34.Add((90, 40), 0, 0, 0)
         sizer_34.Add(self.label_18, 0, 0, 0)
-        sizer_34.Add(self.combo_box_3, 0, 0, 0)
+        sizer_34.Add(self.spin_horario_fim_horas, 0, 0, 0)
         sizer_34.Add(self.label_19, 0, 0, 0)
-        sizer_34.Add(self.combo_box_4, 0, 0, 0)
+        sizer_34.Add(self.spin_horario_fim_minutos, 0, 0, 0)
         sizer_34.Add(self.label_20, 0, 0, 0)
         sizer_19.Add(sizer_34, 1, wx.EXPAND, 0)
         sizer_15.Add(sizer_19, 1, wx.EXPAND, 0)
         sizer_17.Add(self.list_box_horarios, 0, 0, 0)
-        sizer_18.Add(self.button_5, 0, 0, 0)
-        sizer_18.Add(self.button_6, 0, 0, 0)
+        sizer_18.Add(self.button_adicionar, 0, 0, 0)
+        sizer_18.Add(self.button_remover, 0, 0, 0)
         sizer_17.Add(sizer_18, 1, wx.EXPAND, 0)
         sizer_15.Add(sizer_17, 1, wx.EXPAND, 0)
-        sizer_15.Add(self.button_1, 0, 0, 0)
+        sizer_15.Add(self.button_salvar_alteracoes, 0, 0, 0)
         sizer_6.Add(sizer_15, 1, wx.EXPAND, 0)
         sizer_6.Add((20, 20), 0, 0, 0)
         sizer_8.Add(sizer_6, 1, wx.EXPAND, 0)
@@ -332,6 +330,19 @@ class Adm_Frame(wx.Frame):
         sizer_7.Fit(self)
         self.Layout()
         # end wxGlade
+
+    def list_Funcionarios(self):
+        # self.list_funcionarios.Append()
+        self.list_funcionarios.Clear()
+        self.lista_funcionarios=controller.listar_Funcionarios(self.db)
+        for x in self.lista_funcionarios:
+            self.list_funcionarios.Append(x[1])
+    def temp(self):
+        self.spin_ctrl_1
+        self.spin_ctrl_3
+        self.spin_ctrl_2
+        self.spin_ctrl_4
+        self.spin_ctrl_5 
 
     def button_Gerar_Relatorio(self, event):  # wxGlade: Frame.<event_handler>
         inicial = self.datepicker_box_data_inicial.GetValue()
@@ -346,15 +357,18 @@ class Adm_Frame(wx.Frame):
         self.troca_senha_frame = Troca_Senha_Frame(None,-1)
         self.troca_senha_frame.set_Db(self.db)
         self.troca_senha_frame.Show()
-        print "Event handler `alterar_Senha_Adm_Button_Clicked' not implemented!"
         event.Skip()
 
-    def detalhar_funcionario(self, event):  # wxGlade: Frame.<event_handler>
-        print "Event handler `detalhar_funcionario' not implemented!"
+    def detalhar_Funcionario(self, event):  # wxGlade: Frame.<event_handler>
+        posicao=self.list_funcionarios.GetSelection()
+        atual=self.lista_funcionarios[posicao]
         event.Skip()
 
     def button_Remover_Funcionario(self, event):  # wxGlade: Frame.<event_handler>
-        print "Event handler `button_Remover_Funcionario' not implemented!"
+        posicao=self.list_funcionarios.GetSelection()
+        atual=self.lista_funcionarios[posicao]
+        controller.remover_Funcionario(self.db,atual[0])
+        self.list_Funcionarios()
         event.Skip()
 
     def button_Obter_Rfid(self, event):  # wxGlade: Frame.<event_handler>
@@ -362,19 +376,51 @@ class Adm_Frame(wx.Frame):
         event.Skip()
 
     def button_Adicionar_Hora(self, event):  # wxGlade: Frame.<event_handler>
-        print "Event handler `button_Adicionar_Hora' not implemented!"
+        dado={}
+        dado['dia_semana']=self.combo_box_data.GetCurrentSelection()+1
+        dado['hora_inicial']=str(self.spin_horario_inicio_horas.GetValue()).zfill(2)+":"+str(self.spin_horario_inicio_minutos.GetValue()).zfill(2)
+        dado['hora_final']=str(self.spin_horario_fim_horas.GetValue()).zfill(2)+":"+str(self.spin_horario_fim_minutos.GetValue()).zfill(2)
+        self.horarios_box.append(dado)
+        temp_str=controller.dia_Semana_Int2str(dado['dia_semana'])+"\t\t"+dado['hora_inicial']+" - "+dado['hora_final']
+        self.list_box_horarios.Append(temp_str)
         event.Skip()
 
     def button_Remover_Hora(self, event):  # wxGlade: Frame.<event_handler>
-        print "Event handler `button_Remover_Hora' not implemented!"
+        posicao=self.list_box_horarios.GetSelection()
+        del self.horarios_box[posicao]
+        self.list_box_horarios.Delete(posicao)
         event.Skip()
 
+    def obter_Detalhes_Usuario(self):
+        dados={}
+        dados['nome']=self.text_box_nome_adicionar_func.GetValue()
+        dados['matricula']=self.text_ctrl_4.GetValue()
+        dados['horarios']=self.horarios_box
+        dados['rfid']=None
+        return dados
+
+    def limpa_campos(self):
+        self.text_box_nome_adicionar_func.Clear()
+        self.text_ctrl_4.Clear()
+        self.list_box_horarios.Clear()
+        self.horarios_box=[]
+        self.list_funcionarios.DeselectAll()
+        self.spin_horario_inicio_horas.SetValue(0)
+        self.spin_horario_fim_horas.SetValue(0)
+        self.spin_horario_inicio_minutos.SetValue(0)
+        self.spin_horario_fim_minutos.SetValue(0)
+
     def button_Salvar_Alteracoes(self, event):  # wxGlade: Frame.<event_handler>
-        print "Event handler `button_Salvar_Alteracoes' not implemented!"
+        dados=self.obter_Detalhes_Usuario()
+        if (dados['nome']!='' and dados['matricula']!=''):
+            controller.cadastrar_Funcionario(self.db,dados)
+            self.limpa_campos()
+            self.list_Funcionarios()
         event.Skip()
 
     def set_Db(self,db):
         self.db=db
+        self.list_Funcionarios()
 
 # end of class Frame
 
@@ -396,6 +442,7 @@ class Adm_Senha_Frame(wx.Frame):
         # begin wxGlade: Adm_Senha_Frame.__set_properties
         self.SetTitle("Senha Administrativo")
         self.text_ctrl_1.SetFocus()
+        self.Centre()
         # end wxGlade
 
     def __do_layout(self):
@@ -448,6 +495,7 @@ class Troca_Senha_Frame(wx.Frame):
         self.SetTitle("Troca de senha")
         self.label_3.SetFont(wx.Font(12, wx.DEFAULT, wx.NORMAL, wx.NORMAL, 0, "Ubuntu"))
         self.label_4.SetFont(wx.Font(12, wx.DEFAULT, wx.NORMAL, wx.NORMAL, 0, "Ubuntu"))
+        self.Centre()
         # end wxGlade
 
     def __do_layout(self):
@@ -471,7 +519,11 @@ class Troca_Senha_Frame(wx.Frame):
         self.db=db   
 
     def button_TrocouSenha_Clicked(self, event):  # wxGlade: Troca_Senha_Frame.<event_handler>
-        print "Event handler `button_TrocouSenha_Clicked' not implemented!"
+        senha1=self.text_ctrl_2.GetValue()
+        senha2=self.text_ctrl_3.GetValue()
+        if senha1==senha2:
+            controller.alterar_Senha_Adm(self.db,senha1)
+            self.Destroy()
         event.Skip()
 
 if __name__ == "__main__":

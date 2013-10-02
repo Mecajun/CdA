@@ -235,6 +235,12 @@ class Connect_MySQL:
         self.curs.execute(sql,(id_funcionario,))
         self.conn.commit()
     
+    ##  Obtem todos os funcionarios cadastrados
+    def obter_Funcionarios(self):
+        self.curs.execute("SELECT id_funcionario,nome FROM funcionarios")
+        linhas = self.curs.fetchall()
+        return linhas if len(linhas)>0 else None
+
 ##  Testes do modulo
 #   @param criar True para criar
 #   @param remover True para remover 
