@@ -41,7 +41,7 @@ class Comunica_Arduino(threading.Thread):
 def falar(texto):
     texto="Olá "+texto+", seja bem vindo a Mecajun"
     print texto
-    # os.system('espeak -v brazil "'+texto+'"')
+    os.system('espeak -v brazil "'+texto+'"')
 
 def criptografar_Senha(senha):
     m = md5.new()
@@ -214,9 +214,15 @@ class Instalar():
     def __init__(self,db):
         self.db=db
     def criar_Data_Base(self):
+        db.dropar_Tabelas()        
         db.criar_Tabelas()
     def configurar_Data_Base(self):
         db.criar_Configuracoes('adm_senha',criptografar_Senha('42'))
+        db.criar_Configuracoes('tol_ent_ant','10')
+        db.criar_Configuracoes('tol_ent_dep','10')
+        db.criar_Configuracoes('tol_sai_ant','10')
+        db.criar_Configuracoes('tol_sai_dep','10')
+        db.criar_Configuracoes('considerar_atraso','5')
 
 if __name__ == "__main__":
     db=model_mysql.Connect_MySQL('localhost','root','42')
