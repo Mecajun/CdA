@@ -344,8 +344,9 @@ class Adm_Frame(wx.Frame):
         # self.list_funcionarios.Append()
         self.list_funcionarios.Clear()
         self.lista_funcionarios=controller.listar_Funcionarios(self.db)
-        for x in self.lista_funcionarios:
-            self.list_funcionarios.Append(x[1])
+        if self.lista_funcionarios!=None:
+            for x in self.lista_funcionarios:
+                self.list_funcionarios.Append(x[1])
 
     def mudou_Configuracoes_Tol_Ent_Ant(self,event):
         controller.atualizar_Configuracao(self.db, 'tol_ent_ant', self.spin_ctrl_1.GetValue())

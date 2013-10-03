@@ -41,7 +41,7 @@ class Comunica_Arduino(threading.Thread):
 def falar(texto):
     texto="Olá "+texto+", seja bem vindo a Mecajun"
     print texto
-    os.system('espeak -v brazil "'+texto+'"')
+    # os.system('espeak -v brazil "'+texto+'"')
 
 def criptografar_Senha(senha):
     m = md5.new()
@@ -126,42 +126,74 @@ def obter_Horario_Atual():
     return {'dia_semana':dia_semana,'horario':horario_atual.strftime("%H:%M:%S"),'data':horario_atual.strftime("%Y:%m:%d")}
 
 def obter_Data_Hora():
-    data=datetime.datetime.now()
-    return data.strftime("%Y-%m-%d %H:%M")
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
 
 def transforma_Horario_Int_Str(hora,minuto):
-    return str(hora+minuto/60)+":"+str(minuto%60)+":00"
+    return str(hora+minuto//60)+":"+str(minuto%60)+":00"
+
+# Verifica se data esta entre date2-li e date2+ls
+def verifica_Esta_Faixa_Valores(data,date2,li,ls):
+    print data
+    print date2
+    print datetime.timedelta(minutes=li)
+    if data >= (date2-datetime.timedelta(minutes=li)) and data <= (date2+datetime.timedelta(minutes=ls)):
+        return True
+    else:
+        return False
 
 def dar_Ponto(db,matricula):
     id_func=db.obter_Id_Funcionario_por_Matricula(matricula)
     horario_atual=obter_Horario_Atual()
 
     # Obtem os limites de tempo para considerar o ponto entrada
-    limite_inferior=transforma_Horario_Int_Str(0,int(db.obter_Configuracoes('tol_ent_ant')[2]))
-    limite_superior=transforma_Horario_Int_Str(0,int(db.obter_Configuracoes('tol_ent_dep')[2]))
+    limite_inferior=int(db.obter_Configuracoes('tol_ent_ant')[2])
+    limite_superior=int(db.obter_Configuracoes('tol_ent_dep')[2])
 
     #  Obtem os limites de tempo para considerar o ponto de saida
-    limite_inferior_saida=transforma_Horario_Int_Str(0,int(db.obter_Configuracoes('tol_sai_ant')[2]))
-    limite_superior_saida=transforma_Horario_Int_Str(0,int(db.obter_Configuracoes('tol_sai_dep')[2]))
+    limite_inferior_saida=int(db.obter_Configuracoes('tol_sai_ant')[2])
+    limite_superior_saida=int(db.obter_Configuracoes('tol_sai_dep')[2])
 
     # Verifica se existe algum ponto aberto
     ponto_antigo=db.buscar_Ponto_Aberto_de_Funcionario(id_func)
 
-    # Tempo desde o ultimo ponto
-    intervalo=None
     if ponto_antigo!=None:
-        intervalo=datetime.datetime.now()-ponto_antigo[3]
-        intervalo=intervalo.seconds/60
-    
-    # if intervalo!=None and intervalo>limite_superior:
-    #     sda
+        entrada=ponto_antigo[1]
+        entrada_teorico=ponto_antigo[2]
+        saida_teorico=ponto_antigo[3]
+        entrada_teorico_datatime=datetime.datetime.combine(entrada.date(),(datetime.datetime.min+entrada_teorico).time())
+        saida_teorico_datatime=datetime.datetime.combine(entrada.date(),(datetime.datetime.min+saida_teorico).time())
+        # Verifica o tipo de ponto
+        ponto=None
+        if ponto_antigo!=None:
+            agora=datetime.datetime.now()
+            if verifica_Esta_Faixa_Valores(agora,entrada_teorico_datatime,limite_inferior,limite_superior):
+                ponto="Entrada"
+            elif verifica_Esta_Faixa_Valores(agora,saida_teorico_datatime,limite_inferior_saida,limite_superior_saida):
+                ponto="Saida"
+            elif agora > (saida_teorico_datatime+datetime.timedelta(minutes=limite_superior_saida)):
+                ponto="Nao fexou"
+            else:
+                ponto="Fora horario"
+
+        # Passou de novo mas o ponto ja esta aberto, so abre a porta e nao faz nada
+        if ponto=="Entrada":
+            return
+        # Da o ponto de saida
+        if ponto=="Saida":
+            db.finaliza_Ponto(id_func,obter_Data_Hora(),"00:00:00",1)
+            return
+        # Fecha o ponto
+        if ponto=="Nao fexou":
+            db.finaliza_Ponto(id_func,obter_Data_Hora(),"00:00:00",-1)
+        # Fora do horario, so abre a porta
+        if ponto=="Fora horario":
+            return
 
     # Verifica se tem horario para bater o ponto
-    horario=db.buscar_Horario_Mais_Proximo_de_Funcionario(int(id_func),horario_atual['dia_semana'],horario_atual['horario'],limite_inferior,limite_superior)
-
-
-    print horario,ponto_antigo
-    if horario!=None and ponto_antigo!=-1:
+    horario=db.buscar_Horario_Mais_Proximo_de_Funcionario(int(id_func),horario_atual['dia_semana'],horario_atual['horario'],transforma_Horario_Int_Str(0,limite_inferior),transforma_Horario_Int_Str(0,limite_superior))
+    
+    # Cria o ponto de entrada
+    if horario!=None:
         db.criar_Ponto(id_func,horario[0],obter_Data_Hora(),"00:00:00")
         falar(db.obter_Funcionario_Basico(id_func)[1])
     else:

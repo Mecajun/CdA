@@ -178,6 +178,7 @@ class Connect_MySQL:
     def buscar_Ponto_Aberto_de_Funcionario(self,id_funcionario):
         self.curs.execute("SELECT pontos.presenca,pontos.horario_entrada,horarios.hora_inicial,horarios.hora_final FROM pontos INNER JOIN horarios on pontos.id_horario = horarios.id_horario WHERE pontos.presenca=-1 AND pontos.id_funcionario=%s",(id_funcionario))
         linhas = self.curs.fetchall()
+        print linhas
         return linhas[0] if len(linhas)>0 else None
 
     ##  Adiciona no log da porta o funcionario que entrou e o horario
