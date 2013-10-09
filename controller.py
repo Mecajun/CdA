@@ -38,10 +38,15 @@ class Comunica_Arduino(threading.Thread):
         except:
             return "Falha ao obter mandar dados para o arduino"
 
-def falar(texto):
-    texto="Olá "+texto+", seja bem vindo a Mecajun"
-    print texto
-    os.system('espeak -v brazil "'+texto+'"')
+def falar(texto,saida=False):
+    if saida==True:
+        texto=texto+" Não se vá "
+        print texto
+        # os.system('espeak -v brazil "'+texto+'"')
+    else:
+        texto="Olá "+texto+", seja bem vindo a Mecajun"
+        print texto
+        # os.system('espeak -v brazil "'+texto+'"')
 
 def criptografar_Senha(senha):
     m = md5.new()
@@ -133,16 +138,21 @@ def transforma_Horario_Int_Str(hora,minuto):
 
 # Verifica se data esta entre date2-li e date2+ls
 def verifica_Esta_Faixa_Valores(data,date2,li,ls):
-    print data
-    print date2
-    print datetime.timedelta(minutes=li)
     if data >= (date2-datetime.timedelta(minutes=li)) and data <= (date2+datetime.timedelta(minutes=ls)):
         return True
     else:
         return False
 
+def abrir_Porta():
+    print "Sinal de abrir a porta"
+
 def dar_Ponto(db,matricula):
     id_func=db.obter_Id_Funcionario_por_Matricula(matricula)
+    if id_func!=None:
+        abrir_Porta()
+    else:
+        return None
+    
     horario_atual=obter_Horario_Atual()
 
     # Obtem os limites de tempo para considerar o ponto entrada
@@ -166,12 +176,16 @@ def dar_Ponto(db,matricula):
         ponto=None
         if ponto_antigo!=None:
             agora=datetime.datetime.now()
-            if verifica_Esta_Faixa_Valores(agora,entrada_teorico_datatime,limite_inferior,limite_superior):
-                ponto="Entrada"
-            elif verifica_Esta_Faixa_Valores(agora,saida_teorico_datatime,limite_inferior_saida,limite_superior_saida):
+            # Horario de saida
+            if verifica_Esta_Faixa_Valores(agora,saida_teorico_datatime,limite_inferior_saida,limite_superior_saida):
                 ponto="Saida"
+            # Horario de entrada
+            elif verifica_Esta_Faixa_Valores(agora,entrada_teorico_datatime,limite_inferior,limite_superior):
+                ponto="Entrada"
+            # Horario maior que o de saida
             elif agora > (saida_teorico_datatime+datetime.timedelta(minutes=limite_superior_saida)):
                 ponto="Nao fexou"
+            # Horario que não faz nada
             else:
                 ponto="Fora horario"
 
@@ -181,10 +195,14 @@ def dar_Ponto(db,matricula):
         # Da o ponto de saida
         if ponto=="Saida":
             db.finaliza_Ponto(id_func,obter_Data_Hora(),"00:00:00",1)
+            print "Ponto de saida"
+            falar(db.obter_Funcionario_Basico(id_func)[1],True)
             return
         # Fecha o ponto
         if ponto=="Nao fexou":
             db.finaliza_Ponto(id_func,obter_Data_Hora(),"00:00:00",-1)
+            print "Fechando o ponto que nao foi fechado"
+
         # Fora do horario, so abre a porta
         if ponto=="Fora horario":
             return
