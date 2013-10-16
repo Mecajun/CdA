@@ -118,7 +118,6 @@ class Connect_MySQL:
         linhas = self.curs.fetchall()
         return linhas[0] if len(linhas)>0 else None
 
-
     ##  Cria um horario para um funcionario
     #   @param id_funcionario Id do funcionario
     #   @param dia_da_semana Dia da semana no formato INT
@@ -148,11 +147,22 @@ class Connect_MySQL:
     #   @param id_horario Id do horario do funcionario
     #   @param horario_entrada Horario de entrada no formato YYYY-MM-DD HH:MM:SS
     #   @param atraso_entrada Atraso da entrada no formato HH:MM:S. Tempo negativo para chegada antecipada e positivo para atraso
-    def criar_Ponto(self,id_funcionario,id_horario,horario_entrada,atraso_entrada):
+    def criar_Ponto(self,id_funcionario,id_horario,horario_entrada,atraso_entrada,flag=-1):
+        sql="INSERT INTO pontos (id_funcionario,id_horario,horario_entrada,atraso_entrada,presenca) VALUES (%s,%s,%s,%s,%s)"
+        self.curs.execute(sql,(id_funcionario,id_horario,horario_entrada,atraso_entrada,flag))
+        self.conn.commit()
+       
+
+    ##  Cria o ponto de entrada de um funcionario
+    #   @param id_funcionario Id do funcionario 
+    #   @param id_horario Id do horario do funcionario
+    #   @param horario_entrada Horario de entrada no formato YYYY-MM-DD HH:MM:SS
+    #   @param atraso_entrada Atraso da entrada no formato HH:MM:S. Tempo negativo para chegada antecipada e positivo para atraso
+    def criar_Ponto_v2(self,id_funcionario,id_horario,horario_entrada,atraso_entrada):
         sql="INSERT INTO pontos (id_funcionario,id_horario,horario_entrada,atraso_entrada,presenca) VALUES (%s,%s,%s,%s,-1)"
         self.curs.execute(sql,(id_funcionario,id_horario,horario_entrada,atraso_entrada))
         self.conn.commit()
-        
+
     ##  Cria o ponto de saida de um funcionario
     #   @param id_funcionario Id do funcionario 
     #   @param horario_saida Horario de saida no formato YYYY-MM-DD HH:MM:SS
@@ -180,6 +190,24 @@ class Connect_MySQL:
         self.curs.execute("SELECT * FROM horarios WHERE (id_funcionario=%s AND dia_da_semana=%s AND hora_inicial >= SUBTIME(%s,%s) AND hora_inicial <= ADDTIME(%s,%s)  ) ORDER BY ABS(SUBTIME(hora_inicial,%s)) LIMIT 1",(id_funcionario,dia_da_semana,horario_base,limite_inferior,horario_base,limite_superior,horario_base))
         linhas = self.curs.fetchall()
         return linhas[0] if len(linhas)>0 else None
+
+    ##  Retorna os funcionarios esperados para o horario
+    #   @param dia_da_semana Dia da semana no formato INT
+    #   @param limite_inferior Limite inferior para busca. Formato HH:MM:SS
+    #   @param limite_superior Limite superior para a busca. Formato HH:MM:SS
+    def buscar_Funcionarios_Esperados(self,dia_da_semana,limite_inferior,limite_superior):
+        self.curs.execute("SELECT funcionarios.nome, horarios.* FROM horarios INNER JOIN funcionarios ON horarios.id_funcionario=funcionarios.id_funcionario WHERE dia_da_semana=%s AND curtime() >= subtime(hora_inicial,%s) AND curtime() <= addtime(hora_inicial,%s)",(dia_da_semana,limite_inferior,limite_superior))
+        linhas = self.curs.fetchall()
+        return linhas if len(linhas)>0 else None
+
+    ##  Retorna os funcionarios esperados para o horario que não deram o ponto ainda
+    #   @param dia_da_semana Dia da semana no formato INT
+    #   @param limite_inferior Limite inferior para busca. Formato HH:MM:SS
+    #   @param limite_superior Limite superior para a busca. Formato HH:MM:SS
+    def buscar_Funcionarios_Esperados_Nao_Abertos(self,dia_da_semana,limite_inferior,limite_superior):
+        self.curs.execute("SELECT funcionarios.nome, horarios.*, pontos.presenca FROM horarios INNER JOIN funcionarios ON horarios.id_funcionario=funcionarios.id_funcionario INNER JOIN pontos ON horarios.id_funcionario=pontos.id_funcionario where dia_da_semana=%s AND curtime() >= subtime(hora_inicial,%s) AND curtime() <= addtime(hora_inicial,%s) AND pontos.presenca=-1",(dia_da_semana,limite_inferior,limite_superior))
+        linhas = self.curs.fetchall()
+        return linhas if len(linhas)>0 else None
 
     ##  Verifica se existe ponto aberto de um funcionario
     #   @param id_funcionario Id do funcionario 

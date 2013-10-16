@@ -149,6 +149,7 @@ def abrir_Porta():
 def dar_Ponto(db,matricula):
     id_func=db.obter_Id_Funcionario_por_Matricula(matricula)
     if id_func!=None:
+        db.adicionar_Log_Porta(id_func,obter_Data_Hora())
         abrir_Porta()
     else:
         return None
@@ -173,38 +174,20 @@ def dar_Ponto(db,matricula):
         entrada_teorico_datatime=datetime.datetime.combine(entrada.date(),(datetime.datetime.min+entrada_teorico).time())
         saida_teorico_datatime=datetime.datetime.combine(entrada.date(),(datetime.datetime.min+saida_teorico).time())
         # Verifica o tipo de ponto
-        ponto=None
-        if ponto_antigo!=None:
-            agora=datetime.datetime.now()
-            # Horario de saida
-            if verifica_Esta_Faixa_Valores(agora,saida_teorico_datatime,limite_inferior_saida,limite_superior_saida):
-                ponto="Saida"
-            # Horario de entrada
-            elif verifica_Esta_Faixa_Valores(agora,entrada_teorico_datatime,limite_inferior,limite_superior):
-                ponto="Entrada"
-            # Horario maior que o de saida
-            elif agora > (saida_teorico_datatime+datetime.timedelta(minutes=limite_superior_saida)):
-                ponto="Nao fexou"
-            # Horario que não faz nada
-            else:
-                ponto="Fora horario"
 
-        # Passou de novo mas o ponto ja esta aberto, so abre a porta e nao faz nada
-        if ponto=="Entrada":
-            return
-        # Da o ponto de saida
-        if ponto=="Saida":
+        agora=datetime.datetime.now()
+        # Horario de saida
+        if verifica_Esta_Faixa_Valores(agora,saida_teorico_datatime,limite_inferior_saida,limite_superior_saida):
             db.finaliza_Ponto(id_func,obter_Data_Hora(),"00:00:00",1)
             print "Ponto de saida"
             falar(db.obter_Funcionario_Basico(id_func)[1],True)
             return
-        # Fecha o ponto
-        if ponto=="Nao fexou":
-            db.finaliza_Ponto(id_func,obter_Data_Hora(),"00:00:00",-1)
-            print "Fechando o ponto que nao foi fechado"
-
-        # Fora do horario, so abre a porta
-        if ponto=="Fora horario":
+        # Horario maior que o de saida
+        elif agora > (saida_teorico_datatime+datetime.timedelta(minutes=limite_superior_saida)):
+            db.finaliza_Ponto(id_func,obter_Data_Hora(),"00:00:00",-3)
+            print "Não fechou o ponto"
+        # Horario que não faz nada
+        else:
             return
 
     # Verifica se tem horario para bater o ponto
@@ -216,6 +199,7 @@ def dar_Ponto(db,matricula):
         falar(db.obter_Funcionario_Basico(id_func)[1])
     else:
         print "não tem ponto"
+        return
 
 class Relogio(threading.Thread):
     def __init__ (self):
@@ -224,9 +208,46 @@ class Relogio(threading.Thread):
 
     def run (self):
         while True:
-            hora=time.asctime()
+            hora=datetime.datetime.now().strftime("     %Y/%m/%d\n     %H:%M:%S")
             wx.CallAfter(Publisher().sendMessage, "evento_mostrar_relogio", hora)
             time.sleep(1)
+
+class Fecha_Pontos(threading.Thread):
+    def __init__ (self,db):
+        super(Fecha_Pontos, self).__init__()
+        self.db=db
+        self.esperados=None
+        self.anterior=None
+        self.alterados=None
+        self.start()
+
+    def run (self):
+        while True:
+            limite_superior=transforma_Horario_Int_Str(0,int(self.db.obter_Configuracoes('tol_ent_dep')[2]))
+            limite_inferior=transforma_Horario_Int_Str(0,int(self.db.obter_Configuracoes('tol_ent_ant')[2]))
+            horario_atual=obter_Horario_Atual()
+            self.esperados=self.db.buscar_Funcionarios_Esperados(horario_atual['dia_semana'],limite_inferior,limite_superior)
+
+            wx.CallAfter(Publisher().sendMessage, "evento_funcionarios_esperados", self.db.buscar_Funcionarios_Esperados(horario_atual['dia_semana'],limite_inferior,limite_superior))
+
+            if self.esperados!=None:
+                self.agora=[x[1:3] for x in self.esperados]
+                if self.anterior!=None:
+                    self.alterados=[ x for x in self.anterior if x not in self.agora ]
+                else:
+                    self.alterados=None
+                self.anterior=self.agora
+            else:
+                self.alterados=self.anterior
+                self.agora=None
+                self.anterior=None
+            
+            if self.alterados!=None and len(self.alterados)>0:
+                for alt in self.alterados:
+                    if self.db.buscar_Ponto_Aberto_de_Funcionario(alt[1])==None:
+                        self.db.criar_Ponto(alt[1],alt[0],obter_Data_Hora(),"00:00:00",-2)
+
+            time.sleep(30)
 
 class Instalar():
     def __init__(self,db):

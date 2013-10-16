@@ -23,6 +23,7 @@ if __name__ == "__main__":
     #arduino=controller.Comunica_Arduino()
     
     controller.Relogio()
-    
+    controller.Fecha_Pontos(db)
+
     Frame1.Show()
     app.MainLoop()

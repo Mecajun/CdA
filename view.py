@@ -27,6 +27,7 @@ class MainFrame(wx.Frame):
         
         Publisher().subscribe(self.atualiza_Relogio, "evento_mostrar_relogio")
         Publisher().subscribe(self.abrir_Adm, "evento_abrir_adm")
+        Publisher().subscribe(self.atualiza_list_box_funcionarios_esperados, "evento_funcionarios_esperados")
 
         self.__set_properties()
         self.__do_layout()
@@ -102,6 +103,12 @@ class MainFrame(wx.Frame):
 
     def atualiza_Relogio(self,hora):
         self.label_relogio.SetLabel(hora.data)
+
+    def atualiza_list_box_funcionarios_esperados(self,lista):
+        self.list_box_funcionarios_esperados.Clear()
+        if lista.data!=None:
+            for nome in lista.data:
+                self.list_box_funcionarios_esperados.Append(nome[0])
 
 # end of class MainFrame
 
