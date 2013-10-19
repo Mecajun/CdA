@@ -12,7 +12,7 @@ class Connect_MySQL:
     #   @param user Usuario do banco de dados
     #   @param passwd Senha do banco de dados
     def __init__(self,host,user,passwd):
-        self.conn = Connect(host, user, passwd)
+        self.conn = Connect(host, user, passwd,charset='utf8',use_unicode=True)
         self.curs = self.conn.cursor()
         self.curs.execute('USE controledeacesso')
     
@@ -279,6 +279,44 @@ class Connect_MySQL:
     ##  Obtem todos os funcionarios cadastrados
     def obter_Funcionarios(self):
         self.curs.execute("SELECT id_funcionario,nome FROM funcionarios")
+        linhas = self.curs.fetchall()
+        return linhas if len(linhas)>0 else None
+
+    ##  Verifica se algun dos dados ja existem
+    def verifica_Ja_Existe(self,nome=None,matricula=None,rfid=None):
+        if nome:
+            self.curs.execute("SELECT count(*) FROM funcionarios WHERE nome=%s",(nome))
+            nome = self.curs.fetchall()
+            nome = nome[0][0]
+            if nome==0:
+                nome = None
+            else: 
+                nome=True
+        if matricula:
+            self.curs.execute("SELECT count(*) FROM funcionarios WHERE matricula=%s",(matricula))
+            matricula = self.curs.fetchall()
+            matricula = matricula[0][0]
+            if matricula==0: 
+                matricula = None
+            else:
+                matricula = True
+        if rfid:
+            self.curs.execute("SELECT count(*) FROM funcionarios WHERE rfid=%s",(rfid))
+            rfid = self.curs.fetchall()
+            rfid = rfid[0][0]
+            if rfid==0: 
+                rfid = None
+            else:
+                rfid = True
+
+        temp=nome or matricula or rfid;
+
+        return {'nome':nome,'matricula':matricula,'rfid':rfid,'existe':temp}
+
+    ##  Obtem todos os horarios cadastrados
+    def obter_Horarios(self):
+        sql="SELECT funcionarios.nome, horarios.dia_da_semana, horarios.hora_inicial, horarios.hora_final FROM horarios INNER JOIN funcionarios ON funcionarios.id_funcionario=horarios.id_funcionario ORDER BY horarios.dia_da_semana ASC,horarios.hora_inicial ASC"
+        self.curs.execute(sql)
         linhas = self.curs.fetchall()
         return linhas if len(linhas)>0 else None
 

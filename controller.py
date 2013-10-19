@@ -64,8 +64,11 @@ def verifica_Senha_Adm(db,senha):
 def alterar_Senha_Adm(db,senha):
     db.atualizar_Configuracoes("adm_senha",criptografar_Senha(senha))
     
-def dia_Semana_Int2str(num):
+def dia_Semana_Int2str(num,completo=False):
     dias=['Dom','Seg','Ter','Qua','Qui','Sex','Sab']
+    dias2=['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sabado']
+    if completo==True:
+        return dias2[num-1]
     return dias[num-1]
         
 def detalha_Funcionario(db,nome=None,id_funcionario=None):
@@ -84,12 +87,15 @@ def detalha_Funcionario(db,nome=None,id_funcionario=None):
         dados['horarios'].append(dia_Semana_Int2str(horario[2])+' '+str(horario[3].seconds/60/60)+':'+str(horario[3].seconds/60%60)+' - '+str(horario[4].seconds/60/60)+':'+str(horario[4].seconds/60%60))
     return dados
 
+def validar_Criacao_Funcionario(db,dados):
+    return db.verifica_Ja_Existe(nome=dados['nome'],matricula=dados['matricula'])
+
 def cadastrar_Funcionario(db,dados):
     db.criar_Funcionario(nome=dados['nome'],matricula=dados['matricula'],rfid=dados['rfid'])
     id_func=db.obter_Id_Funcionario_por_Matricula(matricula=dados['matricula'])
     for horario in dados['horarios']:
         db.criar_Horario(id_funcionario=id_func,dia_da_semana=horario['dia_semana'],hora_inicial=horario['hora_inicial'],hora_final=horario['hora_final'])
-    print  detalha_Funcionario(db,id_funcionario=id_func)
+    # print  detalha_Funcionario(db,id_funcionario=id_func)
         
 def remover_Funcionario(db,id_funcionario):
     db.remover_Funcionario(id_funcionario)
@@ -143,6 +149,9 @@ def verifica_Esta_Faixa_Valores(data,date2,li,ls):
     else:
         return False
 
+def delta_To_Time_Str(delta):
+    return (delta+datetime.datetime.min).time().strftime("%H:%M")
+
 def abrir_Porta():
     print "Sinal de abrir a porta"
 
@@ -152,7 +161,7 @@ def dar_Ponto(db,matricula):
         db.adicionar_Log_Porta(id_func,obter_Data_Hora())
         abrir_Porta()
     else:
-        return None
+        return "nao existe"
     
     horario_atual=obter_Horario_Atual()
 
@@ -179,13 +188,11 @@ def dar_Ponto(db,matricula):
         # Horario de saida
         if verifica_Esta_Faixa_Valores(agora,saida_teorico_datatime,limite_inferior_saida,limite_superior_saida):
             db.finaliza_Ponto(id_func,obter_Data_Hora(),"00:00:00",1)
-            print "Ponto de saida"
             falar(db.obter_Funcionario_Basico(id_func)[1],True)
             return
         # Horario maior que o de saida
         elif agora > (saida_teorico_datatime+datetime.timedelta(minutes=limite_superior_saida)):
             db.finaliza_Ponto(id_func,obter_Data_Hora(),"00:00:00",-3)
-            print "Não fechou o ponto"
         # Horario que não faz nada
         else:
             return
@@ -198,8 +205,14 @@ def dar_Ponto(db,matricula):
         db.criar_Ponto(id_func,horario[0],obter_Data_Hora(),"00:00:00")
         falar(db.obter_Funcionario_Basico(id_func)[1])
     else:
-        print "não tem ponto"
         return
+
+def obter_Horarios(db):
+    horarios=db.obter_Horarios()
+    horarios_2=[]
+    for horario in horarios:
+        horarios_2.append((horario[0],dia_Semana_Int2str(horario[1],True),delta_To_Time_Str(horario[2]),delta_To_Time_Str(horario[3])))
+    return horarios_2
 
 class Relogio(threading.Thread):
     def __init__ (self):

@@ -93,12 +93,17 @@ class MainFrame(wx.Frame):
         self.adm_frame.Show()
 
     def horarios_Button_Clicked(self, event):  # wxGlade: MainFrame.<event_handler>
-        print "Event handler `horarios_Button_Clicked' not implemented!"
+        self.horarios_janela = Horarios(None,-1)
+        self.horarios_janela.set_Db(self.db)
+        self.horarios_janela.Show()
         event.Skip()
 
     def entrada_Teclado_Matricula(self, event):  # wxGlade: MainFrame.<event_handler>
-        print "passou aqui"
-        controller.dar_Ponto(self.db,self.text_box_matricula.GetValue())
+        ponto=controller.dar_Ponto(self.db,self.text_box_matricula.GetValue())
+        if ponto=="nao existe":
+            self.text_box_matricula.SetBackgroundColour((255,255,0))
+        else:
+            self.text_box_matricula.SetBackgroundColour((255,255,255))
         event.Skip()
 
     def atualiza_Relogio(self,hora):
@@ -111,6 +116,57 @@ class MainFrame(wx.Frame):
                 self.list_box_funcionarios_esperados.Append(nome[0])
 
 # end of class MainFrame
+
+class Horarios(wx.Frame):
+    def __init__(self, *args, **kwds):
+        # begin wxGlade: MyFrame.__init__
+        kwds["style"] = wx.DEFAULT_FRAME_STYLE
+        wx.Frame.__init__(self, *args, **kwds)
+        self.list_ctrl_horarios = wx.ListCtrl(self, -1, style=wx.LC_REPORT
+                         |wx.BORDER_SUNKEN
+                         |wx.LC_SORT_ASCENDING)
+        self.list_ctrl_horarios.InsertColumn(0, "Nome")
+        self.list_ctrl_horarios.InsertColumn(1, "Dia da semana")
+        self.list_ctrl_horarios.InsertColumn(2, "Horario de entrada")
+        self.list_ctrl_horarios.InsertColumn(3, "Horario de saida")
+
+        for i in xrange(4):
+            self.list_ctrl_horarios.SetColumnWidth(i, 150)
+
+        self.__set_properties()
+        self.__do_layout()
+        # end wxGlade
+
+    def __set_properties(self):
+        # begin wxGlade: MyFrame.__set_properties
+        self.SetTitle("Horarios")
+        self.Centre()
+        self.SetMinSize((150*4,500))
+        # end wxGlade
+
+    def __do_layout(self):
+        # begin wxGlade: MyFrame.__do_layout
+        sizer_1 = wx.BoxSizer(wx.VERTICAL)
+        sizer_1.Add(self.list_ctrl_horarios, 1, wx.EXPAND, 0)
+        self.SetSizer(sizer_1)
+        sizer_1.Fit(self)
+        self.Layout()
+        # end wxGlade
+
+    def set_Db(self,db):
+        self.db=db
+        self.configure()
+
+    def configure(self):
+        horarios=controller.obter_Horarios(self.db)
+        index=0
+        for data in horarios:
+            self.list_ctrl_horarios.InsertStringItem(index, data[0])
+            self.list_ctrl_horarios.SetStringItem(index, 1, data[1])
+            self.list_ctrl_horarios.SetStringItem(index, 2, data[2])
+            self.list_ctrl_horarios.SetStringItem(index, 3, data[3])
+            self.list_ctrl_horarios.SetItemData(index, index)
+            index += 1
 
 class Adm_Frame(wx.Frame):
     def __init__(self, *args, **kwds):
@@ -193,6 +249,11 @@ class Adm_Frame(wx.Frame):
         self.Bind(wx.EVT_SPINCTRL, self.mudou_Configuracoes_Tol_Sai_Ant, self.spin_ctrl_2)
         self.Bind(wx.EVT_SPINCTRL, self.mudou_Configuracoes_Tol_Sai_Dep, self.spin_ctrl_4)
         self.Bind(wx.EVT_SPINCTRL, self.mudou_Configuracoes_Considerar_Atraso, self.spin_ctrl_5)
+
+        self.Bind(wx.EVT_SPINCTRL, self.muda_Saida_Base, self.spin_horario_inicio_horas)
+        self.Bind(wx.EVT_SPINCTRL, self.muda_Saida_Base, self.spin_horario_inicio_minutos)
+        self.Bind(wx.EVT_SPINCTRL, self.muda_Saida_Base, self.spin_horario_fim_horas)
+        self.Bind(wx.EVT_SPINCTRL, self.muda_Saida_Base, self.spin_horario_fim_minutos)
 
         # end wxGlade
 
@@ -347,6 +408,18 @@ class Adm_Frame(wx.Frame):
         self.Layout()
         # end wxGlade
 
+    def muda_Saida_Base(self,event):
+        hora=int(self.spin_horario_inicio_horas.GetValue())
+        mim=int(self.spin_horario_inicio_minutos.GetValue())
+        hora_fim=int(self.spin_horario_fim_horas.GetValue())
+        mim_fim=int(self.spin_horario_fim_minutos.GetValue())
+        self.spin_horario_fim_horas.SetRange(hora,23)
+        if hora==hora_fim:
+            self.spin_horario_fim_minutos.SetRange(mim,59)
+        else:
+            self.spin_horario_fim_minutos.SetRange(0,59)
+
+
     def list_Funcionarios(self):
         # self.list_funcionarios.Append()
         self.list_funcionarios.Clear()
@@ -447,10 +520,22 @@ class Adm_Frame(wx.Frame):
 
     def button_Salvar_Alteracoes(self, event):  # wxGlade: Frame.<event_handler>
         dados=self.obter_Detalhes_Usuario()
-        if (dados['nome']!='' and dados['matricula']!=''):
+        valida=controller.validar_Criacao_Funcionario(self.db, dados)
+        if (dados['nome']!='' and dados['matricula']!='' and valida['existe']==None):
             controller.cadastrar_Funcionario(self.db,dados)
             self.limpa_Campos()
             self.list_Funcionarios()
+            self.text_box_nome_adicionar_func.SetBackgroundColour((255,255,255))
+            self.text_ctrl_4.SetBackgroundColour((255,255,255))
+        else:
+            if dados['nome']=='' or valida['nome']==True:
+                self.text_box_nome_adicionar_func.SetBackgroundColour((255,255,0))
+            else:
+                self.text_box_nome_adicionar_func.SetBackgroundColour((255,255,255))
+            if dados['matricula']=='' or valida['matricula']==True:
+                self.text_ctrl_4.SetBackgroundColour((255,255,0))
+            else:
+                self.text_ctrl_4.SetBackgroundColour((255,255,255))
         event.Skip()
 
     def set_Db(self,db):
