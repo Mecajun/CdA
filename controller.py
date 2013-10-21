@@ -38,16 +38,6 @@ class Comunica_Arduino(threading.Thread):
         except:
             return "Falha ao obter mandar dados para o arduino"
 
-def falar(texto,saida=False):
-    if saida==True:
-        texto=texto+" Não se vá "
-        print texto
-        # os.system('espeak -v brazil "'+texto+'"')
-    else:
-        texto="Olá "+texto+", seja bem vindo a Mecajun"
-        print texto
-        # os.system('espeak -v brazil "'+texto+'"')
-
 def criptografar_Senha(senha):
     m = md5.new()
     for i in range(32):
@@ -188,7 +178,6 @@ def dar_Ponto(db,matricula):
         # Horario de saida
         if verifica_Esta_Faixa_Valores(agora,saida_teorico_datatime,limite_inferior_saida,limite_superior_saida):
             db.finaliza_Ponto(id_func,obter_Data_Hora(),"00:00:00",1)
-            falar(db.obter_Funcionario_Basico(id_func)[1],True)
             return
         # Horario maior que o de saida
         elif agora > (saida_teorico_datatime+datetime.timedelta(minutes=limite_superior_saida)):
@@ -203,7 +192,6 @@ def dar_Ponto(db,matricula):
     # Cria o ponto de entrada
     if horario!=None:
         db.criar_Ponto(id_func,horario[0],obter_Data_Hora(),"00:00:00")
-        falar(db.obter_Funcionario_Basico(id_func)[1])
     else:
         return
 
