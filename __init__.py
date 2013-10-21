@@ -9,6 +9,7 @@ import view
 import wx
 import controller
 import model_mysql
+from threading import enumerate
 
 if __name__ == "__main__":
     app = wx.PySimpleApp(0)
@@ -27,3 +28,7 @@ if __name__ == "__main__":
 
     Frame1.Show()
     app.MainLoop()
+
+    for thread in enumerate():
+        if thread.isAlive():
+            thread._Thread__stop()

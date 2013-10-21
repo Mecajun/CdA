@@ -35,6 +35,7 @@ class MainFrame(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.adm_Button_Clicked, self.button_administracao)
         self.Bind(wx.EVT_BUTTON, self.horarios_Button_Clicked, self.button_horarios)
         self.Bind(wx.EVT_TEXT_ENTER, self.entrada_Teclado_Matricula, self.text_box_matricula)
+
         # end wxGlade
 
     def __set_properties(self):
@@ -115,6 +116,28 @@ class MainFrame(wx.Frame):
             for nome in lista.data:
                 self.list_box_funcionarios_esperados.Append(nome[0])
 
+    # def OnClose(self,event):
+    #     try:
+    #         self.adm_senha_frame.Close()
+    #     except NameError:
+    #         print "undefined"
+    #     else:
+    #         print "defined"
+    #     try:
+    #         self.adm_frame.Close()
+    #     except NameError:
+    #         print "undefined"
+    #     else:
+    #         print "defined"
+    #     try:
+    #         self.horarios_janela.Close()
+    #     except NameError:
+    #         print "undefined"
+    #     else:
+    #         print "defined"
+
+    #     event.Skip()
+
 # end of class MainFrame
 
 class Horarios(wx.Frame):
@@ -123,8 +146,7 @@ class Horarios(wx.Frame):
         kwds["style"] = wx.DEFAULT_FRAME_STYLE
         wx.Frame.__init__(self, *args, **kwds)
         self.list_ctrl_horarios = wx.ListCtrl(self, -1, style=wx.LC_REPORT
-                         |wx.BORDER_SUNKEN
-                         |wx.LC_SORT_ASCENDING)
+                         |wx.BORDER_SUNKEN)
         self.list_ctrl_horarios.InsertColumn(0, "Nome")
         self.list_ctrl_horarios.InsertColumn(1, "Dia da semana")
         self.list_ctrl_horarios.InsertColumn(2, "Horario de entrada")
@@ -244,16 +266,12 @@ class Adm_Frame(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.button_Remover_Hora, self.button_remover)
         self.Bind(wx.EVT_BUTTON, self.button_Salvar_Alteracoes, self.button_salvar_alteracoes)
 
-        self.Bind(wx.EVT_SPINCTRL, self.mudou_Configuracoes_Tol_Ent_Ant, self.spin_ctrl_1)
-        self.Bind(wx.EVT_SPINCTRL, self.mudou_Configuracoes_Tol_Ent_Dep, self.spin_ctrl_3)
-        self.Bind(wx.EVT_SPINCTRL, self.mudou_Configuracoes_Tol_Sai_Ant, self.spin_ctrl_2)
-        self.Bind(wx.EVT_SPINCTRL, self.mudou_Configuracoes_Tol_Sai_Dep, self.spin_ctrl_4)
-        self.Bind(wx.EVT_SPINCTRL, self.mudou_Configuracoes_Considerar_Atraso, self.spin_ctrl_5)
-
         self.Bind(wx.EVT_SPINCTRL, self.muda_Saida_Base, self.spin_horario_inicio_horas)
         self.Bind(wx.EVT_SPINCTRL, self.muda_Saida_Base, self.spin_horario_inicio_minutos)
         self.Bind(wx.EVT_SPINCTRL, self.muda_Saida_Base, self.spin_horario_fim_horas)
         self.Bind(wx.EVT_SPINCTRL, self.muda_Saida_Base, self.spin_horario_fim_minutos)
+
+        self.Bind(wx.EVT_CLOSE,self.OnClose)
 
         # end wxGlade
 
@@ -408,6 +426,14 @@ class Adm_Frame(wx.Frame):
         self.Layout()
         # end wxGlade
 
+    def OnClose(self,event):
+        controller.atualizar_Configuracao(self.db, 'tol_ent_ant', self.spin_ctrl_1.GetValue())
+        controller.atualizar_Configuracao(self.db, 'tol_ent_dep', self.spin_ctrl_3.GetValue())
+        controller.atualizar_Configuracao(self.db, 'tol_sai_ant', self.spin_ctrl_2.GetValue())
+        controller.atualizar_Configuracao(self.db, 'tol_sai_dep', self.spin_ctrl_4.GetValue())
+        controller.atualizar_Configuracao(self.db, 'considerar_atraso', self.spin_ctrl_5.GetValue())
+        event.Skip()
+
     def muda_Saida_Base(self,event):
         hora=int(self.spin_horario_inicio_horas.GetValue())
         mim=int(self.spin_horario_inicio_minutos.GetValue())
@@ -421,28 +447,11 @@ class Adm_Frame(wx.Frame):
 
 
     def list_Funcionarios(self):
-        # self.list_funcionarios.Append()
         self.list_funcionarios.Clear()
         self.lista_funcionarios=controller.listar_Funcionarios(self.db)
         if self.lista_funcionarios!=None:
             for x in self.lista_funcionarios:
                 self.list_funcionarios.Append(x[1])
-
-    def mudou_Configuracoes_Tol_Ent_Ant(self,event):
-        controller.atualizar_Configuracao(self.db, 'tol_ent_ant', self.spin_ctrl_1.GetValue())
-
-    def mudou_Configuracoes_Tol_Ent_Dep(self,event):
-        controller.atualizar_Configuracao(self.db, 'tol_ent_dep', self.spin_ctrl_3.GetValue())
-
-    def mudou_Configuracoes_Tol_Sai_Ant(self,event):
-        controller.atualizar_Configuracao(self.db, 'tol_sai_ant', self.spin_ctrl_2.GetValue())
-
-    def mudou_Configuracoes_Tol_Sai_Dep(self,event):
-        controller.atualizar_Configuracao(self.db, 'tol_sai_dep', self.spin_ctrl_4.GetValue())
-
-    def mudou_Configuracoes_Considerar_Atraso(self,event):
-        controller.atualizar_Configuracao(self.db, 'considerar_atraso', self.spin_ctrl_5.GetValue())
-
             
     def configuracoes_Dados(self):
         dados=controller.obter_Configuracoes(self.db)
