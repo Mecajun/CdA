@@ -105,6 +105,7 @@ class MainFrame(wx.Frame):
             self.text_box_matricula.SetBackgroundColour((255,255,0))
         else:
             self.text_box_matricula.SetBackgroundColour((255,255,255))
+            self.text_box_matricula.SetValue("")
         event.Skip()
 
     def atualiza_Relogio(self,hora):
@@ -229,9 +230,11 @@ class Adm_Frame(wx.Frame):
         self.label_Funcionarios_add_desc = wx.StaticText(self.notebook_1_funcionarios, -1, u"\nAdicione um novo funcionário\n", style=wx.ALIGN_CENTRE)
         self.label_funcionarios_add = wx.StaticText(self.notebook_1_funcionarios, -1, "Nome")
         self.text_box_nome_adicionar_func = wx.TextCtrl(self.notebook_1_funcionarios, -1, "")
+        self.text_box_nome_adicionar_func.SetMaxLength(100);
         self.label_24 = wx.StaticText(self.notebook_1_funcionarios, -1, u"Informaçôes detalhadas do funcionário:")
         self.label_25 = wx.StaticText(self.notebook_1_funcionarios, -1, u"Matrícula:                                 ")
         self.text_ctrl_4 = wx.TextCtrl(self.notebook_1_funcionarios, -1, "")
+        self.text_ctrl_4.SetMaxLength(40);
         self.label_26 = wx.StaticText(self.notebook_1_funcionarios, -1, "RFID                                             ")
         self.button_7 = wx.Button(self.notebook_1_funcionarios, -1, "Obter RFID")
         self.label_27 = wx.StaticText(self.notebook_1_funcionarios, -1, "Data                                            ")
