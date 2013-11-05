@@ -116,7 +116,7 @@ def obter_Configuracoes(db):
     return dados
 
 def atualizar_Configuracao(db,config,dado):
-    db.atualizar_Configuracaozar_Configuracoes(config,str(dado))
+    db.atualizar_Configuracoes(config,str(dado))
 
 def obter_Horario_Atual():
     horario_atual=datetime.datetime.now()

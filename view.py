@@ -23,7 +23,7 @@ class MainFrame(wx.Frame):
         self.text_box_matricula = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER)
         self.label_2 = wx.StaticText(self, -1, "Funcionarios esperados:")
         # self.list_box_funcionarios_esperados = wx.ListBox(self, -1, choices=[])
-        self.list_box_funcionarios_esperados = wx.ListCtrl(self, -1, style=wx.LC_REPORT)
+        self.list_box_funcionarios_esperados = wx.ListCtrl(self, -1, style=wx.LC_REPORT|wx.BORDER_SUNKEN)
         self.list_box_funcionarios_esperados.InsertColumn(0, 'Nome')
         self.list_box_funcionarios_esperados.InsertColumn(1, 'Logado')
 
