@@ -116,7 +116,7 @@ def obter_Configuracoes(db):
     return dados
 
 def atualizar_Configuracao(db,config,dado):
-    db.atualizar_Configuracoes(config,str(dado))
+    db.atualizar_Configuracaozar_Configuracoes(config,str(dado))
 
 def obter_Horario_Atual():
     horario_atual=datetime.datetime.now()
@@ -198,9 +198,12 @@ def dar_Ponto(db,matricula):
 def obter_Horarios(db):
     horarios=db.obter_Horarios()
     horarios_2=[]
-    for horario in horarios:
-        horarios_2.append((horario[0],dia_Semana_Int2str(horario[1],True),delta_To_Time_Str(horario[2]),delta_To_Time_Str(horario[3])))
-    return horarios_2
+    if horarios!=None:
+        for horario in horarios:
+            horarios_2.append((horario[0],dia_Semana_Int2str(horario[1],True),delta_To_Time_Str(horario[2]),delta_To_Time_Str(horario[3])))
+        return horarios_2
+    else:
+        return None
 
 class Relogio(threading.Thread):
     def __init__ (self):
@@ -228,8 +231,19 @@ class Fecha_Pontos(threading.Thread):
             limite_inferior=transforma_Horario_Int_Str(0,int(self.db.obter_Configuracoes('tol_ent_ant')[2]))
             horario_atual=obter_Horario_Atual()
             self.esperados=self.db.buscar_Funcionarios_Esperados(horario_atual['dia_semana'],limite_inferior,limite_superior)
+            self.esperados_n_abertos=self.db.buscar_Funcionarios_Esperados_Nao_Abertos(horario_atual['dia_semana'],limite_inferior,limite_superior)
 
-            wx.CallAfter(Publisher().sendMessage, "evento_funcionarios_esperados", self.db.buscar_Funcionarios_Esperados(horario_atual['dia_semana'],limite_inferior,limite_superior))
+            temp1=[]
+            temp2=[]
+            logados=[]
+            # print esperados_gui
+            if self.esperados!=None:
+                temp1=[ x[0] for x in self.esperados]
+            if self.esperados_n_abertos!=None:
+                temp2=[ x[0] for x in self.esperados_n_abertos]
+            logados=[ (x,0) for x in temp1 if x not in temp2]+[ (x,1) for x in temp1 if x in temp2]
+                # print logados
+            wx.CallAfter(Publisher().sendMessage, "evento_funcionarios_esperados", logados)
 
             if self.esperados!=None:
                 self.agora=[x[1:3] for x in self.esperados]
@@ -248,7 +262,7 @@ class Fecha_Pontos(threading.Thread):
                     if self.db.buscar_Ponto_Aberto_de_Funcionario(alt[1])==None:
                         self.db.criar_Ponto(alt[1],alt[0],obter_Data_Hora(),"00:00:00",-2)
 
-            time.sleep(30)
+            time.sleep(10)
 
 class Instalar():
     def __init__(self,db):

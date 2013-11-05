@@ -22,7 +22,11 @@ class MainFrame(wx.Frame):
         self.label_matricula = wx.StaticText(self, -1, "Matricula:     ")
         self.text_box_matricula = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER)
         self.label_2 = wx.StaticText(self, -1, "Funcionarios esperados:")
-        self.list_box_funcionarios_esperados = wx.ListBox(self, -1, choices=[])
+        # self.list_box_funcionarios_esperados = wx.ListBox(self, -1, choices=[])
+        self.list_box_funcionarios_esperados = wx.ListCtrl(self, -1, style=wx.LC_REPORT)
+        self.list_box_funcionarios_esperados.InsertColumn(0, 'Nome')
+        self.list_box_funcionarios_esperados.InsertColumn(1, 'Logado')
+
         self.label_relogio = wx.StaticText(self, wx.ALIGN_CENTER_HORIZONTAL | wx.ALIGN_CENTER_VERTICAL, "24:59")
         
         Publisher().subscribe(self.atualiza_Relogio, "evento_mostrar_relogio")
@@ -111,11 +115,37 @@ class MainFrame(wx.Frame):
     def atualiza_Relogio(self,hora):
         self.label_relogio.SetLabel(hora.data)
 
+    # def atualiza_list_box_funcionarios_esperados(self,lista):
+    #     self.list_box_funcionarios_esperados.Clear()
+    #     print lista.data
+    #     if lista.data!=None:
+    #         for nome in lista.data:
+    #             self.list_box_funcionarios_esperados.Append(nome[0])
+
     def atualiza_list_box_funcionarios_esperados(self,lista):
-        self.list_box_funcionarios_esperados.Clear()
-        if lista.data!=None:
-            for nome in lista.data:
-                self.list_box_funcionarios_esperados.Append(nome[0])
+        self.list_box_funcionarios_esperados.ClearAll()
+        self.list_box_funcionarios_esperados.InsertColumn(0, 'Nome')
+        self.list_box_funcionarios_esperados.InsertColumn(1, 'Logado')
+        horarios=lista.data
+        index=0
+        sn=(u"Não",u"Sim")
+        for data in horarios:
+            self.list_box_funcionarios_esperados.InsertStringItem(0,data[0])
+            self.list_box_funcionarios_esperados.SetStringItem(0, 1,sn[data[1]])
+            index = index + 1
+        self.list_box_funcionarios_esperados.SetColumnWidth(0, 100)
+        self.list_box_funcionarios_esperados.SetColumnWidth(1, 60)
+
+#         print lista.data
+#         if lista.data!=None:
+#             for nome in lista.data:
+#                 self.list_box_funcionarios_esperados.Append(nome[0])
+
+# self.list_ctrl_horarios.InsertStringItem(index, data[0])
+#             self.list_ctrl_horarios.SetStringItem(index, 1, data[1])
+#             self.list_ctrl_horarios.SetStringItem(index, 2, data[2])
+#             self.list_ctrl_horarios.SetStringItem(index, 3, data[3])
+#             self.list_ctrl_horarios.SetItemData(index, index)
 
     # def OnClose(self,event):
     #     try:
@@ -183,13 +213,14 @@ class Horarios(wx.Frame):
     def configure(self):
         horarios=controller.obter_Horarios(self.db)
         index=0
-        for data in horarios:
-            self.list_ctrl_horarios.InsertStringItem(index, data[0])
-            self.list_ctrl_horarios.SetStringItem(index, 1, data[1])
-            self.list_ctrl_horarios.SetStringItem(index, 2, data[2])
-            self.list_ctrl_horarios.SetStringItem(index, 3, data[3])
-            self.list_ctrl_horarios.SetItemData(index, index)
-            index += 1
+        if horarios!=None:
+            for data in horarios:
+                self.list_ctrl_horarios.InsertStringItem(index, data[0])
+                self.list_ctrl_horarios.SetStringItem(index, 1, data[1])
+                self.list_ctrl_horarios.SetStringItem(index, 2, data[2])
+                self.list_ctrl_horarios.SetStringItem(index, 3, data[3])
+                self.list_ctrl_horarios.SetItemData(index, index)
+                index += 1
 
 class Adm_Frame(wx.Frame):
     def __init__(self, *args, **kwds):

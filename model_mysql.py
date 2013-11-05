@@ -27,7 +27,7 @@ class Connect_MySQL:
     
     ##  Cria as tabelas do programa na instalação
     def criar_Tabelas(self):
-        self.curs.execute("CREATE TABLE funcionarios (id_funcionario INT NOT NULL AUTO_INCREMENT PRIMARY KEY, nome VARCHAR(100), matricula VARCHAR(40) NOT NULL, rfid VARCHAR(20))")
+        self.curs.execute("CREATE TABLE funcionarios (id_funcionario INT NOT NULL AUTO_INCREMENT PRIMARY KEY, nome VARCHAR(100), matricula VARCHAR(40) NOT NULL, rfid VARCHAR(20), ativo BOOLEAN NOT NULL)")
         self.curs.execute("CREATE TABLE horarios (id_horario INT NOT NULL AUTO_INCREMENT PRIMARY KEY, id_funcionario INT NOT NULL, dia_da_semana INT NOT NULL, hora_inicial TIME NOT NULL, hora_final TIME NOT NULL)")
         self.curs.execute("CREATE TABLE pontos (id_ponto INT NOT NULL AUTO_INCREMENT PRIMARY KEY, id_funcionario INT NOT NULL, id_horario INT NOT NULL, horario_entrada DATETIME NOT NULL, horario_saida DATETIME, atraso_entrada TIME, atraso_saida TIME, presenca INT)")
         self.curs.execute("CREATE TABLE log_porta (id_log INT NOT NULL AUTO_INCREMENT PRIMARY KEY, id_funcionario INT NOT NULL, horario_entrada DATETIME NOT NULL)")
@@ -60,7 +60,7 @@ class Connect_MySQL:
     #   @param matricula Matricula do funcionario
     #   @param rfid RFID do funcionario. Não é obrigatoria
     def criar_Funcionario(self,nome,matricula,rfid=None):
-        sql="INSERT INTO funcionarios (nome,matricula,rfid) VALUES (%s,%s,"
+        sql="INSERT INTO funcionarios (ativo,nome,matricula,rfid) VALUES (true,%s,%s,"
         if (rfid !=  None):
             sql=sql+"%s)"
             self.curs.execute(sql,(nome,matricula,rfid))
@@ -72,7 +72,7 @@ class Connect_MySQL:
     ##  Remove um funcionario do banco de dados e os horarios dele
     #   @param id_funcionario Id do funcionario
     def remover_Funcionario(self,id_funcionario):
-        self.curs.execute("DELETE FROM funcionarios WHERE id_funcionario=%s",(id_funcionario))
+        self.curs.execute("UPDATE funcionarios set ativo=false WHERE id_funcionario=%s",(id_funcionario))
         self.remover_Horario_Funcionario(id_funcionario)
         self.conn.commit()
     
@@ -93,21 +93,21 @@ class Connect_MySQL:
     ##  Retorna o Id do funcionario com o nome igual o da entrada
     #   @param nome Nome do funcionario    
     def obter_Id_Funcionario_por_Nome(self, nome):
-        self.curs.execute("SELECT id_funcionario FROM funcionarios WHERE nome=%s",(nome))       
+        self.curs.execute("SELECT id_funcionario FROM funcionarios WHERE nome=%s AND ativo=true",(nome))       
         linhas = self.curs.fetchall()
         return linhas[0][0] if len(linhas)>0 else None
     
     ##  Retorna o Id do funcionario com a matricula igual a da entrada
     #   @param matricula Matricula do funcionario    
     def obter_Id_Funcionario_por_Matricula(self, matricula):
-        self.curs.execute("SELECT id_funcionario FROM funcionarios WHERE matricula=%s",(matricula))       
+        self.curs.execute("SELECT id_funcionario FROM funcionarios WHERE matricula=%s AND ativo=true",(matricula))       
         linhas = self.curs.fetchall()
         return linhas[0][0] if len(linhas)>0 else None
         
     ##  Retorna o Id do funcionario com o RFID igual a da entrada
     #   @param rfid RFID do funcionario       
     def obter_Id_Funcionario_por_Rfid(self, rfid):
-        self.curs.execute("SELECT id_funcionario FROM funcionarios WHERE rfid=%s",(rfid))
+        self.curs.execute("SELECT id_funcionario FROM funcionarios WHERE rfid=%s AND ativo=true",(rfid))
         linhas = self.curs.fetchall()
         return linhas[0][0] if len(linhas)>0 else None
 
@@ -278,14 +278,14 @@ class Connect_MySQL:
     
     ##  Obtem todos os funcionarios cadastrados
     def obter_Funcionarios(self):
-        self.curs.execute("SELECT id_funcionario,nome FROM funcionarios")
+        self.curs.execute("SELECT id_funcionario,nome FROM funcionarios WHERE ativo=true")
         linhas = self.curs.fetchall()
         return linhas if len(linhas)>0 else None
 
     ##  Verifica se algun dos dados ja existem
     def verifica_Ja_Existe(self,nome=None,matricula=None,rfid=None):
         if nome:
-            self.curs.execute("SELECT count(*) FROM funcionarios WHERE nome=%s",(nome))
+            self.curs.execute("SELECT count(*) FROM funcionarios WHERE nome=%s AND ativo=true",(nome))
             nome = self.curs.fetchall()
             nome = nome[0][0]
             if nome==0:
@@ -293,7 +293,7 @@ class Connect_MySQL:
             else: 
                 nome=True
         if matricula:
-            self.curs.execute("SELECT count(*) FROM funcionarios WHERE matricula=%s",(matricula))
+            self.curs.execute("SELECT count(*) FROM funcionarios WHERE matricula=%s AND ativo=true",(matricula))
             matricula = self.curs.fetchall()
             matricula = matricula[0][0]
             if matricula==0: 
@@ -301,7 +301,7 @@ class Connect_MySQL:
             else:
                 matricula = True
         if rfid:
-            self.curs.execute("SELECT count(*) FROM funcionarios WHERE rfid=%s",(rfid))
+            self.curs.execute("SELECT count(*) FROM funcionarios WHERE rfid=%s AND ativo=true",(rfid))
             rfid = self.curs.fetchall()
             rfid = rfid[0][0]
             if rfid==0: 
