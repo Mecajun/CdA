@@ -115,13 +115,6 @@ class MainFrame(wx.Frame):
     def atualiza_Relogio(self,hora):
         self.label_relogio.SetLabel(hora.data)
 
-    # def atualiza_list_box_funcionarios_esperados(self,lista):
-    #     self.list_box_funcionarios_esperados.Clear()
-    #     print lista.data
-    #     if lista.data!=None:
-    #         for nome in lista.data:
-    #             self.list_box_funcionarios_esperados.Append(nome[0])
-
     def atualiza_list_box_funcionarios_esperados(self,lista):
         self.list_box_funcionarios_esperados.ClearAll()
         self.list_box_funcionarios_esperados.InsertColumn(0, 'Nome')
@@ -135,39 +128,6 @@ class MainFrame(wx.Frame):
             index = index + 1
         self.list_box_funcionarios_esperados.SetColumnWidth(0, 100)
         self.list_box_funcionarios_esperados.SetColumnWidth(1, 60)
-
-#         print lista.data
-#         if lista.data!=None:
-#             for nome in lista.data:
-#                 self.list_box_funcionarios_esperados.Append(nome[0])
-
-# self.list_ctrl_horarios.InsertStringItem(index, data[0])
-#             self.list_ctrl_horarios.SetStringItem(index, 1, data[1])
-#             self.list_ctrl_horarios.SetStringItem(index, 2, data[2])
-#             self.list_ctrl_horarios.SetStringItem(index, 3, data[3])
-#             self.list_ctrl_horarios.SetItemData(index, index)
-
-    # def OnClose(self,event):
-    #     try:
-    #         self.adm_senha_frame.Close()
-    #     except NameError:
-    #         print "undefined"
-    #     else:
-    #         print "defined"
-    #     try:
-    #         self.adm_frame.Close()
-    #     except NameError:
-    #         print "undefined"
-    #     else:
-    #         print "defined"
-    #     try:
-    #         self.horarios_janela.Close()
-    #     except NameError:
-    #         print "undefined"
-    #     else:
-    #         print "defined"
-
-    #     event.Skip()
 
 # end of class MainFrame
 
@@ -258,6 +218,8 @@ class Adm_Frame(wx.Frame):
         self.label_funcionarios_lista = wx.StaticText(self.notebook_1_funcionarios, -1, "\nFuncionarios cadastrados\n", style=wx.ALIGN_CENTRE)
         self.list_funcionarios = wx.ListBox(self.notebook_1_funcionarios, -1, choices=[], style=wx.LB_SINGLE)
         self.button_remover_funcionario = wx.Button(self.notebook_1_funcionarios, -1, "Remover")
+        self.button_editar_funcionario = wx.Button(self.notebook_1_funcionarios, -1, "Editar")
+        self.button_adicionar_funcionario = wx.Button(self.notebook_1_funcionarios, -1, "Adicionar")
         self.label_Funcionarios_add_desc = wx.StaticText(self.notebook_1_funcionarios, -1, u"\nAdicione um novo funcionário\n", style=wx.ALIGN_CENTRE)
         self.label_funcionarios_add = wx.StaticText(self.notebook_1_funcionarios, -1, "Nome")
         self.text_box_nome_adicionar_func = wx.TextCtrl(self.notebook_1_funcionarios, -1, "")
@@ -290,11 +252,13 @@ class Adm_Frame(wx.Frame):
         self.__do_layout()
 
         self.horarios_box=[]
+        self.edicao=False
 
         self.Bind(wx.EVT_BUTTON, self.button_Gerar_Relatorio, self.button_gerar_relatorio)
         self.Bind(wx.EVT_BUTTON, self.alterar_Senha_Adm_Button_Clicked, self.button_alterar_senha)
-        self.Bind(wx.EVT_LISTBOX, self.detalhar_Funcionario, self.list_funcionarios)
         self.Bind(wx.EVT_BUTTON, self.button_Remover_Funcionario, self.button_remover_funcionario)
+        self.Bind(wx.EVT_BUTTON, self.button_Detalhar_Funcionario, self.button_editar_funcionario)
+        self.Bind(wx.EVT_BUTTON, self.button_Adicionar_Funcionario, self.button_adicionar_funcionario)
         self.Bind(wx.EVT_BUTTON, self.button_Obter_Rfid, self.button_7)
         self.Bind(wx.EVT_BUTTON, self.button_Adicionar_Hora, self.button_adicionar)
         self.Bind(wx.EVT_BUTTON, self.button_Remover_Hora, self.button_remover)
@@ -362,6 +326,7 @@ class Adm_Frame(wx.Frame):
         sizer_14 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_13 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_12 = wx.BoxSizer(wx.HORIZONTAL)
+        remover_editar_box = wx.BoxSizer(wx.HORIZONTAL)
         sizer_9.Add((20, 20), 0, 0, 0)
         sizer_12.Add(self.label_data_inicial, 0, 0, 0)
         sizer_12.Add(self.datepicker_box_data_inicial, 0, 0, 0)
@@ -407,7 +372,10 @@ class Adm_Frame(wx.Frame):
         self.panel_9.SetSizer(sizer_32)
         sizer_10.Add(self.label_funcionarios_lista, 0, wx.EXPAND, 0)
         sizer_10.Add(self.list_funcionarios, 0, wx.EXPAND, 0)
-        sizer_10.Add(self.button_remover_funcionario, 0, wx.ALIGN_CENTER_HORIZONTAL, 0)
+        remover_editar_box.Add(self.button_remover_funcionario,1)
+        remover_editar_box.Add(self.button_editar_funcionario,1)
+        remover_editar_box.Add(self.button_adicionar_funcionario,1)
+        sizer_10.Add(remover_editar_box, 0, wx.ALIGN_CENTER_HORIZONTAL, 0)
         sizer_10.Add(self.label_Funcionarios_add_desc, 0, wx.EXPAND, 0)
         sizer_11.Add(self.label_funcionarios_add, 0, 0, 0)
         sizer_11.Add(self.text_box_nome_adicionar_func, 0, wx.EXPAND, 0)
@@ -479,6 +447,10 @@ class Adm_Frame(wx.Frame):
         else:
             self.spin_horario_fim_minutos.SetRange(0,59)
 
+        hora=int(self.spin_horario_inicio_horas.GetValue())
+        mim=int(self.spin_horario_inicio_minutos.GetValue())
+        hora_fim=int(self.spin_horario_fim_horas.GetValue())
+        mim_fim=int(self.spin_horario_fim_minutos.GetValue())
 
     def list_Funcionarios(self):
         self.list_funcionarios.Clear()
@@ -510,9 +482,20 @@ class Adm_Frame(wx.Frame):
         self.troca_senha_frame.Show()
         event.Skip()
 
-    def detalhar_Funcionario(self, event):  # wxGlade: Frame.<event_handler>
+    def button_Detalhar_Funcionario(self, event):  # wxGlade: Frame.<event_handler>
         posicao=self.list_funcionarios.GetSelection()
         atual=self.lista_funcionarios[posicao]
+        self.limpa_Campos()
+        dados=controller.detalha_Funcionario(self.db,id_funcionario=atual[0])
+        self.edicao=dados
+        self.edicao['horario_adicionado']=[]
+        self.edicao['horario_removido']=[]
+        self.text_box_nome_adicionar_func.SetValue(dados['nome'])
+        self.text_ctrl_4.SetValue(dados['matricula'])
+        self.horarios_box=dados['horarios']
+        for horario in self.horarios_box:
+            temp_str=controller.dia_Semana_Int2str(horario['dia_semana'])+"\t\t"+horario['hora_inicial']+" - "+horario['hora_final']
+            self.list_box_horarios.Append(temp_str)
         event.Skip()
 
     def button_Remover_Funcionario(self, event):  # wxGlade: Frame.<event_handler>
@@ -520,6 +503,13 @@ class Adm_Frame(wx.Frame):
         atual=self.lista_funcionarios[posicao]
         controller.remover_Funcionario(self.db,atual[0])
         self.list_Funcionarios()
+        self.limpa_Campos()
+        event.Skip()
+
+    def button_Adicionar_Funcionario(self, event):  # wxGlade: Frame.<event_handler>
+        self.edicao=False
+        self.list_Funcionarios()
+        self.limpa_Campos()
         event.Skip()
 
     def button_Obter_Rfid(self, event):  # wxGlade: Frame.<event_handler>
@@ -532,12 +522,16 @@ class Adm_Frame(wx.Frame):
         dado['hora_inicial']=str(self.spin_horario_inicio_horas.GetValue()).zfill(2)+":"+str(self.spin_horario_inicio_minutos.GetValue()).zfill(2)
         dado['hora_final']=str(self.spin_horario_fim_horas.GetValue()).zfill(2)+":"+str(self.spin_horario_fim_minutos.GetValue()).zfill(2)
         self.horarios_box.append(dado)
+        if self.edicao!=None and self.edicao!=False:
+            self.edicao['horario_adicionado'].append(dado)
         temp_str=controller.dia_Semana_Int2str(dado['dia_semana'])+"\t\t"+dado['hora_inicial']+" - "+dado['hora_final']
         self.list_box_horarios.Append(temp_str)
         event.Skip()
 
     def button_Remover_Hora(self, event):  # wxGlade: Frame.<event_handler>
         posicao=self.list_box_horarios.GetSelection()
+        if self.edicao!=None and self.edicao!=False:
+            self.edicao['horario_removido'].append(self.horarios_box[posicao])
         del self.horarios_box[posicao]
         self.list_box_horarios.Delete(posicao)
         event.Skip()
@@ -557,28 +551,69 @@ class Adm_Frame(wx.Frame):
         self.horarios_box=[]
         self.list_funcionarios.DeselectAll()
         self.spin_horario_inicio_horas.SetValue(0)
-        self.spin_horario_fim_horas.SetValue(0)
         self.spin_horario_inicio_minutos.SetValue(0)
+        self.spin_horario_fim_horas.SetRange(0,23)
+        self.spin_horario_fim_minutos.SetRange(0,59)
+        self.spin_horario_fim_horas.SetValue(0)
         self.spin_horario_fim_minutos.SetValue(0)
+        self.text_box_nome_adicionar_func.SetBackgroundColour((255,255,255))
+        self.text_ctrl_4.SetBackgroundColour((255,255,255))
 
     def button_Salvar_Alteracoes(self, event):  # wxGlade: Frame.<event_handler>
-        dados=self.obter_Detalhes_Usuario()
-        valida=controller.validar_Criacao_Funcionario(self.db, dados)
-        if (dados['nome']!='' and dados['matricula']!='' and valida['existe']==None):
-            controller.cadastrar_Funcionario(self.db,dados)
-            self.limpa_Campos()
-            self.list_Funcionarios()
-            self.text_box_nome_adicionar_func.SetBackgroundColour((255,255,255))
-            self.text_ctrl_4.SetBackgroundColour((255,255,255))
-        else:
-            if dados['nome']=='' or valida['nome']==True:
-                self.text_box_nome_adicionar_func.SetBackgroundColour((255,255,0))
-            else:
+        
+        if self.edicao==False:
+            dados=self.obter_Detalhes_Usuario()
+            valida=controller.validar_Criacao_Funcionario(self.db, dados)
+            if (dados['nome']!='' and dados['matricula']!='' and valida['existe']==None):
+                controller.cadastrar_Funcionario(self.db,dados)
+                self.limpa_Campos()
+                self.list_Funcionarios()
                 self.text_box_nome_adicionar_func.SetBackgroundColour((255,255,255))
-            if dados['matricula']=='' or valida['matricula']==True:
-                self.text_ctrl_4.SetBackgroundColour((255,255,0))
-            else:
                 self.text_ctrl_4.SetBackgroundColour((255,255,255))
+            else:
+                if dados['nome']=='' or valida['nome']==True:
+                    self.text_box_nome_adicionar_func.SetBackgroundColour((255,255,0))
+                else:
+                    self.text_box_nome_adicionar_func.SetBackgroundColour((255,255,255))
+                if dados['matricula']=='' or valida['matricula']==True:
+                    self.text_ctrl_4.SetBackgroundColour((255,255,0))
+                else:
+                    self.text_ctrl_4.SetBackgroundColour((255,255,255))
+        else:
+            dados=self.obter_Detalhes_Usuario()
+            
+            alterados={}
+            if dados['nome']!=self.edicao['nome']:
+                alterados['nome']=dados['nome']
+            else:
+                alterados['nome']=None
+            if dados['matricula']!=self.edicao['matricula']:
+                alterados['matricula']=dados['matricula']
+            else:
+                alterados['matricula']=None
+            if dados['rfid']!=self.edicao['rfid']:
+                alterados['rfid']=dados['rfid']
+            else:
+                alterados['rfid']=None
+            alterados['id']=self.edicao['id']
+            valida=controller.validar_Criacao_Funcionario(self.db, alterados)
+            if (dados['nome']!='' and dados['matricula']!='' and valida['existe']==None):
+                controller.edita_Funcionario(self.db,alterados)
+                controller.atualizar_Horarios(self.db,self.edicao)
+                self.limpa_Campos()
+                self.text_box_nome_adicionar_func.SetBackgroundColour((255,255,255))
+                self.text_ctrl_4.SetBackgroundColour((255,255,255))
+                self.edicao=False
+            else:
+                if dados['nome']=='' or valida['nome']==True:
+                    self.text_box_nome_adicionar_func.SetBackgroundColour((255,255,0))
+                else:
+                    self.text_box_nome_adicionar_func.SetBackgroundColour((255,255,255))
+                if dados['matricula']=='' or valida['matricula']==True:
+                    self.text_ctrl_4.SetBackgroundColour((255,255,0))
+                else:
+                    self.text_ctrl_4.SetBackgroundColour((255,255,255))
+        self.list_Funcionarios()
         event.Skip()
 
     def set_Db(self,db):

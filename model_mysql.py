@@ -114,7 +114,7 @@ class Connect_MySQL:
     ##  Retorna os dados de um funcionario
     #   @param id_funcionario Id do funcionario   
     def obter_Dados_Funcionario(self, id_funcionario):
-        self.curs.execute("SELECT * FROM funcionarios WHERE id_funcionario=%s",(id_funcionario))
+        self.curs.execute("SELECT *  FROM funcionarios WHERE id_funcionario=%s",(id_funcionario))
         linhas = self.curs.fetchall()
         return linhas[0] if len(linhas)>0 else None
 
@@ -131,9 +131,10 @@ class Connect_MySQL:
     ##  Remove um dos horarios de um funcionario
     #   @param id_funcionario Id do funcionario
     #   @param dia_da_semana Dia da semana no formato INT
-    #   @param hora_inicial Hora inicial no formato HH:MM:S        
-    def remover_Horario_Data_Hora(self,id_funcionario,dia_da_semana,hora_inicial):
-        self.curs.execute("DELETE FROM horarios WHERE (id_funcionario=%s AND dia_da_semana=%s AND hora_inicial=%s)",(id_funcionario,dia_da_semana,hora_inicial))
+    #   @param hora_inicial Hora inicial no formato HH:MM:SS
+    #   @param hora_final Hora final no formato HH:MM:S        
+    def remover_Horario_Data_Hora(self,id_funcionario,dia_da_semana,hora_inicial,hora_final):
+        self.curs.execute("DELETE FROM horarios WHERE (id_funcionario=%s AND dia_da_semana=%s AND hora_inicial=%s AND hora_final=%s)",(id_funcionario,dia_da_semana,hora_inicial,hora_final))
         self.conn.commit()
 
     ##  Remove todos os horarios de um funcionario
