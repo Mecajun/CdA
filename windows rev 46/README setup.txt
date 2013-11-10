@@ -1,3 +1,3 @@
-esse setup instala o controle de acesso rev 46
-contudo ele so vai criar a database se a senha do root for admin, entao quem quiser brincar com ele lembre-se de colocar 
-a senha certa na hora de instalar 
+esse setup instala o controle de acesso rev 46 ESSA VERSAO NAO ESTA COM O ARDUINO HABILITADO.
+o script de instalação e os arquivos dentro da pasta init estao com o arduino habilitado
+ele so vai criar a database se a senha do root for admin
