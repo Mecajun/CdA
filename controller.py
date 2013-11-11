@@ -78,8 +78,9 @@ def detalha_Funcionario(db,nome=None,id_funcionario=None):
     dados['id'],dados['nome'],dados['matricula'],dados['rfid'],dados['ativo']=db.obter_Dados_Funcionario(id_func)
     dados['horarios']=[]
     temp_horarios=db.buscar_Horarios_de_Funcionario(id_func)
-    for horario in temp_horarios:
-        dados['horarios'].append({"dia_semana":horario[2],"hora_inicial":str(horario[3].seconds/60/60).zfill(2)+':'+str(horario[3].seconds/60%60).zfill(2),"hora_final":(str(horario[4].seconds/60/60).zfill(2)+':'+str(horario[4].seconds/60%60).zfill(2))})
+    if temp_horarios:
+        for horario in temp_horarios:
+            dados['horarios'].append({"dia_semana":horario[2],"hora_inicial":str(horario[3].seconds/60/60).zfill(2)+':'+str(horario[3].seconds/60%60).zfill(2),"hora_final":(str(horario[4].seconds/60/60).zfill(2)+':'+str(horario[4].seconds/60%60).zfill(2))})
     return dados
 
 def validar_Criacao_Funcionario(db,dados):
