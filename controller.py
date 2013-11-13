@@ -299,7 +299,6 @@ class Fecha_Pontos(threading.Thread):
                 if self.db.buscar_Ponto_Aberto_de_Funcionario(alt[1])==None:
                     self.db.criar_Ponto(alt[1],alt[0],obter_Data_Hora(),"00:00:00",-2)
 
-
 class Instalar():
     def __init__(self,db):
         self.db=db

@@ -6,15 +6,17 @@ import wx
 from wx.lib.pubsub import Publisher
 import controller
 import time
+import os
 # begin wxGlade: extracode
 # end wxGlade
 
 class MainFrame(wx.Frame):     
     def __init__(self, *args, **kwds):
         # begin wxGlade: MainFrame.__init__
-        kwds["style"] = wx.DEFAULT_FRAME_STYLE
+        kwds["style"] = wx.CAPTION | wx.CLOSE_BOX | wx.MINIMIZE_BOX | wx.SYSTEM_MENU | wx.CLIP_CHILDREN
         wx.Frame.__init__(self, *args, **kwds)
-        self.logo = wx.StaticBitmap(self, -1, wx.Bitmap("./logo.png", wx.BITMAP_TYPE_ANY))
+        full_path = os.path.realpath(__file__)
+        self.logo = wx.StaticBitmap(self, -1, wx.Bitmap(os.path.dirname(full_path)+"/logo.png", wx.BITMAP_TYPE_ANY))
         self.button_administracao = wx.Button(self, -1, u"Administração")
         self.button_horarios = wx.Button(self, -1, u"Horários", style=wx.BU_BOTTOM)
         self.label_titulo1 = wx.StaticText(self, -1, u"Mecajun\nMecatrônica Júnior de Brasília", style=wx.ALIGN_CENTRE)
@@ -36,6 +38,10 @@ class MainFrame(wx.Frame):
         self.__set_properties()
         self.__do_layout()
 
+        self.SetBackgroundColour((220, 220, 220))
+        self.SetBackgroundStyle(wx.BG_STYLE_SYSTEM)
+        print self.BackgroundColour
+
         self.Bind(wx.EVT_BUTTON, self.adm_Button_Clicked, self.button_administracao)
         self.Bind(wx.EVT_BUTTON, self.horarios_Button_Clicked, self.button_horarios)
         self.Bind(wx.EVT_TEXT_ENTER, self.entrada_Teclado_Matricula, self.text_box_matricula)
@@ -47,7 +53,7 @@ class MainFrame(wx.Frame):
         self.SetTitle("Controle de Acesso")
         self.label_titulo1.SetFont(wx.Font(12, wx.DEFAULT, wx.NORMAL, wx.BOLD, 0, ""))
         self.text_box_matricula.SetMinSize((220, 27))
-        self.label_2.SetFont(wx.Font(12, wx.DEFAULT, wx.NORMAL, wx.NORMAL, 0, "Ubuntu"))
+        self.label_2.SetFont(wx.Font(12, wx.DEFAULT, wx.NORMAL, wx.NORMAL, 0, "Times"))
         self.list_box_funcionarios_esperados.SetMinSize((160, 70))
         self.Centre()
         self.text_box_matricula.SetFocus()
@@ -134,7 +140,7 @@ class MainFrame(wx.Frame):
 class Horarios(wx.Frame):
     def __init__(self, *args, **kwds):
         # begin wxGlade: MyFrame.__init__
-        kwds["style"] = wx.DEFAULT_FRAME_STYLE
+        kwds["style"] =  wx.CAPTION | wx.CLOSE_BOX | wx.MINIMIZE_BOX | wx.SYSTEM_MENU | wx.CLIP_CHILDREN
         wx.Frame.__init__(self, *args, **kwds)
         self.list_ctrl_horarios = wx.ListCtrl(self, -1, style=wx.LC_REPORT
                          |wx.BORDER_SUNKEN)
@@ -185,7 +191,7 @@ class Horarios(wx.Frame):
 class Adm_Frame(wx.Frame):
     def __init__(self, *args, **kwds):
         # begin wxGlade: Frame.__init__
-        kwds["style"] = wx.CAPTION | wx.CLOSE_BOX | wx.MINIMIZE_BOX | wx.MAXIMIZE_BOX | wx.SYSTEM_MENU | wx.RESIZE_BORDER | wx.CLIP_CHILDREN
+        kwds["style"] = wx.CAPTION | wx.CLOSE_BOX | wx.MINIMIZE_BOX | wx.SYSTEM_MENU | wx.CLIP_CHILDREN
         wx.Frame.__init__(self, *args, **kwds)
         self.notebook_pages = wx.Notebook(self, -1, style=0)
         self.notebook_relatorio = wx.Panel(self.notebook_pages, -1)
@@ -626,7 +632,7 @@ class Adm_Frame(wx.Frame):
 class Adm_Senha_Frame(wx.Frame):
     def __init__(self, *args, **kwds):
         # begin wxGlade: Adm_Senha_Frame.__init__
-        kwds["style"] = wx.DEFAULT_FRAME_STYLE
+        kwds["style"] =  wx.CAPTION | wx.CLOSE_BOX | wx.MINIMIZE_BOX | wx.SYSTEM_MENU | wx.CLIP_CHILDREN
         wx.Frame.__init__(self, *args, **kwds)
         self.label_1 = wx.StaticText(self, -1, "Digite a senha de administrador")
         self.text_ctrl_1 = wx.TextCtrl(self, -1, "", style=wx.TE_PASSWORD)
@@ -675,7 +681,7 @@ class Adm_Senha_Frame(wx.Frame):
 class Troca_Senha_Frame(wx.Frame):
     def __init__(self, *args, **kwds):
         # begin wxGlade: Troca_Senha_Frame.__init__
-        kwds["style"] = wx.DEFAULT_FRAME_STYLE
+        kwds["style"] = wx.CAPTION | wx.CLOSE_BOX | wx.MINIMIZE_BOX | wx.SYSTEM_MENU | wx.CLIP_CHILDREN
         wx.Frame.__init__(self, *args, **kwds)
         self.label_3 = wx.StaticText(self, -1, "Nova senha:")
         self.text_ctrl_2 = wx.TextCtrl(self, -1, "", style=wx.TE_PASSWORD)

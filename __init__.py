@@ -10,6 +10,7 @@ import wx
 import controller
 import model_mysql
 from threading import enumerate
+import os
 
 if __name__ == "__main__":
     app = wx.PySimpleApp(0)
@@ -28,6 +29,11 @@ if __name__ == "__main__":
 
     Frame1.Show()
     app.MainLoop()
+
+    #update
+    full_path = os.path.realpath(__file__)
+    directory=os.path.dirname(full_path)
+    os.system("cd %s;svn update;"%(directory))
 
     for thread in enumerate():
         if thread.isAlive():
