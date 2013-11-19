@@ -117,9 +117,9 @@ def gerar_Relatorio_Porta(dados):
         directory="%s/"%(directory)
     extensao='.csv'
     arquivo=datetime.datetime.now().strftime('log_porta_%d_%m_%Y')
-    nome_arquivo=directory+arquivo+extensao
+    nome_arquivo=directory+"relatorios/"+arquivo+extensao
     saida=csv.writer(file(nome_arquivo, 'w'))
-    for linha in dados:
+    for linha in vet:
         saida.writerow(linha)
 
 def gerar_Relatorio_Pontos(dados):
@@ -163,9 +163,9 @@ def gerar_Relatorio_Pontos(dados):
         directory="%s/"%(directory)
     extensao='.csv'
     arquivo=datetime.datetime.now().strftime('log_pontos_%d_%m_%Y')
-    nome_arquivo=directory+arquivo+extensao
+    nome_arquivo=directory+"relatorios/"+arquivo+extensao
     saida=csv.writer(file(nome_arquivo, 'w'))
-    for linha in dados:
+    for linha in vet:
         saida.writerow(linha)
 
 def gerar_Relatorio(db,inicial,final,condicoes):
