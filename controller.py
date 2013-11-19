@@ -146,7 +146,7 @@ def gerar_Relatorio_Pontos(dados):
         if elem[6] == 1:
             vet2.append('sem atraso')
         elif elem[6] == -2:
-            vet2.append('nao fechou')
+            vet2.append('nao veio')
         elif elem[6] == -3:
             vet2.append('chegou atrasado')
         elif elem[6] == -4:
