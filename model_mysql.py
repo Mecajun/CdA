@@ -242,16 +242,18 @@ class Connect_MySQL:
     #   @param faltas Mostrar falta de funcionarios
     #   @param atrazos Mostrar atrazos de funcionarios
     #   @return Nome,Matricula,Horario_entrada,Horario_saida,Atraso_entrada,Atraso_saida,Presenca
-    def obter_Log_Pontos(self,data_inicial,data_final,presentes=True,faltas=True,atrasos=True):
+    def obter_Log_Pontos(self,data_inicial,data_final,presentes=True,faltas=True,atrasos=True,):
         sql="SELECT funcionarios.nome,funcionarios.matricula,pontos.horario_entrada,pontos.horario_saida,pontos.atraso_entrada,pontos.atraso_saida,pontos.presenca FROM pontos INNER JOIN funcionarios on pontos.id_funcionario = funcionarios.id_funcionario WHERE (pontos.horario_entrada >= %s AND pontos.horario_entrada <= %s AND ("
         if presentes == True:
             sql=sql+" pontos.presenca=1 OR"
         if faltas == True:
-            sql=sql+" pontos.presenca=0 OR"
+            sql=sql+" pontos.presenca=-2 OR"
         if "Aberto" == "Aberto":
             sql=sql+" pontos.presenca=-1 OR"
         if atrasos == True:
-            sql=sql+" pontos.presenca=2 OR"
+            sql=sql+" pontos.presenca=-3 OR"
+            sql=sql+" pontos.presenca=-4 OR"
+            sql=sql+" pontos.presenca=-5 OR"
         if sql[-1]=='R':
             sql=sql[0:-2]+"))"
         else:
