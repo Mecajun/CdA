@@ -8,6 +8,7 @@ import datetime
 import os
 from wx.lib.pubsub import Publisher
 import md5
+import csv
 
 class Comunica_Arduino(threading.Thread):
     def __init__(self):
@@ -99,11 +100,69 @@ def remover_Funcionario(db,id_funcionario):
 def obter_Rfid(id_funcionario):
     "nada"    
 
+def gerar_Relatorio_Porta(dados):
+    vet=[]
+    for elem in dados:
+        vet2=[]
+        vet2.append(elem[0])
+        vet2.append(elem[1])
+        tempo = elem[2].strftime('%d/%m/%Y - %H:%M')
+        vet2.append(tempo)
+        vet.append(vet2)
+
+    extensao='.csv'
+    arquivo=datetime.datetime.now().strftime('log_porta_%d_%m_%Y')
+    nome_arquivo=arquivo+extensao
+    saida=csv.writer(file(nome_arquivo, 'w'))
+    for linha in dados:
+        saida.writerow(linha)
+
+def gerar_Relatorio_Pontos(dados):
+    vet=[]
+    for elem in dados:
+        vet2 = []
+        #nome do usuario
+        vet2.append(elem[0])
+        #matricula
+        vet2.append(elem[1])
+        #hora de entrada
+        hora=""
+        if elem[2]!=None:
+            hora = elem[2].strftime('%d/%m/%Y - %H:%M')
+        #hora de saida
+        hora1=""
+        if elem[3]!=None:
+            hora1 = elem[3].strftime('%d/%m/%Y - %H:%M')
+        vet2.append(hora)
+        vet2.append(hora1)
+        vet2.append(str(elem[4]))
+        vet2.append(str(elem[5]))
+        if elem[6] == 1:
+            vet2.append('sem atraso')
+        elif elem[6] == -2:
+            vet2.append('nao fechou')
+        elif elem[6] == -3:
+            vet2.append('chegou atrasado')
+        elif elem[6] == -4:
+            vet2.append('saiu com atraso')
+        elif elem[6] == -5:
+            vet2.append('chegou e saiu com atraso')
+        elif elem[6] == -1:
+            vet2.append('ponto aberto')
+        vet.append(vet2)
+
+    extensao='.csv'
+    arquivo=datetime.datetime.now().strftime('log_pontos_%d_%m_%Y')
+    nome_arquivo=arquivo+extensao
+    saida=csv.writer(file(nome_arquivo, 'w'))
+    for linha in dados:
+        saida.writerow(linha)
+
 def gerar_Relatorio(db,inicial,final,condicoes):
     log_porta=db.obter_Log_Porta(inicial,final)
     log_pontos=db.obter_Log_Pontos(inicial,final,condicoes['pontuais'],condicoes['faltas'],condicoes['atrasos'])
-    print log_porta
-    print log_pontos
+    gerar_Relatorio_Porta(log_porta)
+    gerar_Relatorio_Pontos(log_pontos)
 
 def atualizar_Rfid(db,id_funcionario,rfid):
     db.atualizar_Funcionario(id_funcionario,rfid=rfid)

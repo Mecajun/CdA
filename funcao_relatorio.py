@@ -27,9 +27,13 @@ def gerar_Relatorio_Pontos(dados):
 		#matricula
 		vet2.append(elem[1])
 		#hora de entrada
-		hora = elem[2].strftime('%d/%m/%Y - %H:%M')
+		hora=""
+		if elem[2]!=None:
+			hora = elem[2].strftime('%d/%m/%Y - %H:%M')
 		#hora de saida
-		hora1 = elem[3].strftime('%d/%m/%Y - %H:%M')
+		hora1=""
+		if elem[3]!=None:
+			hora1 = elem[3].strftime('%d/%m/%Y - %H:%M')
 		vet2.append(hora)
 		vet2.append(hora1)
 		vet2.append(str(elem[4]))
@@ -44,7 +48,7 @@ def gerar_Relatorio_Pontos(dados):
 			vet2.append('saiu com atraso')
 		elif elem[6] == -5:
 			vet2.append('chegou e saiu com atraso')
-		else elem[6] == -1:
+		elif elem[6] == -1:
 			vet2.append('ponto aberto')
 		vet.append(vet2)
 
@@ -56,4 +60,8 @@ def gerar_Relatorio_Pontos(dados):
 	    saida.writerow(linha)
 
 
+porta=((u'Filipe Alves Caixeta', u'100129706', datetime.datetime(2013, 11, 19, 13, 1)), (u'Filipe Alves Caixeta', u'100129706', datetime.datetime(2013, 11, 19, 13, 1)), (u'Bacon', u'42', datetime.datetime(2013, 11, 19, 13, 1)), (u'Bacon', u'42', datetime.datetime(2013, 11, 19, 13, 1)), (u'Bacon', u'42', datetime.datetime(2013, 11, 19, 13, 1)), (u'Bacon', u'42', datetime.datetime(2013, 11, 19, 13, 1)), (u'Bacon', u'42', datetime.datetime(2013, 11, 19, 13, 1)), (u'Bacon', u'42', datetime.datetime(2013, 11, 19, 13, 1)))
+ponto=((u'Filipe Alves Caixeta', u'100129706', datetime.datetime(2013, 11, 19, 13, 1), None, datetime.timedelta(0, 88), None, -1L), (u'Bacon', u'42', datetime.datetime(2013, 11, 19, 13, 1), datetime.datetime(2013, 11, 19, 13, 1), datetime.timedelta(0, 94), datetime.timedelta(0, 501), 1L), (u'Bacon', u'42', datetime.datetime(2013, 11, 19, 13, 1), datetime.datetime(2013, 11, 19, 13, 1), datetime.timedelta(0, 95), datetime.timedelta(0, 501), 1L), (u'Bacon', u'42', datetime.datetime(2013, 11, 19, 13, 1), datetime.datetime(2013, 11, 19, 13, 1), datetime.timedelta(0, 97), datetime.timedelta(0, 501), 1L))
+gerar_Relatorio_Porta(porta)
+gerar_Relatorio_Pontos(ponto)
 
