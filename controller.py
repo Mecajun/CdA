@@ -102,6 +102,7 @@ def obter_Rfid(id_funcionario):
 
 def gerar_Relatorio_Porta(dados):
     vet=[]
+    vet.append(["Nome","Matricula","Entrada"])
     for elem in dados:
         vet2=[]
         vet2.append(elem[0])
@@ -123,6 +124,7 @@ def gerar_Relatorio_Porta(dados):
 
 def gerar_Relatorio_Pontos(dados):
     vet=[]
+    vet.append(["Nome","Matricula","Entrada","Saida","Atraso Entrada","Atraso Saida","Flag"])
     for elem in dados:
         vet2 = []
         #nome do usuario
