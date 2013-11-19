@@ -110,9 +110,13 @@ def gerar_Relatorio_Porta(dados):
         vet2.append(tempo)
         vet.append(vet2)
 
+    full_path = os.path.realpath(__file__)
+    directory=os.path.dirname(full_path)
+    if directory[-1]!='/':
+        directory="%s/"%(directory)
     extensao='.csv'
     arquivo=datetime.datetime.now().strftime('log_porta_%d_%m_%Y')
-    nome_arquivo=arquivo+extensao
+    nome_arquivo=directory+arquivo+extensao
     saida=csv.writer(file(nome_arquivo, 'w'))
     for linha in dados:
         saida.writerow(linha)
@@ -151,9 +155,13 @@ def gerar_Relatorio_Pontos(dados):
             vet2.append('ponto aberto')
         vet.append(vet2)
 
+    full_path = os.path.realpath(__file__)
+    directory=os.path.dirname(full_path)
+    if directory[-1]!='/':
+        directory="%s/"%(directory)
     extensao='.csv'
     arquivo=datetime.datetime.now().strftime('log_pontos_%d_%m_%Y')
-    nome_arquivo=arquivo+extensao
+    nome_arquivo=directory+arquivo+extensao
     saida=csv.writer(file(nome_arquivo, 'w'))
     for linha in dados:
         saida.writerow(linha)
