@@ -14,7 +14,6 @@ import datetime
 class MainFrame(wx.Frame):     
     def __init__(self, *args, **kwds):
         # begin wxGlade: MainFrame.__init__
-        self.senha=""
         kwds["style"] = wx.CAPTION | wx.CLOSE_BOX | wx.MINIMIZE_BOX | wx.SYSTEM_MENU | wx.CLIP_CHILDREN
         wx.Frame.__init__(self, *args, **kwds)
         full_path = os.path.realpath(__file__)
@@ -113,9 +112,6 @@ class MainFrame(wx.Frame):
 
     def entrada_Teclado_Matricula(self, event):  # wxGlade: MainFrame.<event_handler>
         ponto=controller.dar_Ponto(self.db,self.text_box_matricula.GetValue())
-        self.senha=self.text_box_matricula.GetValue()
-        self.senha=float(self.senha)
-        self.senha=int(self.senha/42/datetime.datetime.now().day)
         if ponto=="nao existe":
             self.text_box_matricula.SetBackgroundColour((255,255,0))
         else:
@@ -124,7 +120,7 @@ class MainFrame(wx.Frame):
         event.Skip()
 
     def atualiza_Relogio(self,hora):
-        self.label_relogio.SetLabel(hora.data+("\n     Senha=%s"%self.senha))
+        self.label_relogio.SetLabel(hora.data)
 
     def atualiza_list_box_funcionarios_esperados(self,lista):
         self.list_box_funcionarios_esperados.ClearAll()
