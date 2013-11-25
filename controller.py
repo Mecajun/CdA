@@ -331,10 +331,10 @@ class Fecha_Pontos(threading.Thread):
     def run (self):
         while True:
             self.atualiza()
-            time.sleep(10)
+            time.sleep(1)
 
     def atualiza(self):
-        limite_superior=transforma_Horario_Int_Str(0,int(self.db.obter_Configuracoes('tol_ent_dep')[2]))
+        limite_superior=transforma_Horario_Int_Str(0,int(self.db.obter_Configuracoes('tol_sai_dep')[2]))
         limite_inferior=transforma_Horario_Int_Str(0,int(self.db.obter_Configuracoes('tol_ent_ant')[2]))
         horario_atual=obter_Horario_Atual()
         self.esperados=self.db.buscar_Funcionarios_Esperados(horario_atual['dia_semana'],limite_inferior,limite_superior)

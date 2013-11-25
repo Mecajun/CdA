@@ -197,7 +197,7 @@ class Connect_MySQL:
     #   @param limite_inferior Limite inferior para busca. Formato HH:MM:SS
     #   @param limite_superior Limite superior para a busca. Formato HH:MM:SS
     def buscar_Funcionarios_Esperados(self,dia_da_semana,limite_inferior,limite_superior):
-        self.curs.execute("SELECT funcionarios.nome, horarios.* FROM horarios INNER JOIN funcionarios ON horarios.id_funcionario=funcionarios.id_funcionario WHERE dia_da_semana=%s AND curtime() >= subtime(hora_inicial,%s) AND curtime() <= addtime(hora_inicial,%s)",(dia_da_semana,limite_inferior,limite_superior))
+        self.curs.execute("SELECT funcionarios.nome, horarios.* FROM horarios INNER JOIN funcionarios ON horarios.id_funcionario=funcionarios.id_funcionario WHERE dia_da_semana=%s AND curtime() >= subtime(hora_inicial,%s) AND curtime() <= addtime(hora_final,%s)",(dia_da_semana,limite_inferior,limite_superior))
         linhas = self.curs.fetchall()
         return linhas if len(linhas)>0 else None
 
@@ -206,7 +206,7 @@ class Connect_MySQL:
     #   @param limite_inferior Limite inferior para busca. Formato HH:MM:SS
     #   @param limite_superior Limite superior para a busca. Formato HH:MM:SS
     def buscar_Funcionarios_Esperados_Nao_Abertos(self,dia_da_semana,limite_inferior,limite_superior):
-        self.curs.execute("SELECT funcionarios.nome, horarios.*, pontos.presenca FROM horarios INNER JOIN funcionarios ON horarios.id_funcionario=funcionarios.id_funcionario INNER JOIN pontos ON horarios.id_funcionario=pontos.id_funcionario where dia_da_semana=%s AND curtime() >= subtime(hora_inicial,%s) AND curtime() <= addtime(hora_inicial,%s) AND pontos.presenca=-1",(dia_da_semana,limite_inferior,limite_superior))
+        self.curs.execute("SELECT funcionarios.nome, horarios.*, pontos.presenca FROM horarios INNER JOIN funcionarios ON horarios.id_funcionario=funcionarios.id_funcionario INNER JOIN pontos ON horarios.id_funcionario=pontos.id_funcionario where dia_da_semana=%s AND curtime() >= subtime(hora_inicial,%s) AND curtime() <= addtime(hora_final,%s) AND pontos.presenca=-1",(dia_da_semana,limite_inferior,limite_superior))
         linhas = self.curs.fetchall()
         return linhas if len(linhas)>0 else None
 

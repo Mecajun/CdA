@@ -31,9 +31,9 @@ if __name__ == "__main__":
     app.MainLoop()
 
     #update
-    full_path = os.path.realpath(__file__)
-    directory=os.path.dirname(full_path)
-    os.system("cd %s;svn update;"%(directory))
+    # full_path = os.path.realpath(__file__)
+    # directory=os.path.dirname(full_path)
+    # os.system("cd %s;svn update;"%(directory))
 
     for thread in enumerate():
         if thread.isAlive():

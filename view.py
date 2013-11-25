@@ -25,7 +25,7 @@ class MainFrame(wx.Frame):
         self.label_Instrucoes = wx.StaticText(self, -1, u"\nDigite sua matrícula e aperte \"Enter\"\n", style=wx.ALIGN_CENTRE)
         self.label_matricula = wx.StaticText(self, -1, "Matricula:     ")
         self.text_box_matricula = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER)
-        self.label_2 = wx.StaticText(self, -1, "Funcionarios esperados:")
+        self.label_2 = wx.StaticText(self, -1, u"Funcionarios do horário:")
         # self.list_box_funcionarios_esperados = wx.ListBox(self, -1, choices=[])
         self.list_box_funcionarios_esperados = wx.ListCtrl(self, -1, style=wx.LC_REPORT|wx.BORDER_SUNKEN)
         self.list_box_funcionarios_esperados.InsertColumn(0, 'Nome')
