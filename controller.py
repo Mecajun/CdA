@@ -119,9 +119,12 @@ def gerar_Relatorio_Porta(dados):
     arquivo=datetime.datetime.now().strftime('log_porta_%d_%m_%Y')
     nome_arquivo=directory+"relatorios/"+arquivo+extensao
     saida=csv.writer(file(nome_arquivo, 'w'))
-    for linha in vet:
-        saida.writerow(linha)
-
+    try:
+        for linha in vet:
+            saida.writerow(linha)
+    except:
+        print "treta pra fazer o relatorio da porta"
+        print linha
 def gerar_Relatorio_Pontos(dados):
     vet=[]
     vet.append(["Nome","Matricula","Entrada","Saida","Atraso Entrada","Atraso Saida","Flag"])
@@ -166,9 +169,12 @@ def gerar_Relatorio_Pontos(dados):
     arquivo=datetime.datetime.now().strftime('log_pontos_%d_%m_%Y')
     nome_arquivo=directory+"relatorios/"+arquivo+extensao
     saida=csv.writer(file(nome_arquivo, 'w'))
-    for linha in vet:
-        saida.writerow(linha)
-
+    try:
+        for linha in vet:
+            saida.writerow(linha)
+    except:
+        print "treta pra fazer o relatorio dos pontos"
+        print linha
 def gerar_Relatorio(db,inicial,final,condicoes):
     log_porta=db.obter_Log_Porta(inicial,final)
     log_pontos=db.obter_Log_Pontos(inicial,final,condicoes['pontuais'],condicoes['faltas'],condicoes['atrasos'])
@@ -337,6 +343,10 @@ class Fecha_Pontos(threading.Thread):
         limite_superior=transforma_Horario_Int_Str(0,int(self.db.obter_Configuracoes('tol_sai_dep')[2]))
         limite_inferior=transforma_Horario_Int_Str(0,int(self.db.obter_Configuracoes('tol_ent_ant')[2]))
         horario_atual=obter_Horario_Atual()
+
+        #Fecha os ponto tudo
+        self.db.fechar_Pontos_Nao_Fechados(limite_superior)
+
         self.esperados=self.db.buscar_Funcionarios_Esperados(horario_atual['dia_semana'],limite_inferior,limite_superior)
         self.esperados_n_abertos=self.db.buscar_Funcionarios_Esperados_Nao_Abertos(horario_atual['dia_semana'],limite_inferior,limite_superior)
 

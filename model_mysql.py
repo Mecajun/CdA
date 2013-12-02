@@ -210,6 +210,11 @@ class Connect_MySQL:
         linhas = self.curs.fetchall()
         return linhas if len(linhas)>0 else None
 
+    ##  Fecha todos os pontos que deveriam ter sido fechados considerando o limite de tolerancia de saida
+    #   @param limite_superior Limite superior de saida para fechar. Formato HH:MM:SS
+    def fechar_Pontos_Nao_Fechados(self,limite_superior):
+        self.curs.execute("UPDATE pontos INNER JOIN horarios ON pontos.id_horario=horarios.id_horario SET pontos.presenca=-3,pontos.horario_saida=now()  WHERE pontos.presenca=-1 AND ( (curdate() > DATE(pontos.horario_entrada)) OR ( (curdate() = DATE(pontos.horario_entrada)) AND (curtime() <= addtime(horarios.hora_final,%s))))",(limite_superior))
+
     ##  Verifica se existe ponto aberto de um funcionario
     #   @param id_funcionario Id do funcionario 
     def buscar_Ponto_Aberto_de_Funcionario(self,id_funcionario):
