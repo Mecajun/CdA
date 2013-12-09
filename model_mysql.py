@@ -12,10 +12,21 @@ class Connect_MySQL:
     #   @param user Usuario do banco de dados
     #   @param passwd Senha do banco de dados
     def __init__(self,host,user,passwd):
-        self.conn = Connect(host, user, passwd,charset='utf8',use_unicode=True)
+
+        self.host=host
+        self.user=user
+        self.passwd=passwd
+        self.conecta()
+    
+    def conecta(self):
+        try:
+            self.conn.close()
+        except Exception:
+            "raise"
+        self.conn = Connect(self.host, self.user, self.passwd,charset='utf8',use_unicode=True)
         self.curs = self.conn.cursor()
         self.curs.execute('USE controledeacesso')
-    
+
     ##  Deleta todas as tabelas se existirem
     def dropar_Tabelas(self):
         self.curs.execute('DROP TABLE IF EXISTS funcionarios')
@@ -39,6 +50,7 @@ class Connect_MySQL:
         self.curs.execute("SELECT * FROM configuracoes WHERE tipo=%s",(config))
         linhas = self.curs.fetchall()
         return linhas[0] if len(linhas)>0 else None
+
     ##  Atualiza as configurações do programa
     #   @param config Nome da configuração
     #   @param dado Dado que vai ser inserido
@@ -188,7 +200,8 @@ class Connect_MySQL:
     #   @param limite_inferior Limite inferior para busca. Formato HH:MM:SS
     #   @param limite_superior Limite superior para a busca. Formato HH:MM:SS
     def buscar_Horario_Mais_Proximo_de_Funcionario(self,id_funcionario,dia_da_semana,horario_base,limite_inferior,limite_superior):
-        self.curs.execute("SELECT * FROM horarios WHERE (id_funcionario=%s AND dia_da_semana=%s AND hora_inicial >= SUBTIME(%s,%s) AND hora_inicial <= ADDTIME(%s,%s)  ) ORDER BY ABS(SUBTIME(hora_inicial,%s)) LIMIT 1",(id_funcionario,dia_da_semana,horario_base,limite_inferior,horario_base,limite_superior,horario_base))
+        sql="SELECT * FROM horarios WHERE (id_funcionario=%s AND dia_da_semana=%s AND SUBTIME(curtime(),time(hora_inicial))>=time(%s) AND SUBTIME(curtime(),time(hora_final))<=time(%s)) ORDER BY ABS(SUBTIME(%s,curtime())) LIMIT 1"
+        self.curs.execute(sql,(id_funcionario,dia_da_semana,limite_inferior,limite_superior,limite_inferior))
         linhas = self.curs.fetchall()
         return linhas[0] if len(linhas)>0 else None
 
@@ -220,7 +233,6 @@ class Connect_MySQL:
     def buscar_Ponto_Aberto_de_Funcionario(self,id_funcionario):
         self.curs.execute("SELECT pontos.presenca,pontos.horario_entrada,horarios.hora_inicial,horarios.hora_final FROM pontos INNER JOIN horarios on pontos.id_horario = horarios.id_horario WHERE pontos.presenca=-1 AND pontos.id_funcionario=%s",(id_funcionario))
         linhas = self.curs.fetchall()
-        print linhas
         return linhas[0] if len(linhas)>0 else None
 
     ##  Adiciona no log da porta o funcionario que entrou e o horario

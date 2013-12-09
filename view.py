@@ -41,7 +41,6 @@ class MainFrame(wx.Frame):
 
         self.SetBackgroundColour((220, 220, 220))
         self.SetBackgroundStyle(wx.BG_STYLE_SYSTEM)
-        print self.BackgroundColour
 
         self.Bind(wx.EVT_BUTTON, self.adm_Button_Clicked, self.button_administracao)
         self.Bind(wx.EVT_BUTTON, self.horarios_Button_Clicked, self.button_horarios)

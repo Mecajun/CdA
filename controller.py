@@ -10,6 +10,32 @@ from wx.lib.pubsub import Publisher
 import md5
 import csv
 
+
+class CSV_do_Caixeta():
+    """docstring for CSV_do_Caixeta"""
+    def __init__(self, file_name, mode, separador):
+        self.file=open(file_name,mode)
+        self.separador=separador
+
+    def writerow(self,linha):
+        temp_str=u""
+        for elem in linha:
+            if elem==None:
+                elem=''
+            elif elem==True:
+                elem='True'
+            elif elem==False:
+                elem='False'
+            temp_str=temp_str+elem+self.separador
+        temp_str=temp_str[:-len(self.separador)]+'\n'
+        self.file.write(temp_str.encode('utf8'))
+    
+    def finaliza(self):
+        self.file.close()
+
+        
+
+
 class Comunica_Arduino(threading.Thread):
     def __init__(self):
         super(Comunica_Arduino, self).__init__()
@@ -118,13 +144,15 @@ def gerar_Relatorio_Porta(dados):
     extensao='.csv'
     arquivo=datetime.datetime.now().strftime('log_porta_%d_%m_%Y')
     nome_arquivo=directory+"relatorios/"+arquivo+extensao
-    saida=csv.writer(file(nome_arquivo, 'w'))
+    
+    saida=CSV_do_Caixeta(nome_arquivo, 'w',',')
     try:
         for linha in vet:
             saida.writerow(linha)
+        saida.finaliza()
     except:
         print "treta pra fazer o relatorio da porta"
-        print linha
+    
 def gerar_Relatorio_Pontos(dados):
     vet=[]
     vet.append(["Nome","Matricula","Entrada","Saida","Atraso Entrada","Atraso Saida","Flag"])
@@ -168,10 +196,11 @@ def gerar_Relatorio_Pontos(dados):
     extensao='.csv'
     arquivo=datetime.datetime.now().strftime('log_pontos_%d_%m_%Y')
     nome_arquivo=directory+"relatorios/"+arquivo+extensao
-    saida=csv.writer(file(nome_arquivo, 'w'))
+    saida=CSV_do_Caixeta(nome_arquivo, 'w',',')
     try:
         for linha in vet:
             saida.writerow(linha)
+        saida.finaliza()
     except:
         print "treta pra fazer o relatorio dos pontos"
         print linha
@@ -254,55 +283,55 @@ def atrazo_Entrada(temp,horario):
     return seconds_to_time(atrazo.total_seconds())
 
 def dar_Ponto(db,matricula):
-    id_func=db.obter_Id_Funcionario_por_Matricula(matricula)
-    if id_func!=None:
-        db.adicionar_Log_Porta(id_func,obter_Data_Hora())
-        abrir_Porta()
-    else:
-        return "nao existe"
-    
-    horario_atual=obter_Horario_Atual()
+    try:
 
-    # Obtem os limites de tempo para considerar o ponto entrada
-    limite_inferior=int(db.obter_Configuracoes('tol_ent_ant')[2])
-    limite_superior=int(db.obter_Configuracoes('tol_ent_dep')[2])
+        id_func=db.obter_Id_Funcionario_por_Matricula(matricula)
+        if id_func!=None:
+            db.adicionar_Log_Porta(id_func,obter_Data_Hora())
+            abrir_Porta()
+        else:
+            return "nao existe"
+        
+        horario_atual=obter_Horario_Atual()
 
-    #  Obtem os limites de tempo para considerar o ponto de saida
-    limite_inferior_saida=int(db.obter_Configuracoes('tol_sai_ant')[2])
-    limite_superior_saida=int(db.obter_Configuracoes('tol_sai_dep')[2])
+        # Obtem os limites de tempo para considerar o ponto entrada
+        limite_inferior=int(db.obter_Configuracoes('tol_ent_ant')[2])
+        limite_superior=int(db.obter_Configuracoes('tol_ent_dep')[2])
 
-    # Verifica se existe algum ponto aberto
-    ponto_antigo=db.buscar_Ponto_Aberto_de_Funcionario(id_func)
+        #  Obtem os limites de tempo para considerar o ponto de saida
+        limite_inferior_saida=int(db.obter_Configuracoes('tol_sai_ant')[2])
+        limite_superior_saida=int(db.obter_Configuracoes('tol_sai_dep')[2])
 
-    agora=datetime.datetime.now()
+        # Verifica se existe algum ponto aberto
+        ponto_antigo=db.buscar_Ponto_Aberto_de_Funcionario(id_func)
 
-    if ponto_antigo!=None:
-        entrada=ponto_antigo[1]
-        entrada_teorico=ponto_antigo[2]
-        saida_teorico=ponto_antigo[3]
-        entrada_teorico_datatime=datetime.datetime.combine(entrada.date(),(datetime.datetime.min+entrada_teorico).time())
-        saida_teorico_datatime=datetime.datetime.combine(entrada.date(),(datetime.datetime.min+saida_teorico).time())
-        # Verifica o tipo de ponto
+        agora=datetime.datetime.now()
 
-        # Horario de saida
-        if verifica_Esta_Faixa_Valores(agora,saida_teorico_datatime,limite_inferior_saida,limite_superior_saida):
-            db.finaliza_Ponto(id_func,obter_Data_Hora(),atrazo(agora,saida_teorico_datatime),1)
-            return
-        # Horario maior que o de saida
-        elif agora > (saida_teorico_datatime+datetime.timedelta(minutes=limite_superior_saida)):
-            db.finaliza_Ponto(id_func,obter_Data_Hora(),atrazo(agora,saida_teorico_datatime),-3)
-        # Horario que não faz nada
+        if ponto_antigo!=None:
+            entrada=ponto_antigo[1]
+            entrada_teorico=ponto_antigo[2]
+            saida_teorico=ponto_antigo[3]
+            entrada_teorico_datatime=datetime.datetime.combine(entrada.date(),(datetime.datetime.min+entrada_teorico).time())
+            saida_teorico_datatime=datetime.datetime.combine(entrada.date(),(datetime.datetime.min+saida_teorico).time())
+            # Verifica o tipo de ponto
+
+            # Horario de saida
+            if verifica_Esta_Faixa_Valores(agora,saida_teorico_datatime,limite_inferior_saida,limite_superior_saida):
+                db.finaliza_Ponto(id_func,obter_Data_Hora(),atrazo(agora,saida_teorico_datatime),1)
+            # Horario maior que o de saida
+            elif agora > (saida_teorico_datatime+datetime.timedelta(minutes=limite_superior_saida)):
+                db.finaliza_Ponto(id_func,obter_Data_Hora(),atrazo(agora,saida_teorico_datatime),-3)
+
+        # Verifica se tem horario para bater o ponto
+        horario=db.buscar_Horario_Mais_Proximo_de_Funcionario(int(id_func),horario_atual['dia_semana'],horario_atual['horario'],transforma_Horario_Int_Str(0,limite_inferior),transforma_Horario_Int_Str(0,limite_superior))
+        print "horario=",horario
+        # Cria o ponto de entrada
+        if horario!=None:
+            db.criar_Ponto(id_func,horario[0],obter_Data_Hora(),atrazo_Entrada(agora,horario[3]))
         else:
             return
-
-    # Verifica se tem horario para bater o ponto
-    horario=db.buscar_Horario_Mais_Proximo_de_Funcionario(int(id_func),horario_atual['dia_semana'],horario_atual['horario'],transforma_Horario_Int_Str(0,limite_inferior),transforma_Horario_Int_Str(0,limite_superior))
-    print horario
-    # Cria o ponto de entrada
-    if horario!=None:
-        db.criar_Ponto(id_func,horario[0],obter_Data_Hora(),atrazo_Entrada(agora,horario[3]))
-    else:
-        return
+    except Exception:
+        self.db.conecta()
 
 def obter_Horarios(db):
     horarios=db.obter_Horarios()
