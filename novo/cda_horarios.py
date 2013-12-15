@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'horarios.ui'
 #
-# Created: Sun Dec  8 12:50:56 2013
+# Created: Sat Dec 14 23:43:29 2013
 #      by: pyside-uic 0.2.13 running on PySide 1.1.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -21,14 +21,10 @@ class Ui_Horarios_Window(object):
         Horarios_Window.setLocale(QtCore.QLocale(QtCore.QLocale.Portuguese, QtCore.QLocale.Brazil))
         self.centralwidget = QtGui.QWidget(Horarios_Window)
         self.centralwidget.setObjectName("centralwidget")
-        self.listView_horarios = QtGui.QListView(self.centralwidget)
-        self.listView_horarios.setGeometry(QtCore.QRect(20, 10, 601, 541))
-        self.listView_horarios.setObjectName("listView_horarios")
+        self.tableView_horarios = QtGui.QTableView(self.centralwidget)
+        self.tableView_horarios.setGeometry(QtCore.QRect(10, 10, 621, 571))
+        self.tableView_horarios.setObjectName("tableView_horarios")
         Horarios_Window.setCentralWidget(self.centralwidget)
-        self.menubar = QtGui.QMenuBar(Horarios_Window)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 640, 25))
-        self.menubar.setObjectName("menubar")
-        Horarios_Window.setMenuBar(self.menubar)
 
         self.retranslateUi(Horarios_Window)
         QtCore.QMetaObject.connectSlotsByName(Horarios_Window)

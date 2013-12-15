@@ -30,7 +30,7 @@
      <string>Adicionar Funcionario</string>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>290</x>
@@ -216,7 +216,7 @@
       </layout>
      </item>
      <item>
-      <widget class="QListView" name="listView_horarios"/>
+      <widget class="QTableView" name="tableView_horarios"/>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -238,7 +238,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -260,24 +260,8 @@
      </item>
     </layout>
    </widget>
-   <zorder>label</zorder>
-   <zorder>listWidget_funcionarios</zorder>
-   <zorder>lineEdit_nome</zorder>
-   <zorder>label_2</zorder>
-   <zorder>label_3</zorder>
-   <zorder>label_4</zorder>
-   <zorder>lineEdit_matricula</zorder>
-   <zorder>pushButton_obter_rfid</zorder>
-   <zorder>listView_horarios</zorder>
-   <zorder>timeEdit_entrada</zorder>
-   <zorder>label_4</zorder>
-   <zorder>timeEdit_saida</zorder>
-   <zorder>label_5</zorder>
-   <zorder>label_6</zorder>
-   <zorder>label_7</zorder>
-   <zorder>comboBox_dias_semana</zorder>
-   <zorder>pushButton_adicionar_horario</zorder>
-   <zorder>pushButton_remover_horario</zorder>
+   <zorder>layoutWidget</zorder>
+   <zorder>layoutWidget</zorder>
    <zorder>pushButton_adicionar</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -299,7 +283,6 @@
   <tabstop>timeEdit_entrada</tabstop>
   <tabstop>timeEdit_saida</tabstop>
   <tabstop>pushButton_adicionar_horario</tabstop>
-  <tabstop>listView_horarios</tabstop>
   <tabstop>pushButton_remover_horario</tabstop>
   <tabstop>pushButton_adicionar</tabstop>
   <tabstop>listWidget_funcionarios</tabstop>

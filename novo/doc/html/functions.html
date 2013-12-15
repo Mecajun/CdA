@@ -3,13 +3,18 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>Controle de Acesso: Componentes Membros</title>
+<title>Controle de Acesso: Componentes membro</title>
 
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-
-<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
 <script type="text/javascript">
   $(document).ready(function() { searchBox.OnSelectItem(0); });
@@ -25,14 +30,14 @@
  <tbody>
  <tr style="height: 56px;">
   
-  <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
+  <td id="projectlogo"><img alt="Logo" src="logo_1.png"/></td>
   
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">Controle de Acesso
-   &#160;<span id="projectnumber">2.0</span>
+   &#160;<span id="projectnumber">2</span>
    </div>
-   <div id="projectbrief">Controle de Acesso desenvolvido pela Mecajun</div>
+   <div id="projectbrief">Controle de Acesso da Mecajun</div>
   </td>
   
   
@@ -44,13 +49,14 @@
 
 <!-- Gerado por Doxygen 1.7.6.1 -->
 <script type="text/javascript">
-var searchBox = new SearchBox("searchBox", "search",false,'Busca');
+var searchBox = new SearchBox("searchBox", "search",false,'Localizar');
 </script>
   <div id="navrow1" class="tabs">
     <ul class="tablist">
-      <li><a href="index.html"><span>Página&#160;Principal</span></a></li>
+      <li><a href="index.html"><span>Página&#160;principal</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
+      <li><a href="files.html"><span>Ficheiros</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -58,7 +64,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Busca');
                onmouseover="return searchBox.OnSearchSelectShow()"
                onmouseout="return searchBox.OnSearchSelectHide()"
                alt=""/>
-          <input type="text" id="MSearchField" value="Busca" accesskey="S"
+          <input type="text" id="MSearchField" value="Localizar" accesskey="S"
                onfocus="searchBox.OnSearchFieldFocus(true)" 
                onblur="searchBox.OnSearchFieldFocus(false)" 
                onkeyup="searchBox.OnSearchFieldChange(event)"/>
@@ -71,81 +77,67 @@ var searchBox = new SearchBox("searchBox", "search",false,'Busca');
   </div>
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
-      <li><a href="annotated.html"><span>Lista&#160;de&#160;Componentes</span></a></li>
-      <li><a href="classes.html"><span>Índice&#160;dos&#160;Componentes</span></a></li>
-      <li><a href="hierarchy.html"><span>Hierarquia&#160;de&#160;Classes</span></a></li>
-      <li class="current"><a href="functions.html"><span>Componentes&#160;Membros</span></a></li>
+      <li><a href="annotated.html"><span>Lista&#160;de&#160;componentes</span></a></li>
+      <li><a href="classes.html"><span>Índice&#160;dos&#160;componentes</span></a></li>
+      <li><a href="hierarchy.html"><span>Hierarquia&#160;de&#160;classes</span></a></li>
+      <li class="current"><a href="functions.html"><span>Componentes&#160;membro</span></a></li>
     </ul>
   </div>
   <div id="navrow3" class="tabs2">
     <ul class="tablist">
-      <li class="current"><a href="functions.html"><span>Todos</span></a></li>
+      <li class="current"><a href="functions.html"><span>Tudo</span></a></li>
       <li><a href="functions_func.html"><span>Funções</span></a></li>
+      <li><a href="functions_vars.html"><span>Variáveis</span></a></li>
+    </ul>
+  </div>
+  <div id="navrow4" class="tabs3">
+    <ul class="tablist">
+      <li class="current"><a href="functions.html#index__"><span>_</span></a></li>
+      <li><a href="functions_0x61.html#index_a"><span>a</span></a></li>
+      <li><a href="functions_0x63.html#index_c"><span>c</span></a></li>
+      <li><a href="functions_0x64.html#index_d"><span>d</span></a></li>
+      <li><a href="functions_0x66.html#index_f"><span>f</span></a></li>
+      <li><a href="functions_0x68.html#index_h"><span>h</span></a></li>
+      <li><a href="functions_0x6c.html#index_l"><span>l</span></a></li>
+      <li><a href="functions_0x6d.html#index_m"><span>m</span></a></li>
+      <li><a href="functions_0x6f.html#index_o"><span>o</span></a></li>
+      <li><a href="functions_0x70.html#index_p"><span>p</span></a></li>
+      <li><a href="functions_0x72.html#index_r"><span>r</span></a></li>
+      <li><a href="functions_0x73.html#index_s"><span>s</span></a></li>
+      <li><a href="functions_0x74.html#index_t"><span>t</span></a></li>
+      <li><a href="functions_0x75.html#index_u"><span>u</span></a></li>
+      <li><a href="functions_0x76.html#index_v"><span>v</span></a></li>
+      <li><a href="functions_0x77.html#index_w"><span>w</span></a></li>
     </ul>
   </div>
 </div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('functions.html','');
+</script>
+<div id="doc-content">
 <div class="contents">
-<div class="textblock">Esta é a lista de todos os membros de classes documentos com referências para a documentação da classe de cada membro:</div><ul>
+<div class="textblock">Lista de todas as classes membro com referência para as classes a que pertencem:</div>
+
+<h3><a class="anchor" id="index__"></a>- _ -</h3><ul>
 <li>__init__()
-: <a class="el" href="classmodel__mysql_1_1Connect__MySQL.html#a3b6f7bc7fc9d91455d7c66219fc2434c">model_mysql.Connect_MySQL</a>
-, <a class="el" href="classview_1_1Controle__De__Acesso__Window.html#a2816bead2b94b8fb314fd9c6a26bb904">view.Controle_De_Acesso_Window</a>
-</li>
-<li>adiciona_Funcionarios_Horario()
-: <a class="el" href="classview_1_1Controle__De__Acesso__Window.html#a32779035719725dc613616808913bacf">view.Controle_De_Acesso_Window</a>
-</li>
-<li>atualiza_Funcionarios_Horario()
-: <a class="el" href="classview_1_1Controle__De__Acesso__Window.html#a3cf8b394e8dfbeb0aa2f6d5825379198">view.Controle_De_Acesso_Window</a>
-</li>
-<li>atualiza_Relogio()
-: <a class="el" href="classview_1_1Controle__De__Acesso__Window.html#a2ed9d80f7bae2c87c2679710b9bbba24">view.Controle_De_Acesso_Window</a>
-</li>
-<li>center()
-: <a class="el" href="classview_1_1Controle__De__Acesso__Window.html#a4ab756c92e8b2138b7dcf240197ddfc9">view.Controle_De_Acesso_Window</a>
-</li>
-<li>dropar_Tabelas()
-: <a class="el" href="classmodel__mysql_1_1Connect__MySQL.html#a847072a1b902d2e96c19f1d9cafa5320">model_mysql.Connect_MySQL</a>
-</li>
-<li>fechar_Window()
-: <a class="el" href="classview_1_1Controle__De__Acesso__Window.html#acefc417c66ea7c38870ad3cc66122b62">view.Controle_De_Acesso_Window</a>
-</li>
-<li>lineEdit_Matricula_ReturnPressed()
-: <a class="el" href="classview_1_1Controle__De__Acesso__Window.html#a222ab9bfa257580e96d7e539bce7bb4e">view.Controle_De_Acesso_Window</a>
-</li>
-<li>menu_Adicionar_Funcionarios()
-: <a class="el" href="classview_1_1Controle__De__Acesso__Window.html#a65850d5812741a4070faed25451a1449">view.Controle_De_Acesso_Window</a>
-</li>
-<li>menu_Adicionar_Funcionarios_valida()
-: <a class="el" href="classview_1_1Controle__De__Acesso__Window.html#ab7f3597c51cdb5a4e6346758207e219f">view.Controle_De_Acesso_Window</a>
-</li>
-<li>menu_Alterar_Senha()
-: <a class="el" href="classview_1_1Controle__De__Acesso__Window.html#a5c62f12a412b1937069557b6bf9368bd">view.Controle_De_Acesso_Window</a>
-</li>
-<li>menu_Alterar_Senha_valida()
-: <a class="el" href="classview_1_1Controle__De__Acesso__Window.html#a86bf25d63c46769e18d83865589d89d2">view.Controle_De_Acesso_Window</a>
-</li>
-<li>menu_Configurar_Tolerancias()
-: <a class="el" href="classview_1_1Controle__De__Acesso__Window.html#ad46bb47528f3df10521d824095edc96e">view.Controle_De_Acesso_Window</a>
-</li>
-<li>menu_Configurar_Tolerancias_valida()
-: <a class="el" href="classview_1_1Controle__De__Acesso__Window.html#a82104704a47f6ac2b1eeace98512ddb5">view.Controle_De_Acesso_Window</a>
-</li>
-<li>menu_Editar_Funcionarios_valida()
-: <a class="el" href="classview_1_1Controle__De__Acesso__Window.html#a82913b54a58fa3d3cc2f8779087d0387">view.Controle_De_Acesso_Window</a>
-</li>
-<li>menu_Gerar_Relatorios()
-: <a class="el" href="classview_1_1Controle__De__Acesso__Window.html#a514251beb07fadc13d14ecd97118ffd0">view.Controle_De_Acesso_Window</a>
-</li>
-<li>menu_Gerar_Relatorios_valida()
-: <a class="el" href="classview_1_1Controle__De__Acesso__Window.html#ad5004cf4a5a736ea936440650557e138">view.Controle_De_Acesso_Window</a>
-</li>
-<li>menu_Remover_Funcionarios_valida()
-: <a class="el" href="classview_1_1Controle__De__Acesso__Window.html#aa9be804aff65d323b11016db919c1a75">view.Controle_De_Acesso_Window</a>
-</li>
-<li>pushButton_Horarios_Clicked()
-: <a class="el" href="classview_1_1Controle__De__Acesso__Window.html#a1cb5812c6ae57bf9cb0a9ba3f32d22da">view.Controle_De_Acesso_Window</a>
-</li>
-<li>remove_Funcionarios_Horario()
-: <a class="el" href="classview_1_1Controle__De__Acesso__Window.html#a87d6e80a75e9de6f8d6191595e1feeaf">view.Controle_De_Acesso_Window</a>
+: <a class="el" href="classauxiliares_1_1_c_s_v.html#a32ce1a0519b98fc4cb7e70258a55a587">auxiliares::CSV</a>
+, <a class="el" href="classview_1_1_tolerancias___window.html#a52271491521d30db5b5d7fd2744a9f1a">view.Tolerancias_Window</a>
+, <a class="el" href="classview_1_1_relatorios___window.html#a54dd1df25708a86009823246a6dcdb2b">view.Relatorios_Window</a>
+, <a class="el" href="classview_1_1_horarios___window.html#a30069daa04a00f9df48f8ed6d9f6d815">view.Horarios_Window</a>
+, <a class="el" href="classview_1_1_add___funcionarios___window.html#a3a6db2ca507b6380031e18a855f2d55f">view.Add_Funcionarios_Window</a>
+, <a class="el" href="classview_1_1_altera___senha___window.html#a06ae4ec888055e1ede0f28c47c4f039a">view.Altera_Senha_Window</a>
+, <a class="el" href="classview_1_1_adm___senha___window.html#a4cf8d3f5a9f0703cf1ba808b30c3a42a">view.Adm_Senha_Window</a>
+, <a class="el" href="classview_1_1_controle___de___acesso___window.html#a2816bead2b94b8fb314fd9c6a26bb904">view.Controle_De_Acesso_Window</a>
+, <a class="el" href="classmodel__mysql_1_1_connect___my_s_q_l.html#a3b6f7bc7fc9d91455d7c66219fc2434c">model_mysql.Connect_MySQL</a>
 </li>
 </ul>
 </div><!-- contents -->
@@ -154,7 +146,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Busca');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Todos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funções</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Tudo</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Ficheiros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Funções</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variáveis</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -163,13 +155,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Busca');
 </iframe>
 </div>
 
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
 
+    <li class="footer">Gerado em Domingo, 15 de Dezembro de 2013 00:34:58 para Controle de Acesso por
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
 
-<hr class="footer"/><address class="footer"><small>
-Gerado em Domingo, 8 de Dezembro de 2013 10:59:05 para Controle de Acesso por &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.7.6.1
-</small></address>
 
 </body>
 </html>

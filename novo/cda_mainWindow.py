@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainWindow.ui'
 #
-# Created: Sun Dec  8 12:50:56 2013
+# Created: Sat Dec 14 23:43:29 2013
 #      by: pyside-uic 0.2.13 running on PySide 1.1.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -136,4 +136,3 @@ class Ui_Controle_De_Acesso_Window(object):
         self.actionManual.setText(QtGui.QApplication.translate("Controle_De_Acesso_Window", "Manual", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSobre_Mecajun.setText(QtGui.QApplication.translate("Controle_De_Acesso_Window", "Sobre Mecajun", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSobre_Qt.setText(QtGui.QApplication.translate("Controle_De_Acesso_Window", "Sobre Qt", None, QtGui.QApplication.UnicodeUTF8))
-
