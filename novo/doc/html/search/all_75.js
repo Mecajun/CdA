@@ -7,6 +7,7 @@ var searchData=
   ['ui_5fcontroledeacesso',['Ui_ControleDeAcesso',['../classmain_window__temp_1_1_ui___controle_de_acesso.html',1,'mainWindow_temp']]],
   ['ui_5fhorarios_5fwindow',['Ui_Horarios_Window',['../classcda__horarios_1_1_ui___horarios___window.html',1,'cda_horarios']]],
   ['ui_5frelatorios_5fwindow',['Ui_Relatorios_Window',['../classcda__relatorios_1_1_ui___relatorios___window.html',1,'cda_relatorios']]],
+  ['ui_5fremover_5ffuncionarios_5fwindow',['Ui_Remover_Funcionarios_Window',['../classcda__removerfuncionario_1_1_ui___remover___funcionarios___window.html',1,'cda_removerfuncionario']]],
   ['ui_5ftolerancias_5fwindow',['Ui_Tolerancias_Window',['../classcda__tolerancias_1_1_ui___tolerancias___window.html',1,'cda_tolerancias']]],
-  ['user',['user',['../classmodel__mysql_1_1_connect___my_s_q_l.html#abc2ce65eebb53d3372d6dde5ca842ed8',1,'model_mysql::Connect_MySQL']]]
+  ['user',['user',['../classinstalar_1_1_connect___my_s_q_l.html#a9fc0a4cabe6e84ebce991fc5eb35757a',1,'instalar::Connect_MySQL.user()'],['../classmodel__mysql_1_1_connect___db.html#a7dc99e428f7024c8abafb579b6a8f706',1,'model_mysql::Connect_Db.user()']]]
 ];

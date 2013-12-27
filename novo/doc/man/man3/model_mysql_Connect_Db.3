@@ -1,0 +1,797 @@
+.TH "model_mysql.Connect_Db" 3 "Terça, 24 de Dezembro de 2013" "Version 2" "Controle de Acesso" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+model_mysql.Connect_Db \- 
+.PP
+Classe de conexão e acesso ao banco de dados\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Membros públicos"
+
+.in +1c
+.ti -1c
+.RI "def \fB__init__\fP"
+.br
+.RI "\fIInicializa o banco de dados\&. \fP"
+.ti -1c
+.RI "def \fBconecta\fP"
+.br
+.ti -1c
+.RI "def \fBcriar_Funcionario\fP"
+.br
+.RI "\fICria um funcionario na tabela funcionarios\&. \fP"
+.ti -1c
+.RI "def \fBatualizar_Funcionario\fP"
+.br
+.RI "\fIAtualiza informações do usuario\&. \fP"
+.ti -1c
+.RI "def \fBobter_Id_Funcionario_por_Nome\fP"
+.br
+.RI "\fIRetorna o Id do funcionario com o nome igual o da entrada\&. \fP"
+.ti -1c
+.RI "def \fBobter_Id_Funcionario_por_Matricula\fP"
+.br
+.RI "\fIRetorna o Id do funcionario com a matricula igual a da entrada\&. \fP"
+.ti -1c
+.RI "def \fBcriar_Horario\fP"
+.br
+.RI "\fICria um horario para um funcionario\&. \fP"
+.ti -1c
+.RI "def \fBremover_Horario\fP"
+.br
+.RI "\fIRemove um dos horarios de um funcionario\&. \fP"
+.ti -1c
+.RI "def \fBobter_Configuracoes\fP"
+.br
+.RI "\fIObtem as configurações do programa\&. \fP"
+.ti -1c
+.RI "def \fBatualizar_Configuracoes\fP"
+.br
+.RI "\fIAtualiza as configurações do programa\&. \fP"
+.ti -1c
+.RI "def \fBobter_Funcionarios\fP"
+.br
+.RI "\fIObtem todos os funcionarios cadastrados\&. \fP"
+.ti -1c
+.RI "def \fBverifica_Ja_Existe\fP"
+.br
+.RI "\fIVerifica se algun dos dados ja existem\&. \fP"
+.ti -1c
+.RI "def \fBremover_Funcionario\fP"
+.br
+.RI "\fIRemove um funcionario do banco de dados e os horarios dele\&. \fP"
+.ti -1c
+.RI "def \fBremover_Horario_Funcionario\fP"
+.br
+.RI "\fIRemove todos os horarios de um funcionario\&. \fP"
+.ti -1c
+.RI "def \fBobter_Horarios\fP"
+.br
+.RI "\fIObtem todos os horarios cadastrados\&. \fP"
+.ti -1c
+.RI "def \fBbuscar_Horarios_de_Funcionario\fP"
+.br
+.RI "\fIRetorna todos os horarios de um funcionario\&. \fP"
+.ti -1c
+.RI "def \fBobter_Funcionario\fP"
+.br
+.RI "\fIRetorna todas as informações do funcionario\&. \fP"
+.ti -1c
+.RI "def \fBbuscar_Funcionarios_Esperados\fP"
+.br
+.RI "\fIRetorna os funcionarios esperados para o horario\&. \fP"
+.ti -1c
+.RI "def \fBbuscar_Funcionarios_Esperados_Logados\fP"
+.br
+.RI "\fIRetorna os funcionarios logados\&. \fP"
+.ti -1c
+.RI "def \fBbuscar_Ponto_Aberto_de_Funcionario\fP"
+.br
+.RI "\fIVerifica se existe ponto aberto de um funcionario\&. \fP"
+.ti -1c
+.RI "def \fBfinaliza_Ponto\fP"
+.br
+.RI "\fICria o ponto de saida de um funcionario\&. \fP"
+.ti -1c
+.RI "def \fBbuscar_Horario_Mais_Proximo_de_Funcionario\fP"
+.br
+.RI "\fIRetorna o horario mais proximo de um funcionario\&. \fP"
+.ti -1c
+.RI "def \fBcriar_Ponto\fP"
+.br
+.RI "\fICria o ponto de entrada de um funcionario\&. \fP"
+.ti -1c
+.RI "def \fBobter_Log_Porta\fP"
+.br
+.RI "\fIObtem o log da porta dentro de um periodo de tempo\&. \fP"
+.ti -1c
+.RI "def \fBobter_Log_Pontos\fP"
+.br
+.RI "\fIObtem o log dos pontos dentro de um periodo de tempo\&. \fP"
+.in -1c
+.SS "Atributos Públicos"
+
+.in +1c
+.ti -1c
+.RI "\fBhost\fP"
+.br
+.ti -1c
+.RI "\fBuser\fP"
+.br
+.ti -1c
+.RI "\fBpasswd\fP"
+.br
+.ti -1c
+.RI "\fBconn\fP"
+.br
+.ti -1c
+.RI "\fBcurs\fP"
+.br
+.in -1c
+.SH "Descrição detalhada"
+.PP 
+Classe de conexão e acesso ao banco de dados\&. 
+.PP
+Definido na linha 9 do ficheiro model_mysql\&.py\&.
+.SH "Documentação dos Construtores & Destrutor"
+.PP 
+.SS "def \fBmodel_mysql\&.Connect_Db\&.__init__\fP (self, db_dados)"
+.PP
+Inicializa o banco de dados\&. \fBParâmetros:\fP
+.RS 4
+\fIhost\fP Servidor do banco de dados 
+.br
+\fIuser\fP Usuario do banco de dados 
+.br
+\fIpasswd\fP Senha do banco de dados 
+.RE
+.PP
+
+.PP
+Definido na linha 14 do ficheiro model_mysql\&.py\&.
+.PP
+.nf
+14 
+15     def __init__(self,db_dados):
+16         self\&.host=db_dados['host']
+17         self\&.user=db_dados['user']
+18         self\&.passwd=db_dados['passwd']
+19         self\&.conecta()
+    
+.fi
+.SH "Documentação dos métodos"
+.PP 
+.SS "def \fBmodel_mysql\&.Connect_Db\&.atualizar_Configuracoes\fP (self, config, dado)"
+.PP
+Atualiza as configurações do programa\&. \fBParâmetros:\fP
+.RS 4
+\fIconfig\fP Nome da configuração 
+.br
+\fIdado\fP Dado que vai ser inserido 
+.RE
+.PP
+
+.PP
+Definido na linha 120 do ficheiro model_mysql\&.py\&.
+.PP
+.nf
+120 
+121     def atualizar_Configuracoes(self,config,dado):
+122         if not (isinstance(config, str) or isinstance(config, unicode)):
+123             return False
+124         if not (isinstance(dado, str) or isinstance(dado, unicode)):
+125             return False
+126         sql='UPDATE configuracoes SET dado=%s WHERE tipo=%s'
+127         self\&.curs\&.execute(sql,(dado,config))
+128         self\&.conn\&.commit()
+129         return True
+
+.fi
+.SS "def \fBmodel_mysql\&.Connect_Db\&.atualizar_Funcionario\fP (self, id_funcionario, nome = \fCNone\fP, matricula = \fCNone\fP, rfid = \fCNone\fP)"
+.PP
+Atualiza informações do usuario\&. \fBParâmetros:\fP
+.RS 4
+\fIid_funcionario\fP Id do funcionario 
+.br
+\fInome\fP Nome do funcionario 
+.br
+\fImatricula\fP Matricula do funcionario 
+.br
+\fIrfid\fP RFID do funcionario 
+.RE
+.PP
+
+.PP
+Definido na linha 50 do ficheiro model_mysql\&.py\&.
+.PP
+.nf
+50 
+51     def atualizar_Funcionario(self,id_funcionario, nome=None, matricula=None, rfid=None):
+52         sql='UPDATE funcionarios SET '
+53         if nome != None:
+54             sql=sql+'nome=''+nome+'',';
+55         if matricula != None:
+56             sql=sql+'matricula=''+matricula+'',';
+57         if rfid != None:
+58             sql=sql+'rfid=''+rfid+'',';
+59         sql=sql[0:-1] + ' WHERE id_funcionario=%s'
+60         self\&.curs\&.execute(sql,(id_funcionario))
+61         self\&.conn\&.commit()
+
+.fi
+.SS "def \fBmodel_mysql\&.Connect_Db\&.buscar_Funcionarios_Esperados\fP (self, dia_da_semana, limite_inferior, limite_superior)"
+.PP
+Retorna os funcionarios esperados para o horario\&. \fBParâmetros:\fP
+.RS 4
+\fIdia_da_semana\fP Dia da semana no formato INT 
+.br
+\fIlimite_inferior\fP Limite inferior para busca\&. Formato HH:MM:SS 
+.br
+\fIlimite_superior\fP Limite superior para a busca\&. Formato HH:MM:SS 
+.RE
+.PP
+
+.PP
+Definido na linha 239 do ficheiro model_mysql\&.py\&.
+.PP
+.nf
+239 
+240     def buscar_Funcionarios_Esperados(self,dia_da_semana,limite_inferior,limite_superior):
+241         self\&.curs\&.execute('SELECT funcionarios\&.nome, funcionarios\&.id_funcionario, horarios\&.hora_inicial, horarios\&.hora_final FROM horarios INNER JOIN funcionarios ON horarios\&.id_funcionario=funcionarios\&.id_funcionario WHERE horarios\&.dia_da_semana=%s AND curtime() >= subtime(horarios\&.hora_inicial,%s) AND curtime() <= addtime(horarios\&.hora_final,%s)',(dia_da_semana,limite_inferior,limite_superior))
+242         linhas = self\&.curs\&.fetchall()
+243         l={}
+244         if len(linhas)>0:
+245             for i in linhas:
+246                 l[str(i[1])]={'nome':i[0],'hora_inicial':i[2],'hora_final':i[3]}
+247         self\&.conn\&.commit()
+248         return l if len(l)>0 else False
+
+.fi
+.SS "def \fBmodel_mysql\&.Connect_Db\&.buscar_Funcionarios_Esperados_Logados\fP (self, dia_da_semana, limite_inferior, limite_superior)"
+.PP
+Retorna os funcionarios logados\&. \fBParâmetros:\fP
+.RS 4
+\fIdia_da_semana\fP Dia da semana no formato INT 
+.br
+\fIlimite_inferior\fP Limite inferior para busca\&. Formato HH:MM:SS 
+.br
+\fIlimite_superior\fP Limite superior para a busca\&. Formato HH:MM:SS 
+.RE
+.PP
+
+.PP
+Definido na linha 253 do ficheiro model_mysql\&.py\&.
+.PP
+.nf
+253 
+254     def buscar_Funcionarios_Esperados_Logados(self,dia_da_semana,limite_inferior,limite_superior):
+255         self\&.curs\&.execute('SELECT pontos\&.id_funcionario FROM pontos INNER JOIN horarios ON horarios\&.id_horario=pontos\&.id_horario WHERE horarios\&.dia_da_semana=%s AND curtime() >= subtime(horarios\&.hora_inicial,%s) AND curtime() <= addtime(horarios\&.hora_final,%s) AND (pontos\&.presenca=-1)',(dia_da_semana,limite_inferior,limite_superior))
+256         linhas = self\&.curs\&.fetchall()
+257         l=[]
+258         for i in linhas:
+259             l\&.append(str(i[0]))
+260         self\&.conn\&.commit()
+261         return l if len(l)>0 else False
+
+.fi
+.SS "def \fBmodel_mysql\&.Connect_Db\&.buscar_Horario_Mais_Proximo_de_Funcionario\fP (self, id_funcionario, dia_da_semana, limite_inferior, limite_superior)"
+.PP
+Retorna o horario mais proximo de um funcionario\&. \fBParâmetros:\fP
+.RS 4
+\fIid_funcionario\fP Id do funcionario 
+.br
+\fIdia_da_semana\fP Dia da semana no formato INT 
+.br
+\fIlimite_inferior\fP Limite inferior para busca\&. Formato HH:MM:SS 
+.br
+\fIlimite_superior\fP Limite superior para a busca\&. Formato HH:MM:SS 
+.RE
+.PP
+
+.PP
+Definido na linha 289 do ficheiro model_mysql\&.py\&.
+.PP
+.nf
+289 
+290     def buscar_Horario_Mais_Proximo_de_Funcionario(self,id_funcionario,dia_da_semana,limite_inferior,limite_superior):
+291         sql='SELECT id_horario FROM horarios WHERE (id_funcionario=%s AND dia_da_semana=%s AND SUBTIME(curtime(),time(hora_inicial))<=time(%s) AND SUBTIME(curtime(),time(hora_final))<=time(%s)) ORDER BY ABS(SUBTIME(%s,curtime())) LIMIT 1'
+292         self\&.curs\&.execute(sql,(id_funcionario,dia_da_semana,limite_inferior,limite_superior,limite_inferior))
+293         linhas = self\&.curs\&.fetchall()
+294         self\&.conn\&.commit()
+295         return linhas[0][0] if len(linhas)>0 else False
+
+.fi
+.SS "def \fBmodel_mysql\&.Connect_Db\&.buscar_Horarios_de_Funcionario\fP (self, id_funcionario)"
+.PP
+Retorna todos os horarios de um funcionario\&. \fBParâmetros:\fP
+.RS 4
+\fIid_funcionario\fP Id do funcionario 
+.RE
+.PP
+
+.PP
+Definido na linha 215 do ficheiro model_mysql\&.py\&.
+.PP
+.nf
+215 
+216     def buscar_Horarios_de_Funcionario(self,id_funcionario):
+217         self\&.curs\&.execute('SELECT id_horario, dia_da_semana, hora_inicial,hora_final FROM horarios WHERE id_funcionario=%s ORDER BY dia_da_semana ASC, hora_inicial ASC',(id_funcionario))
+218         linhas = self\&.curs\&.fetchall()
+219         l=[]
+220         if len(linhas)>0:
+221             for i in linhas:
+222                 l\&.append({'id_horario':i[0],'dia_da_semana':i[1],'hora_inicial':i[2],'hora_final':i[3]})
+223         return l if len(l)>0 else False
+        
+.fi
+.SS "def \fBmodel_mysql\&.Connect_Db\&.buscar_Ponto_Aberto_de_Funcionario\fP (self, id_funcionario)"
+.PP
+Verifica se existe ponto aberto de um funcionario\&. \fBParâmetros:\fP
+.RS 4
+\fIid_funcionario\fP Id do funcionario 
+.RE
+.PP
+
+.PP
+Definido na linha 264 do ficheiro model_mysql\&.py\&.
+.PP
+.nf
+264 
+265     def buscar_Ponto_Aberto_de_Funcionario(self,id_funcionario):
+266         self\&.curs\&.execute('SELECT pontos\&.horario_entrada,horarios\&.hora_inicial,horarios\&.hora_final FROM pontos INNER JOIN horarios on pontos\&.id_horario = horarios\&.id_horario WHERE pontos\&.presenca=-1 AND pontos\&.id_funcionario=%s',(id_funcionario))
+267         linhas = self\&.curs\&.fetchall()
+268         l=False
+269         if len(linhas)>0:
+270             i=linhas[0]
+271             l={'horario_entrada':i[0],'hora_inicial':datetime\&.datetime\&.combine(i[0]\&.date(),(datetime\&.datetime\&.min+i[1])\&.time()),'hora_final':datetime\&.datetime\&.combine(i[0]\&.date(),(datetime\&.datetime\&.min+i[2])\&.time())}
+272         self\&.conn\&.commit()
+273         return l
+
+.fi
+.SS "def \fBmodel_mysql\&.Connect_Db\&.conecta\fP (self)"
+.PP
+Definido na linha 20 do ficheiro model_mysql\&.py\&.
+.PP
+.nf
+20 
+21     def conecta(self):
+22         self\&.conn = Connect(self\&.host, self\&.user, self\&.passwd,charset='utf8',use_unicode=True)
+23         self\&.curs = self\&.conn\&.cursor()
+24         self\&.curs\&.execute('USE controledeacesso')
+
+.fi
+.SS "def \fBmodel_mysql\&.Connect_Db\&.criar_Funcionario\fP (self, nome, matricula, rfid = \fCNone\fP)"
+.PP
+Cria um funcionario na tabela funcionarios\&. \fBParâmetros:\fP
+.RS 4
+\fInome\fP Nome do funcionario 
+.br
+\fImatricula\fP Matricula do funcionario 
+.br
+\fIrfid\fP RFID do funcionario\&. Não é obrigatoria 
+.RE
+.PP
+
+.PP
+Definido na linha 29 do ficheiro model_mysql\&.py\&.
+.PP
+.nf
+29 
+30     def criar_Funcionario(self,nome,matricula,rfid=None):
+31         if not ( (isinstance(nome, str) or isinstance(nome, unicode)) and (isinstance(matricula, str) or isinstance(matricula, unicode))):
+32             return False
+33         sql='INSERT INTO funcionarios (ativo,nome,matricula,rfid) VALUES (true,%s,%s,'
+34         try:
+35             if (rfid !=  None):
+36                 sql=sql+'%s)'
+37                 self\&.curs\&.execute(sql,(nome,matricula,rfid))
+38             else:
+39                 sql=sql+'NULL)'
+40                 self\&.curs\&.execute(sql,(nome,matricula))
+41         except Exception:
+42             raise
+43         self\&.conn\&.commit()
+44         return True
+
+.fi
+.SS "def \fBmodel_mysql\&.Connect_Db\&.criar_Horario\fP (self, id_funcionario, dia_da_semana, hora_inicial, hora_final)"
+.PP
+Cria um horario para um funcionario\&. \fBParâmetros:\fP
+.RS 4
+\fIid_funcionario\fP Id do funcionario 
+.br
+\fIdia_da_semana\fP Dia da semana no formato INT 
+.br
+\fIhora_inicial\fP Hora inicial no formato HH:MM:SS 
+.br
+\fIhora_final\fP Hora final no formato HH:MM:SS 
+.RE
+.PP
+
+.PP
+Definido na linha 87 do ficheiro model_mysql\&.py\&.
+.PP
+.nf
+87 
+88     def criar_Horario(self,id_funcionario,dia_da_semana,hora_inicial,hora_final):
+89         if not isinstance(id_funcionario, long):
+90             return False
+91         if not isinstance(dia_da_semana, int):
+92             return False
+93         if not (isinstance(hora_inicial, str) or isinstance(hora_inicial, unicode)):
+94             return False
+95         if not (isinstance(hora_final, str) or isinstance(hora_final, unicode)):
+96             return False
+97         sql='INSERT INTO horarios (id_funcionario,dia_da_semana,hora_inicial,hora_final) VALUES (%s,%s,%s,%s)'
+98         self\&.curs\&.execute(sql,(id_funcionario,dia_da_semana,hora_inicial,hora_final))
+99         self\&.conn\&.commit()
+100         return True
+     
+.fi
+.SS "def \fBmodel_mysql\&.Connect_Db\&.criar_Ponto\fP (self, id_funcionario, id_horario, flag = \fC-1\fP)"
+.PP
+Cria o ponto de entrada de um funcionario\&. \fBParâmetros:\fP
+.RS 4
+\fIid_funcionario\fP Id do funcionario 
+.br
+\fIid_horario\fP Id do horario do funcionario 
+.RE
+.PP
+
+.PP
+Definido na linha 299 do ficheiro model_mysql\&.py\&.
+.PP
+.nf
+299 
+300     def criar_Ponto(self,id_funcionario,id_horario,flag=-1):
+301         sql='INSERT INTO pontos (id_funcionario,id_horario,horario_entrada,presenca) VALUES (%s,%s,now(),%s)'
+302         self\&.curs\&.execute(sql,(id_funcionario,id_horario,flag))
+303         self\&.conn\&.commit()
+304         return Tru
+
+.fi
+.SS "def \fBmodel_mysql\&.Connect_Db\&.finaliza_Ponto\fP (self, id_funcionario, horario_saida, presenca)"
+.PP
+Cria o ponto de saida de um funcionario\&. \fBParâmetros:\fP
+.RS 4
+\fIid_funcionario\fP Id do funcionario 
+.br
+\fIhorario_saida\fP Horario de saida no formato YYYY-MM-DD HH:MM:SS  0 para falta\&. 1 para presença\&. 2 para ponto nao fechado 
+.RE
+.PP
+
+.PP
+Definido na linha 278 do ficheiro model_mysql\&.py\&.
+.PP
+.nf
+278 
+279     def finaliza_Ponto(self,id_funcionario,horario_saida,presenca):
+280         sql='UPDATE pontos SET horario_saida=%s, presenca=%s WHERE id_funcionario=%s AND presenca=-1'
+281         self\&.curs\&.execute(sql,(horario_saida,presenca,id_funcionario))
+282         self\&.conn\&.commit()
+283         return True
+
+.fi
+.SS "def \fBmodel_mysql\&.Connect_Db\&.obter_Configuracoes\fP (self, config)"
+.PP
+Obtem as configurações do programa\&. \fBParâmetros:\fP
+.RS 4
+\fIconfig\fP Nome da configuração 
+.RE
+.PP
+
+.PP
+Definido na linha 109 do ficheiro model_mysql\&.py\&.
+.PP
+.nf
+109 
+110     def obter_Configuracoes(self,config):
+111         if not (isinstance(config, str) or isinstance(config, unicode)):
+112             return False
+113         self\&.curs\&.execute('SELECT dado FROM configuracoes WHERE tipo=%s',(config))
+114         linhas = self\&.curs\&.fetchall()
+115         self\&.conn\&.commit()
+116         return linhas[0][0] if len(linhas)>0 else False
+    
+.fi
+.SS "def \fBmodel_mysql\&.Connect_Db\&.obter_Funcionario\fP (self, id_funcionario)"
+.PP
+Retorna todas as informações do funcionario\&. \fBParâmetros:\fP
+.RS 4
+\fIid_funcionario\fP Id do funcionario 
+.RE
+.PP
+
+.PP
+Definido na linha 226 do ficheiro model_mysql\&.py\&.
+.PP
+.nf
+226 
+227     def obter_Funcionario(self,id_funcionario):
+228         self\&.curs\&.execute('SELECT id_funcionario,nome,matricula,rfid,ativo FROM funcionarios WHERE id_funcionario=%s',(id_funcionario))
+229         linhas = self\&.curs\&.fetchall()
+230         l={}
+231         if len(linhas)>0:
+232             i=linhas[0]
+233             l={'id_funcionario':i[0],'nome':i[1],'matricula':i[2],'rfid':i[3],'ativo':i[4]}
+234         return l if len(linhas)>0 else False
+    
+.fi
+.SS "def \fBmodel_mysql\&.Connect_Db\&.obter_Funcionarios\fP (self)"
+.PP
+Obtem todos os funcionarios cadastrados\&. 
+.PP
+Definido na linha 131 do ficheiro model_mysql\&.py\&.
+.PP
+.nf
+131 
+132     def obter_Funcionarios(self):
+133         self\&.curs\&.execute('SELECT id_funcionario,nome FROM funcionarios WHERE ativo=true')
+134         linhas = self\&.curs\&.fetchall()
+135         result = []
+136         for i in range(len(linhas)):
+137             if len(linhas[i])==2:
+138                 result\&.append({'id_funcionario':linhas[i][0],'nome':linhas[i][1]})
+139         self\&.conn\&.commit()
+140         return result if len(result)>0 else False
+
+.fi
+.SS "def \fBmodel_mysql\&.Connect_Db\&.obter_Horarios\fP (self)"
+.PP
+Obtem todos os horarios cadastrados\&. 
+.PP
+Definido na linha 206 do ficheiro model_mysql\&.py\&.
+.PP
+.nf
+206 
+207     def obter_Horarios(self):
+208         sql='SELECT funcionarios\&.nome, horarios\&.dia_da_semana, horarios\&.hora_inicial, horarios\&.hora_final FROM horarios INNER JOIN funcionarios ON funcionarios\&.id_funcionario=horarios\&.id_funcionario ORDER BY horarios\&.dia_da_semana ASC,horarios\&.hora_inicial ASC'
+209         self\&.curs\&.execute(sql)
+210         linhas = self\&.curs\&.fetchall()
+211         self\&.conn\&.commit()
+212         return linhas if len(linhas)>0 else False
+
+.fi
+.SS "def \fBmodel_mysql\&.Connect_Db\&.obter_Id_Funcionario_por_Matricula\fP (self, matricula)"
+.PP
+Retorna o Id do funcionario com a matricula igual a da entrada\&. \fBParâmetros:\fP
+.RS 4
+\fImatricula\fP Matricula do funcionario 
+.RE
+.PP
+
+.PP
+Definido na linha 74 do ficheiro model_mysql\&.py\&.
+.PP
+.nf
+74 
+75     def obter_Id_Funcionario_por_Matricula(self, matricula):
+76         if not (isinstance(matricula, str) or isinstance(matricula, unicode)):
+77             return False
+78         self\&.curs\&.execute('SELECT id_funcionario FROM funcionarios WHERE matricula=%s AND ativo=true',(matricula))       
+79         linhas = self\&.curs\&.fetchall()
+80         self\&.conn\&.commit()
+81         return linhas[0][0] if len(linhas)>0 else False
+
+.fi
+.SS "def \fBmodel_mysql\&.Connect_Db\&.obter_Id_Funcionario_por_Nome\fP (self, nome)"
+.PP
+Retorna o Id do funcionario com o nome igual o da entrada\&. \fBParâmetros:\fP
+.RS 4
+\fInome\fP Nome do funcionario 
+.RE
+.PP
+
+.PP
+Definido na linha 64 do ficheiro model_mysql\&.py\&.
+.PP
+.nf
+64 
+65     def obter_Id_Funcionario_por_Nome(self, nome):
+66         if not (isinstance(nome, str) or isinstance(nome, unicode)):
+67             return False
+68         self\&.curs\&.execute('SELECT id_funcionario FROM funcionarios WHERE nome=%s AND ativo=true',(nome))       
+69         linhas = self\&.curs\&.fetchall()
+70         self\&.conn\&.commit()
+71         return linhas[0][0] if len(linhas)>0 else False
+
+.fi
+.SS "def \fBmodel_mysql\&.Connect_Db\&.obter_Log_Pontos\fP (self, data_inicial, data_final)"
+.PP
+Obtem o log dos pontos dentro de um periodo de tempo\&. \fBParâmetros:\fP
+.RS 4
+\fIdata_inicial\fP Data inicial do log\&. Formato YYYY-MM-DD HH:MM:SS 
+.br
+\fIdata_final\fP Data final do log\&. Formato YYYY-MM-DD HH:MM:SS 
+.br
+\fIpresentes\fP Mostrar presença de funcionarios 
+.br
+\fIfaltas\fP Mostrar falta de funcionarios 
+.br
+\fIatrazos\fP Mostrar atrazos de funcionarios 
+.RE
+.PP
+\fBRetorna:\fP
+.RS 4
+Nome,Matricula,Horario_entrada,Horario_saida,Presenca 
+.RE
+.PP
+
+.PP
+Definido na linha 321 do ficheiro model_mysql\&.py\&.
+.PP
+.nf
+321 
+322     def obter_Log_Pontos(self,data_inicial,data_final):
+323         sql='SELECT funcionarios\&.nome,funcionarios\&.matricula,pontos\&.horario_entrada,pontos\&.horario_saida,SUBTIME(TIME(pontos\&.horario_saida),TIME(pontos\&.horario_entrada)),pontos\&.presenca FROM pontos INNER JOIN funcionarios on pontos\&.id_funcionario = funcionarios\&.id_funcionario WHERE (pontos\&.horario_entrada >= %s AND pontos\&.horario_entrada <= %s)'
+324         self\&.curs\&.execute(sql,(data_inicial,data_final))
+325         linhas = self\&.curs\&.fetchall()
+326         return linhas if len(linhas)>0 else None
+   
+.fi
+.SS "def \fBmodel_mysql\&.Connect_Db\&.obter_Log_Porta\fP (self, data_inicial, data_final)"
+.PP
+Obtem o log da porta dentro de um periodo de tempo\&. \fBParâmetros:\fP
+.RS 4
+\fIdata_inicial\fP Data inicial do log\&. Formato YYYY-MM-DD HH:MM:SS 
+.br
+\fIdata_final\fP Data final do log\&. Formato YYYY-MM-DD HH:MM:SS 
+.RE
+.PP
+\fBRetorna:\fP
+.RS 4
+Nome,Matricula,Horario_entrada 
+.RE
+.PP
+
+.PP
+Definido na linha 309 do ficheiro model_mysql\&.py\&.
+.PP
+.nf
+309 
+310     def obter_Log_Porta(self,data_inicial,data_final):
+311         self\&.curs\&.execute('SELECT funcionarios\&.nome,funcionarios\&.matricula,log_porta\&.horario_entrada FROM log_porta INNER JOIN funcionarios on log_porta\&.id_funcionario = funcionarios\&.id_funcionario WHERE (log_porta\&.horario_entrada >= %s AND log_porta\&.horario_entrada <= %s )',(data_inicial,data_final))
+312         linhas = self\&.curs\&.fetchall()
+313         return linhas if len(linhas)>0 else None
+        
+.fi
+.SS "def \fBmodel_mysql\&.Connect_Db\&.remover_Funcionario\fP (self, id_funcionario)"
+.PP
+Remove um funcionario do banco de dados e os horarios dele\&. \fBParâmetros:\fP
+.RS 4
+\fIid_funcionario\fP Id do funcionario 
+.RE
+.PP
+
+.PP
+Definido na linha 191 do ficheiro model_mysql\&.py\&.
+.PP
+.nf
+191 
+192     def remover_Funcionario(self,id_funcionario):
+193         if not (isinstance(id_funcionario, long) or isinstance(id_funcionario, int)):
+194             return False
+195         self\&.curs\&.execute('UPDATE funcionarios set ativo=false WHERE id_funcionario=%s',(id_funcionario))
+196         self\&.remover_Horario_Funcionario(id_funcionario)
+197         self\&.conn\&.commit()
+198         return True
+
+.fi
+.SS "def \fBmodel_mysql\&.Connect_Db\&.remover_Horario\fP (self, id_horario)"
+.PP
+Remove um dos horarios de um funcionario\&. \fBParâmetros:\fP
+.RS 4
+\fIid_horario\fP Id do horario 
+.RE
+.PP
+
+.PP
+Definido na linha 103 do ficheiro model_mysql\&.py\&.
+.PP
+.nf
+103 
+104     def remover_Horario(self,id_horario):
+105         self\&.curs\&.execute('DELETE FROM horarios WHERE id_horario=%s ',(id_horario))
+106         self\&.conn\&.commit()
+
+.fi
+.SS "def \fBmodel_mysql\&.Connect_Db\&.remover_Horario_Funcionario\fP (self, id_funcionario)"
+.PP
+Remove todos os horarios de um funcionario\&. \fBParâmetros:\fP
+.RS 4
+\fIid_funcionario\fP Id do funcionario 
+.RE
+.PP
+
+.PP
+Definido na linha 201 do ficheiro model_mysql\&.py\&.
+.PP
+Referenciado por model_mysql\&.Connect_Db\&.remover_Funcionario()\&.
+.PP
+.nf
+201 
+202     def remover_Horario_Funcionario(self,id_funcionario):
+203         self\&.curs\&.execute('DELETE FROM horarios WHERE id_funcionario=%s',(id_funcionario))
+204         self\&.conn\&.commit()
+
+.fi
+.SS "def \fBmodel_mysql\&.Connect_Db\&.verifica_Ja_Existe\fP (self, nome = \fCNone\fP, matricula = \fCNone\fP, rfid = \fCNone\fP, id_funcionario = \fCNone\fP)"
+.PP
+Verifica se algun dos dados ja existem\&. 
+.PP
+Definido na linha 142 do ficheiro model_mysql\&.py\&.
+.PP
+.nf
+142 
+143     def verifica_Ja_Existe(self,nome=None,matricula=None,rfid=None,id_funcionario=None):
+144         if nome:
+145             sql='SELECT count(*) FROM funcionarios WHERE nome=%s AND ativo=true'
+146             tup=(nome)
+147             if id_funcionario!=None:
+148                 sql=sql+' AND id_funcionario!=%s'
+149                 tup=(nome,id_funcionario)
+150             self\&.curs\&.execute(sql,tup)
+151             nome = self\&.curs\&.fetchall()
+152             nome = nome[0][0]
+153             if nome==0:
+154                 nome = None
+155             else: 
+156                 nome = True
+157         if matricula:
+158             sql='SELECT count(*) FROM funcionarios WHERE matricula=%s AND ativo=true'
+159             tup=(matricula)
+160             if id_funcionario!=None:
+161                 sql=sql+' AND id_funcionario!=%s'
+162                 tup=(matricula,id_funcionario)
+163             self\&.curs\&.execute(sql,tup)
+164             matricula = self\&.curs\&.fetchall()
+165             matricula = matricula[0][0]
+166             if matricula==0: 
+167                 matricula = None
+168             else:
+169                 matricula = True
+170         if rfid:
+171             sql='SELECT count(*) FROM funcionarios WHERE rfid=%s AND ativo=true'
+172             tup=(rfid)
+173             if id_funcionario!=None:
+174                 sql=sql+' AND id_funcionario!=%s'
+175                 tup=(rfid,id_funcionario)
+176             self\&.curs\&.execute(sql,tup)
+177             rfid = self\&.curs\&.fetchall()
+178             rfid = rfid[0][0]
+179             if rfid==0: 
+180                 rfid = None
+181             else:
+182                 rfid = True
+183 
+184         temp=nome or matricula or rfid;
+185         if temp==None:
+186             temp=False
+187         self\&.conn\&.commit()
+188         return {'nome':nome,'matricula':matricula,'rfid':rfid,'existe':temp}
+
+.fi
+.SH "Documentação dos dados membro"
+.PP 
+.SS "\fBmodel_mysql\&.Connect_Db::conn\fP"
+.PP
+Definido na linha 20 do ficheiro model_mysql\&.py\&.
+.SS "\fBmodel_mysql\&.Connect_Db::curs\fP"
+.PP
+Definido na linha 20 do ficheiro model_mysql\&.py\&.
+.SS "\fBmodel_mysql\&.Connect_Db::host\fP"
+.PP
+Definido na linha 14 do ficheiro model_mysql\&.py\&.
+.SS "\fBmodel_mysql\&.Connect_Db::passwd\fP"
+.PP
+Definido na linha 14 do ficheiro model_mysql\&.py\&.
+.SS "\fBmodel_mysql\&.Connect_Db::user\fP"
+.PP
+Definido na linha 14 do ficheiro model_mysql\&.py\&.
+
+.SH "Autor"
+.PP 
+Gerado automaticamente por Doxygen para Controle de Acesso a partir do código fonte\&.

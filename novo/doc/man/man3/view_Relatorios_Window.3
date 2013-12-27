@@ -1,0 +1,170 @@
+.TH "view.Relatorios_Window" 3 "Terça, 24 de Dezembro de 2013" "Version 2" "Controle de Acesso" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+view.Relatorios_Window \- 
+.PP
+Janela para gerar os relatorios\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Derivada de \fBcda_relatorios\&.Ui_Relatorios_Window\fP\&.
+.SS "Membros públicos"
+
+.in +1c
+.ti -1c
+.RI "def \fB__init__\fP"
+.br
+.ti -1c
+.RI "def \fBcenter\fP"
+.br
+.ti -1c
+.RI "def \fBdateTimeEdit_Inicial_Editing_Finished\fP"
+.br
+.RI "\fIAltera a data minima para a data final\&. \fP"
+.ti -1c
+.RI "def \fBobter_Dados\fP"
+.br
+.RI "\fIObtem dos dados da janela\&. \fP"
+.ti -1c
+.RI "def \fBpushButton_Log_Porta_Clicked\fP"
+.br
+.RI "\fIGera o relatorio de logs da porta\&. \fP"
+.ti -1c
+.RI "def \fBpushButton_Relatorio_Pontos_Clicked\fP"
+.br
+.RI "\fIGera o relatorio de pontos\&. \fP"
+.in -1c
+.SS "Atributos Públicos"
+
+.in +1c
+.ti -1c
+.RI "\fBdb_dados\fP"
+.br
+.ti -1c
+.RI "\fBdb\fP"
+.br
+.ti -1c
+.RI "\fBthread1\fP"
+.br
+.ti -1c
+.RI "\fBthread2\fP"
+.br
+.in -1c
+.SH "Descrição detalhada"
+.PP 
+Janela para gerar os relatorios\&. 
+.PP
+Definido na linha 843 do ficheiro view\&.py\&.
+.SH "Documentação dos Construtores & Destrutor"
+.PP 
+.SS "def \fBview\&.Relatorios_Window\&.__init__\fP (self, parent = \fCNone\fP, db_dados = \fCNone\fP)"
+.PP
+Definido na linha 845 do ficheiro view\&.py\&.
+.PP
+.nf
+845 
+846     def __init__(self,parent=None,db_dados=None):
+847         super(Relatorios_Window, self)\&.__init__(parent)
+848         self\&.setupUi(self)
+849         self\&.db_dados=db_dados
+850         self\&.db=Connect_Db(db_dados)
+851         self\&.center()
+852         self\&._configure()
+853         self\&._set_connections()
+854         self\&.show()
+
+.fi
+.SH "Documentação dos métodos"
+.PP 
+.SS "def \fBview\&.Relatorios_Window\&.center\fP (self)"
+.PP
+Definido na linha 855 do ficheiro view\&.py\&.
+.PP
+.nf
+855 
+856     def center(self):
+857         qr = self\&.frameGeometry()
+858         cp = QDesktopWidget()\&.availableGeometry()\&.center()
+859         qr\&.moveCenter(cp)
+860         self\&.move(qr\&.topLeft())
+
+.fi
+.SS "def \fBview\&.Relatorios_Window\&.dateTimeEdit_Inicial_Editing_Finished\fP (self)"
+.PP
+Altera a data minima para a data final\&. 
+.PP
+Definido na linha 881 do ficheiro view\&.py\&.
+.PP
+.nf
+881 
+882     def dateTimeEdit_Inicial_Editing_Finished(self):
+883         self\&.dateTimeEdit_final\&.setMinimumDateTime(self\&.dateTimeEdit_inicial\&.dateTime())
+
+.fi
+.SS "def \fBview\&.Relatorios_Window\&.obter_Dados\fP (self)"
+.PP
+Obtem dos dados da janela\&. 
+.PP
+Definido na linha 885 do ficheiro view\&.py\&.
+.PP
+.nf
+885 
+886     def obter_Dados(self):
+887         dados={}
+888         dados['data_inicial']=self\&.dateTimeEdit_inicial\&.dateTime()\&.toPython()
+889         dados['data_final']=self\&.dateTimeEdit_final\&.dateTime()\&.toPython()
+890         dados['pontuais']=self\&.checkBox_pontuais\&.isChecked()
+891         dados['faltosos']=self\&.checkBox_faltosos\&.isChecked()
+892         dados['atrasados']=self\&.checkBox_atrasados\&.isChecked()
+893         return dados
+
+.fi
+.SS "def \fBview\&.Relatorios_Window\&.pushButton_Log_Porta_Clicked\fP (self)"
+.PP
+Gera o relatorio de logs da porta\&. 
+.PP
+Definido na linha 895 do ficheiro view\&.py\&.
+.PP
+.nf
+895 
+896     def pushButton_Log_Porta_Clicked(self):
+897         dados=self\&.obter_Dados()
+898         self\&.thread1 = Relatorios(self,self\&.db_dados,False,True,dados)
+899         self\&.thread1\&.start()
+
+.fi
+.SS "def \fBview\&.Relatorios_Window\&.pushButton_Relatorio_Pontos_Clicked\fP (self)"
+.PP
+Gera o relatorio de pontos\&. 
+.PP
+Definido na linha 901 do ficheiro view\&.py\&.
+.PP
+.nf
+901 
+902     def pushButton_Relatorio_Pontos_Clicked(self):
+903         dados=self\&.obter_Dados()
+904         self\&.thread2 = Relatorios(self,self\&.db_dados,True,False,dados)
+905         self\&.thread2\&.start()
+
+.fi
+.SH "Documentação dos dados membro"
+.PP 
+.SS "\fBview\&.Relatorios_Window::db\fP"
+.PP
+Definido na linha 845 do ficheiro view\&.py\&.
+.SS "\fBview\&.Relatorios_Window::db_dados\fP"
+.PP
+Definido na linha 845 do ficheiro view\&.py\&.
+.SS "\fBview\&.Relatorios_Window::thread1\fP"
+.PP
+Definido na linha 895 do ficheiro view\&.py\&.
+.SS "\fBview\&.Relatorios_Window::thread2\fP"
+.PP
+Definido na linha 901 do ficheiro view\&.py\&.
+
+.SH "Autor"
+.PP 
+Gerado automaticamente por Doxygen para Controle de Acesso a partir do código fonte\&.

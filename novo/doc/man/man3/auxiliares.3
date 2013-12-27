@@ -1,0 +1,135 @@
+.TH "auxiliares" 3 "Terça, 24 de Dezembro de 2013" "Version 2" "Controle de Acesso" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+auxiliares \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Componentes"
+
+.in +1c
+.ti -1c
+.RI "class \fBCSV\fP"
+.br
+.in -1c
+.SS "Funções"
+
+.in +1c
+.ti -1c
+.RI "def \fBcriptografar_Senha\fP"
+.br
+.ti -1c
+.RI "def \fBdia_Semana_Int2str\fP"
+.br
+.ti -1c
+.RI "def \fBset_proc_name\fP"
+.br
+.RI "\fIAltera o nome do processo  newname Novo nome do processo\&. \fP"
+.ti -1c
+.RI "def \fBget_Week_Day\fP"
+.br
+.ti -1c
+.RI "def \fBstring_2_Timedelta\fP"
+.br
+.ti -1c
+.RI "def \fBstring_2_Time\fP"
+.br
+.ti -1c
+.RI "def \fBdata_Atual\fP"
+.br
+.in -1c
+.SH "Documentação das funções"
+.PP 
+.SS "def \fBauxiliares\&.criptografar_Senha\fP (senha)"
+.PP
+Definido na linha 35 do ficheiro auxiliares\&.py\&.
+.PP
+.nf
+35 
+36 def criptografar_Senha(senha):
+37     m = md5\&.new()
+38     for i in range(32):
+39         m\&.update(senha)
+40     return m\&.hexdigest()
+
+.fi
+.SS "def \fBauxiliares\&.data_Atual\fP (string = \fCFalse\fP)"
+.PP
+Definido na linha 69 do ficheiro auxiliares\&.py\&.
+.PP
+.nf
+69 
+70 def data_Atual(string=False):
+71     if string==True:
+72         return datetime\&.now()\&.strftime('%Y-%m-%d %H:%M:%S')
+    return datetime\&.now()
+.fi
+.SS "def \fBauxiliares\&.dia_Semana_Int2str\fP (num, completo = \fCTrue\fP)"
+.PP
+Definido na linha 41 do ficheiro auxiliares\&.py\&.
+.PP
+.nf
+41 
+42 def dia_Semana_Int2str(num,completo=True):
+43     dias=[u'Dom',u'Seg',u'Ter',u'Qua',u'Qui',u'Sex',u'Sab']
+44     dias2=[u'Domingo',u'Segunda',u'Terça',u'Quarta',u'Quinta',u'Sexta',u'Sabado']
+45     if completo==True:
+46         return dias2[num]
+47     return dias[num]
+
+.fi
+.SS "def \fBauxiliares\&.get_Week_Day\fP ()"
+.PP
+Definido na linha 57 do ficheiro auxiliares\&.py\&.
+.PP
+.nf
+57 
+58 def get_Week_Day():
+59     wd=datetime\&.now()\&.weekday()+1
+60     return wd if wd!=6 else 0
+
+.fi
+.SS "def \fBauxiliares\&.set_proc_name\fP (newname)"
+.PP
+Altera o nome do processo  newname Novo nome do processo\&. 
+.PP
+Definido na linha 50 do ficheiro auxiliares\&.py\&.
+.PP
+.nf
+50 
+51 def set_proc_name(newname):
+52     from ctypes import cdll, byref, create_string_buffer
+53     libc = cdll\&.LoadLibrary('libc\&.so\&.6')
+54     buff = create_string_buffer(len(newname)+1)
+55     buff\&.value = newname
+56     libc\&.prctl(15, byref(buff), 0, 0, 0)
+
+.fi
+.SS "def \fBauxiliares\&.string_2_Time\fP (tempo)"
+.PP
+Definido na linha 66 do ficheiro auxiliares\&.py\&.
+.PP
+.nf
+66 
+67 def string_2_Time(tempo):
+68     return str(string_2_Timedelta(tempo))
+
+.fi
+.SS "def \fBauxiliares\&.string_2_Timedelta\fP (tempo)"
+.PP
+Definido na linha 61 do ficheiro auxiliares\&.py\&.
+.PP
+Referenciado por string_2_Time()\&.
+.PP
+.nf
+61 
+62 def string_2_Timedelta(tempo):
+63     t1 = datetime\&.strptime(tempo, '%H:%M:%S')
+64     t2 = datetime\&.strptime('00:00:00', '%H:%M:%S')
+65     return t1-t2
+
+.fi
+.SH "Autor"
+.PP 
+Gerado automaticamente por Doxygen para Controle de Acesso a partir do código fonte\&.

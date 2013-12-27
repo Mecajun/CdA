@@ -2,15 +2,22 @@
 
 # Form implementation generated from reading ui file 'mainWindow.ui'
 #
-# Created: Sat Dec 14 23:43:29 2013
+# Created: Sun Dec 15 14:38:46 2013
 #      by: pyside-uic 0.2.13 running on PySide 1.1.0
 #
 # WARNING! All changes made in this file will be lost!
-
 from PySide import QtCore, QtGui
+
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    _fromUtf8 = lambda s: s
+
+
 
 class Ui_Controle_De_Acesso_Window(object):
     def setupUi(self, Controle_De_Acesso_Window):
+        logo = QtGui.QPixmap("imagens/logo.png")
         Controle_De_Acesso_Window.setObjectName("Controle_De_Acesso_Window")
         Controle_De_Acesso_Window.resize(599, 292)
         icon = QtGui.QIcon()
@@ -19,9 +26,10 @@ class Ui_Controle_De_Acesso_Window(object):
         Controle_De_Acesso_Window.setLocale(QtCore.QLocale(QtCore.QLocale.Portuguese, QtCore.QLocale.Brazil))
         self.centralwidget = QtGui.QWidget(Controle_De_Acesso_Window)
         self.centralwidget.setObjectName("centralwidget")
-        self.widget_logo = QtGui.QWidget(self.centralwidget)
+        self.widget_logo = QtGui.QLabel(self.centralwidget)
         self.widget_logo.setGeometry(QtCore.QRect(20, 10, 201, 121))
-        self.widget_logo.setObjectName("widget_logo")
+        self.widget_logo.setObjectName(_fromUtf8("widget_logo"))
+        self.widget_logo.setPixmap(logo)
         self.layoutWidget = QtGui.QWidget(self.centralwidget)
         self.layoutWidget.setGeometry(QtCore.QRect(240, 10, 341, 231))
         self.layoutWidget.setObjectName("layoutWidget")

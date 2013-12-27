@@ -256,7 +256,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QListWidget" name="listWidget_funcionarios"/>
+      <widget class="QListView" name="listView_funcionarios"/>
      </item>
     </layout>
    </widget>
@@ -285,7 +285,7 @@
   <tabstop>pushButton_adicionar_horario</tabstop>
   <tabstop>pushButton_remover_horario</tabstop>
   <tabstop>pushButton_adicionar</tabstop>
-  <tabstop>listWidget_funcionarios</tabstop>
+  <tabstop>listView_funcionarios</tabstop>
  </tabstops>
  <resources/>
  <connections/>

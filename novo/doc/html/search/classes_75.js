@@ -7,5 +7,6 @@ var searchData=
   ['ui_5fcontroledeacesso',['Ui_ControleDeAcesso',['../classmain_window__temp_1_1_ui___controle_de_acesso.html',1,'mainWindow_temp']]],
   ['ui_5fhorarios_5fwindow',['Ui_Horarios_Window',['../classcda__horarios_1_1_ui___horarios___window.html',1,'cda_horarios']]],
   ['ui_5frelatorios_5fwindow',['Ui_Relatorios_Window',['../classcda__relatorios_1_1_ui___relatorios___window.html',1,'cda_relatorios']]],
+  ['ui_5fremover_5ffuncionarios_5fwindow',['Ui_Remover_Funcionarios_Window',['../classcda__removerfuncionario_1_1_ui___remover___funcionarios___window.html',1,'cda_removerfuncionario']]],
   ['ui_5ftolerancias_5fwindow',['Ui_Tolerancias_Window',['../classcda__tolerancias_1_1_ui___tolerancias___window.html',1,'cda_tolerancias']]]
 ];

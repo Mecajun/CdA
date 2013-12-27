@@ -1,0 +1,108 @@
+.TH "cda_validarsenha.Ui_Adm_Senha_Window" 3 "Terça, 24 de Dezembro de 2013" "Version 2" "Controle de Acesso" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+cda_validarsenha.Ui_Adm_Senha_Window \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Herdado por \fBview\&.Adm_Senha_Window\fP\&.
+.SS "Membros públicos"
+
+.in +1c
+.ti -1c
+.RI "def \fBsetupUi\fP"
+.br
+.ti -1c
+.RI "def \fBretranslateUi\fP"
+.br
+.in -1c
+.SS "Atributos Públicos"
+
+.in +1c
+.ti -1c
+.RI "\fBcentralwidget\fP"
+.br
+.ti -1c
+.RI "\fBwidget\fP"
+.br
+.ti -1c
+.RI "\fBverticalLayout\fP"
+.br
+.ti -1c
+.RI "\fBlabel\fP"
+.br
+.ti -1c
+.RI "\fBlineEdit_senha\fP"
+.br
+.in -1c
+.SH "Descrição detalhada"
+.PP 
+Definido na linha 12 do ficheiro cda_validarsenha\&.py\&.
+.SH "Documentação dos métodos"
+.PP 
+.SS "def \fBcda_validarsenha\&.Ui_Adm_Senha_Window\&.retranslateUi\fP (self, Adm_Senha_Window)"
+.PP
+Definido na linha 38 do ficheiro cda_validarsenha\&.py\&.
+.PP
+.nf
+38 
+39     def retranslateUi(self, Adm_Senha_Window):
+40         Adm_Senha_Window\&.setWindowTitle(QtGui\&.QApplication\&.translate('Adm_Senha_Window', 'Validar Senha', None, QtGui\&.QApplication\&.UnicodeUTF8))
+41         self\&.label\&.setText(QtGui\&.QApplication\&.translate('Adm_Senha_Window', 'Digite a senha de administrador', None, QtGui\&.QApplication\&.UnicodeUTF8))
+42 
+.fi
+.SS "def \fBcda_validarsenha\&.Ui_Adm_Senha_Window\&.setupUi\fP (self, Adm_Senha_Window)"
+.PP
+Definido na linha 13 do ficheiro cda_validarsenha\&.py\&.
+.PP
+.nf
+13 
+14     def setupUi(self, Adm_Senha_Window):
+15         Adm_Senha_Window\&.setObjectName('Adm_Senha_Window')
+16         Adm_Senha_Window\&.resize(268, 92)
+17         self\&.centralwidget = QtGui\&.QWidget(Adm_Senha_Window)
+18         self\&.centralwidget\&.setObjectName('centralwidget')
+19         self\&.widget = QtGui\&.QWidget(self\&.centralwidget)
+20         self\&.widget\&.setGeometry(QtCore\&.QRect(30, 20, 211, 61))
+21         self\&.widget\&.setObjectName('widget')
+22         self\&.verticalLayout = QtGui\&.QVBoxLayout(self\&.widget)
+23         self\&.verticalLayout\&.setContentsMargins(0, 0, 0, 0)
+24         self\&.verticalLayout\&.setObjectName('verticalLayout')
+25         self\&.label = QtGui\&.QLabel(self\&.widget)
+26         self\&.label\&.setAlignment(QtCore\&.Qt\&.AlignCenter)
+27         self\&.label\&.setObjectName('label')
+28         self\&.verticalLayout\&.addWidget(self\&.label)
+29         self\&.lineEdit_senha = QtGui\&.QLineEdit(self\&.widget)
+30         self\&.lineEdit_senha\&.setLocale(QtCore\&.QLocale(QtCore\&.QLocale\&.Portuguese, QtCore\&.QLocale\&.Brazil))
+31         self\&.lineEdit_senha\&.setEchoMode(QtGui\&.QLineEdit\&.Password)
+32         self\&.lineEdit_senha\&.setObjectName('lineEdit_senha')
+33         self\&.verticalLayout\&.addWidget(self\&.lineEdit_senha)
+34         Adm_Senha_Window\&.setCentralWidget(self\&.centralwidget)
+35 
+36         self\&.retranslateUi(Adm_Senha_Window)
+37         QtCore\&.QMetaObject\&.connectSlotsByName(Adm_Senha_Window)
+
+.fi
+.SH "Documentação dos dados membro"
+.PP 
+.SS "\fBcda_validarsenha\&.Ui_Adm_Senha_Window::centralwidget\fP"
+.PP
+Definido na linha 13 do ficheiro cda_validarsenha\&.py\&.
+.SS "\fBcda_validarsenha\&.Ui_Adm_Senha_Window::label\fP"
+.PP
+Definido na linha 13 do ficheiro cda_validarsenha\&.py\&.
+.SS "\fBcda_validarsenha\&.Ui_Adm_Senha_Window::lineEdit_senha\fP"
+.PP
+Definido na linha 13 do ficheiro cda_validarsenha\&.py\&.
+.SS "\fBcda_validarsenha\&.Ui_Adm_Senha_Window::verticalLayout\fP"
+.PP
+Definido na linha 13 do ficheiro cda_validarsenha\&.py\&.
+.SS "\fBcda_validarsenha\&.Ui_Adm_Senha_Window::widget\fP"
+.PP
+Definido na linha 13 do ficheiro cda_validarsenha\&.py\&.
+
+.SH "Autor"
+.PP 
+Gerado automaticamente por Doxygen para Controle de Acesso a partir do código fonte\&.

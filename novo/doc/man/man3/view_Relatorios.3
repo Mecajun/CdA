@@ -1,0 +1,153 @@
+.TH "view.Relatorios" 3 "Terça, 24 de Dezembro de 2013" "Version 2" "Controle de Acesso" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+view.Relatorios \- 
+.PP
+Thread para gerar os relatorios e não travar a interface grafica\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Membros públicos"
+
+.in +1c
+.ti -1c
+.RI "def \fB__init__\fP"
+.br
+.ti -1c
+.RI "def \fBrun\fP"
+.br
+.ti -1c
+.RI "def \fBrelatorio_Pontos\fP"
+.br
+.RI "\fIGera o relatorio de pontos\&. \fP"
+.ti -1c
+.RI "def \fBrelatorio_Porta\fP"
+.br
+.RI "\fIGera o relatorio de logs da porta\&. \fP"
+.in -1c
+.SS "Atributos Públicos"
+
+.in +1c
+.ti -1c
+.RI "\fBdb\fP"
+.br
+.ti -1c
+.RI "\fBpontos\fP"
+.br
+.ti -1c
+.RI "\fBporta\fP"
+.br
+.ti -1c
+.RI "\fBdados\fP"
+.br
+.in -1c
+.SH "Descrição detalhada"
+.PP 
+Thread para gerar os relatorios e não travar a interface grafica\&. 
+.PP
+Definido na linha 907 do ficheiro view\&.py\&.
+.SH "Documentação dos Construtores & Destrutor"
+.PP 
+.SS "def \fBview\&.Relatorios\&.__init__\fP (self, parent = \fCNone\fP, db_dados = \fCNone\fP, pontos = \fCFalse\fP, porta = \fCFalse\fP, dados = \fCNone\fP)"
+.PP
+Definido na linha 908 do ficheiro view\&.py\&.
+.PP
+.nf
+908 
+909     def __init__(self, parent = None,db_dados = None,pontos=False,porta=False,dados=None):
+910         QThread\&.__init__(self, parent)
+911         self\&.db=Connect_Db(db_dados)
+912         self\&.pontos=pontos
+913         self\&.porta=porta
+914         self\&.dados=dados
+
+.fi
+.SH "Documentação dos métodos"
+.PP 
+.SS "def \fBview\&.Relatorios\&.relatorio_Pontos\fP (self, dados)"
+.PP
+Gera o relatorio de pontos\&. 
+.PP
+Definido na linha 922 do ficheiro view\&.py\&.
+.PP
+.nf
+922 
+923     def relatorio_Pontos(self,dados):
+924         relatorio=self\&.db\&.obter_Log_Pontos(dados['data_inicial'],dados['data_final'])
+925         full_path = os\&.path\&.realpath(__file__)
+926         directory=os\&.path\&.dirname(full_path)
+927         if directory[-1]!='/':
+928             directory='%s/'%(directory)
+929         extensao='\&.csv'
+930         arquivo=datetime\&.now()\&.strftime('log_pontos_%d_%m_%Y')
+931         nome_arquivo=directory+'relatorios/'+arquivo+extensao
+932         relatorio_csv=CSV(nome_arquivo)
+933         relatorio_csv\&.writerow((u'Nome',u'Matricula',u'Horario de entrada',u'Horario de saida',u'Tempo de permanencia',u'Presença'))
+934         for linha in relatorio:
+935             relatorio_csv\&.writerow(linha)
+936         relatorio_csv\&.finaliza()
+
+.fi
+.SS "def \fBview\&.Relatorios\&.relatorio_Porta\fP (self, dados)"
+.PP
+Gera o relatorio de logs da porta\&. 
+.PP
+Definido na linha 938 do ficheiro view\&.py\&.
+.PP
+.nf
+938 
+939     def relatorio_Porta(self,dados):
+940         relatorio=self\&.db\&.obter_Log_Porta(dados['data_inicial'],dados['data_final'])
+941         full_path = os\&.path\&.realpath(__file__)
+942         directory=os\&.path\&.dirname(full_path)
+943         if directory[-1]!='/':
+944             directory='%s/'%(directory)
+945         extensao='\&.csv'
+946         arquivo=datetime\&.now()\&.strftime('log_porta_%d_%m_%Y')
+947         nome_arquivo=directory+'relatorios/'+arquivo+extensao
+948         relatorio_csv=CSV(nome_arquivo)
+949         relatorio_csv\&.writerow((u'Nome',u'Matricula',u'Horario de entrada'))
+950         for linha in relatorio:
+951             relatorio_csv\&.writerow(linha)
+952         relatorio_csv\&.finaliza()
+
+.fi
+.SS "def \fBview\&.Relatorios\&.run\fP (self)"
+.PP
+Definido na linha 915 do ficheiro view\&.py\&.
+.PP
+.nf
+915 
+916     def run(self):
+917         if self\&.pontos!=False:
+918             self\&.relatorio_Pontos(self\&.dados)
+919         if self\&.porta!=False:
+920             self\&.relatorio_Porta(self\&.dados)
+
+.fi
+.SH "Documentação dos dados membro"
+.PP 
+.SS "\fBview\&.Relatorios::dados\fP"
+.PP
+Definido na linha 908 do ficheiro view\&.py\&.
+.PP
+Referenciado por view\&.Relatorios\&.run()\&.
+.SS "\fBview\&.Relatorios::db\fP"
+.PP
+Definido na linha 908 do ficheiro view\&.py\&.
+.SS "\fBview\&.Relatorios::pontos\fP"
+.PP
+Definido na linha 908 do ficheiro view\&.py\&.
+.PP
+Referenciado por view\&.Relatorios\&.run()\&.
+.SS "\fBview\&.Relatorios::porta\fP"
+.PP
+Definido na linha 908 do ficheiro view\&.py\&.
+.PP
+Referenciado por view\&.Relatorios\&.run()\&.
+
+.SH "Autor"
+.PP 
+Gerado automaticamente por Doxygen para Controle de Acesso a partir do código fonte\&.

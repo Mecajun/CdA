@@ -1,0 +1,113 @@
+.TH "view.Altera_Senha_Window" 3 "Terça, 24 de Dezembro de 2013" "Version 2" "Controle de Acesso" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+view.Altera_Senha_Window \- 
+.PP
+Janela para alterar senha de administrador\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Derivada de \fBcda_alterasenha\&.Ui_Altera_Senha_Window\fP\&.
+.SS "Membros públicos"
+
+.in +1c
+.ti -1c
+.RI "def \fB__init__\fP"
+.br
+.ti -1c
+.RI "def \fBcenter\fP"
+.br
+.RI "\fICentraliza a janela\&. \fP"
+.ti -1c
+.RI "def \fBpushButton_Salvar_Clicked\fP"
+.br
+.RI "\fIVerifica se as senhas correspondem\&. \fP"
+.in -1c
+.SS "Atributos Públicos"
+
+.in +1c
+.ti -1c
+.RI "\fBdb\fP"
+.br
+.in -1c
+.SH "Descrição detalhada"
+.PP 
+Janela para alterar senha de administrador\&. 
+.PP
+Definido na linha 366 do ficheiro view\&.py\&.
+.SH "Documentação dos Construtores & Destrutor"
+.PP 
+.SS "def \fBview\&.Altera_Senha_Window\&.__init__\fP (self, parent = \fCNone\fP, db_dados = \fCNone\fP)"
+.PP
+Definido na linha 368 do ficheiro view\&.py\&.
+.PP
+.nf
+368 
+369     def __init__(self,parent=None,db_dados=None):
+370         super(Altera_Senha_Window, self)\&.__init__(parent)
+371         self\&.setupUi(self)
+372         self\&.db=Connect_Db(db_dados)
+373         self\&.center()
+374         self\&._set_connections()
+375         self\&.show()
+
+.fi
+.SH "Documentação dos métodos"
+.PP 
+.SS "def \fBview\&.Altera_Senha_Window\&.center\fP (self)"
+.PP
+Centraliza a janela\&. 
+.PP
+Definido na linha 381 do ficheiro view\&.py\&.
+.PP
+.nf
+381 
+382     def center(self):
+383         qr = self\&.frameGeometry()
+384         cp = QDesktopWidget()\&.availableGeometry()\&.center()
+385         qr\&.moveCenter(cp)
+386         self\&.move(qr\&.topLeft())
+
+.fi
+.SS "def \fBview\&.Altera_Senha_Window\&.pushButton_Salvar_Clicked\fP (self)"
+.PP
+Verifica se as senhas correspondem\&. 
+.PP
+Definido na linha 388 do ficheiro view\&.py\&.
+.PP
+.nf
+388 
+389     def pushButton_Salvar_Clicked(self):
+390         senha=self\&.db\&.obter_Configuracoes('adm_senha')
+391         if criptografar_Senha(self\&.lineEdit_senha\&.text())!=senha:
+392             self\&.lineEdit_senha\&.setText('')
+393             msgBox = QMessageBox()
+394             msgBox\&.setText(u'A senha antiga esta incorreta')
+395             msgBox\&.exec_()
+396             return
+397         if self\&.lineEdit_nova_senha_1\&.text()!=self\&.lineEdit_nova_senha_2\&.text():
+398             msgBox = QMessageBox()
+399             msgBox\&.setText(u'As senhas não conferem')
+400             msgBox\&.exec_()
+401             return
+402         if self\&.db\&.atualizar_Configuracoes('adm_senha',criptografar_Senha(self\&.lineEdit_nova_senha_1\&.text()))==True:
+403             msgBox = QMessageBox()
+404             msgBox\&.setText(u'A senha foi alterada')
+405             msgBox\&.exec_()
+406             self\&.close()
+407         else:
+408             print 'Erro atualizar senha'
+
+.fi
+.SH "Documentação dos dados membro"
+.PP 
+.SS "\fBview\&.Altera_Senha_Window::db\fP"
+.PP
+Definido na linha 368 do ficheiro view\&.py\&.
+
+.SH "Autor"
+.PP 
+Gerado automaticamente por Doxygen para Controle de Acesso a partir do código fonte\&.

@@ -1,0 +1,458 @@
+.TH "view.Funcionarios_Window" 3 "Terça, 24 de Dezembro de 2013" "Version 2" "Controle de Acesso" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+view.Funcionarios_Window \- 
+.PP
+Janela base para adicionar ou atualizar funcionarios\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Derivada de \fBcda_funcionarios\&.Ui_Add_Funcionarios_Window\fP\&.
+.PP
+Herdado por \fBview\&.Add_Funcionarios_Window\fP e \fBview\&.Atualiza_Funcionarios_Window\fP\&.
+.SS "Membros públicos"
+
+.in +1c
+.ti -1c
+.RI "def \fB__init__\fP"
+.br
+.ti -1c
+.RI "def \fBcenter\fP"
+.br
+.RI "\fICentraliza a janela\&. \fP"
+.ti -1c
+.RI "def \fBmostrar_Funcionarios\fP"
+.br
+.RI "\fIMostra todos os funcionarios na lista\&. \fP"
+.ti -1c
+.RI "def \fBadiciona_ListView_Funcionarios\fP"
+.br
+.ti -1c
+.RI "def \fBremove_ListView_Funcionarios\fP"
+.br
+.ti -1c
+.RI "def \fBatualiza_ListView_Funcionarios\fP"
+.br
+.RI "\fIAtualiza funcionarios na lista de funcionarios utilizando como parametro o nome do funcionario ou id, somente um dos dois dados é necessario  func Nome do fucionario que sera atualizado  id_funcionario Id do funcionario que sera atualizado  novo_nome Nome atualizado do funcionario\&. \fP"
+.ti -1c
+.RI "def \fBadiciona_TableView_Horarios\fP"
+.br
+.RI "\fIAdiciona um horario na lista de horarios  dia_da_semana Dia da semana considerando domingo=0, segunda=1 etc\&. \fP"
+.ti -1c
+.RI "def \fBremove_TableView_Horarios\fP"
+.br
+.RI "\fIAdiciona um horario na lista de horarios  posicao Indice inteiro do horario na lista  id_horario Id do horario para ser removido\&. \fP"
+.ti -1c
+.RI "def \fBtimeEdit_Entrada_Editing_Finished\fP"
+.br
+.RI "\fIEvento chamado para setar o horario minimo de saida maior ou igual ao de entrada\&. \fP"
+.ti -1c
+.RI "def \fBobter_Dados_Janela\fP"
+.br
+.RI "\fIObtem todos os dados do funcionario incluindo os horarios\&. \fP"
+.ti -1c
+.RI "def \fBobter_Dados_Horarios\fP"
+.br
+.RI "\fIObtem os dados do horario atual que esta sendo adicionado\&. \fP"
+.ti -1c
+.RI "def \fBpushButton_Adicionar_Horario_Clicked\fP"
+.br
+.RI "\fIAdiciona horarios para o funcionario atual\&. \fP"
+.ti -1c
+.RI "def \fBpushButton_Remover_Horario_Clicked\fP"
+.br
+.RI "\fIRemove os horarios selecionados do funcionario\&. \fP"
+.ti -1c
+.RI "def \fBlimpar_Campos\fP"
+.br
+.RI "\fILimpa os campos\&. \fP"
+.ti -1c
+.RI "def \fBinicializa_Campos\fP"
+.br
+.RI "\fILimpa os campos\&. \fP"
+.in -1c
+.SS "Atributos Públicos"
+
+.in +1c
+.ti -1c
+.RI "\fBdb\fP"
+.br
+.ti -1c
+.RI "\fBlista_horarios\fP"
+.br
+.ti -1c
+.RI "\fBlista_horarios_removidos\fP"
+.br
+.ti -1c
+.RI "\fBmodel_funcionarios\fP"
+.br
+.ti -1c
+.RI "\fBmodel_horarios\fP"
+.br
+.ti -1c
+.RI "\fBlista_funcionarios\fP"
+.br
+.in -1c
+.SH "Descrição detalhada"
+.PP 
+Janela base para adicionar ou atualizar funcionarios\&. 
+.PP
+Definido na linha 410 do ficheiro view\&.py\&.
+.SH "Documentação dos Construtores & Destrutor"
+.PP 
+.SS "def \fBview\&.Funcionarios_Window\&.__init__\fP (self, parent = \fCNone\fP, db_dados = \fCNone\fP)"
+.PP
+Reimplementado em \fBview\&.Atualiza_Funcionarios_Window\fP e \fBview\&.Add_Funcionarios_Window\fP\&.
+.PP
+Definido na linha 412 do ficheiro view\&.py\&.
+.PP
+.nf
+412 
+413     def __init__(self,parent=None,db_dados=None):
+414         super(Funcionarios_Window, self)\&.__init__(parent)
+415         self\&.setupUi(self)
+416         self\&.db=Connect_Db(db_dados)
+417         self\&.lista_horarios=[]
+418         self\&.lista_horarios_removidos=[]
+419         self\&.center()
+420         self\&._set_connections()
+421         self\&._configure()
+422         self\&.show()
+423         self\&.mostrar_Funcionarios()
+
+.fi
+.SH "Documentação dos métodos"
+.PP 
+.SS "def \fBview\&.Funcionarios_Window\&.adiciona_ListView_Funcionarios\fP (self, func = \fCNone\fP, id_funcionario = \fCNone\fP)"
+.PP
+Definido na linha 457 do ficheiro view\&.py\&.
+.PP
+.nf
+457 
+458     def adiciona_ListView_Funcionarios(self,func=None,id_funcionario=None):
+459         if not hasattr(self,'lista_funcionarios'):
+460             self\&.lista_funcionarios=[]
+461         novo = QStandardItem(func)
+462         self\&.model_funcionarios\&.appendRow(novo)
+463         self\&.lista_funcionarios\&.append({'func':func,'id_funcionario':id_funcionario})
+    
+.fi
+.SS "def \fBview\&.Funcionarios_Window\&.adiciona_TableView_Horarios\fP (self, dia_da_semana, horario_inicial, horario_final, id_horario = \fCNone\fP)"
+.PP
+Adiciona um horario na lista de horarios  dia_da_semana Dia da semana considerando domingo=0, segunda=1 etc\&. \fBParâmetros:\fP
+.RS 4
+\fIhorario_inicial\fP Horario inicial no formato hh:mm:ss 
+.br
+\fIhorario_final\fP Horario final no formato hh:mm:ss 
+.br
+\fIid_horario\fP Id para o horario não necessario atualmente 
+.RE
+.PP
+
+.PP
+Definido na linha 520 do ficheiro view\&.py\&.
+.PP
+.nf
+520 
+521     def adiciona_TableView_Horarios(self,dia_da_semana,horario_inicial,horario_final,id_horario=None):
+522         if not (isinstance(dia_da_semana, int) or isinstance(dia_da_semana, long)):
+523             return False
+524         if not (isinstance(horario_inicial, str) or isinstance(horario_inicial, unicode)):
+525             return False
+526         if not (isinstance(horario_final, str) or isinstance(horario_final, unicode)):
+527             return False
+528         if not hasattr(self,'lista_horarios'):
+529             self\&.lista_horarios=[]
+530         dia_da_semana_s=dia_Semana_Int2str(dia_da_semana)
+531         dia_da_semana_s_Item=QStandardItem(dia_da_semana_s)
+532         dia_da_semana_s_Item\&.setEditable(False)
+533         horario_inicial_Item=QStandardItem(horario_inicial)
+534         horario_inicial_Item\&.setEditable(False)
+535         horario_final_Item=QStandardItem(horario_final)
+536         horario_final_Item\&.setEditable(False)
+537         self\&.model_horarios\&.appendRow ((dia_da_semana_s_Item,horario_inicial_Item,horario_final_Item))
+538         self\&.lista_horarios\&.append({'dia_da_semana':dia_da_semana,'horario_inicial':horario_inicial,'horario_final':horario_final,'id_horario':id_horario})
+539         return True
+
+.fi
+.SS "def \fBview\&.Funcionarios_Window\&.atualiza_ListView_Funcionarios\fP (self, func = \fCNone\fP, id_funcionario = \fCNone\fP, novo_nome = \fCNone\fP)"
+.PP
+Atualiza funcionarios na lista de funcionarios utilizando como parametro o nome do funcionario ou id, somente um dos dois dados é necessario  func Nome do fucionario que sera atualizado  id_funcionario Id do funcionario que sera atualizado  novo_nome Nome atualizado do funcionario\&. 
+.PP
+Definido na linha 490 do ficheiro view\&.py\&.
+.PP
+.nf
+490 
+491     def atualiza_ListView_Funcionarios(self,func=None,id_funcionario=None,novo_nome=None):
+492         if not hasattr(self,'lista_funcionarios'):
+493             self\&.lista_funcionarios=[]
+494             return False
+495         if len(self\&.lista_funcionarios)<=0:
+496             return False
+497         if novo_nome==None:
+498             return False
+499         for i in range(len(self\&.lista_funcionarios)):
+500             if isinstance(id_funcionario, str) or isinstance(id_funcionario, unicode) or isinstance(id_funcionario, long) or isinstance(id_funcionario, int):
+501                 if self\&.lista_funcionarios[i]['id_funcionario']==id_funcionario:
+502                     self\&.model_funcionarios\&.takeRow(i)
+503                     novo = QStandardItem(novo_nome)
+504                     self\&.model_funcionarios\&.insertRow(i,novo)
+505                     self\&.lista_funcionarios[i]['func']=novo_nome
+506                     break
+507             elif isinstance(func, str) or isinstance(func, unicode):
+508                 if self\&.lista_funcionarios[i]['func']==func:
+509                     self\&.model_funcionarios\&.takeRow(i)
+510                     novo = QStandardItem(novo_nome)
+511                     self\&.model_funcionarios\&.insertRow(i,novo)
+512                     self\&.lista_funcionarios[i]['func']=novo_nome
+513                     break
+514         return True
+
+.fi
+.SS "def \fBview\&.Funcionarios_Window\&.center\fP (self)"
+.PP
+Centraliza a janela\&. 
+.PP
+Definido na linha 431 do ficheiro view\&.py\&.
+.PP
+.nf
+431 
+432     def center(self):
+433         qr = self\&.frameGeometry()
+434         cp = QDesktopWidget()\&.availableGeometry()\&.center()
+435         qr\&.moveCenter(cp)
+436         self\&.move(qr\&.topLeft())
+
+.fi
+.SS "def \fBview\&.Funcionarios_Window\&.inicializa_Campos\fP (self, nome, matricula, rfid, horarios)"
+.PP
+Limpa os campos\&. 
+.PP
+Definido na linha 621 do ficheiro view\&.py\&.
+.PP
+.nf
+621 
+622     def inicializa_Campos(self,nome,matricula,rfid,horarios):
+623         self\&.limpar_Campos()
+624         self\&.lineEdit_nome\&.setText(nome)
+625         self\&.lineEdit_matricula\&.setText(matricula)
+626         if horarios!=False:
+627             for horario in horarios:
+628                 self\&.adiciona_TableView_Horarios(horario['dia_da_semana'],str(horario['hora_inicial']),str(horario['hora_final']),horario['id_horario'])
+
+.fi
+.SS "def \fBview\&.Funcionarios_Window\&.limpar_Campos\fP (self)"
+.PP
+Limpa os campos\&. 
+.PP
+Definido na linha 613 do ficheiro view\&.py\&.
+.PP
+Referenciado por view\&.Funcionarios_Window\&.inicializa_Campos()\&.
+.PP
+.nf
+613 
+614     def limpar_Campos(self):
+615         self\&.lineEdit_nome\&.setText('')
+616         self\&.lineEdit_matricula\&.setText('')
+617         while len(self\&.lista_horarios)>0:
+618             self\&.remove_TableView_Horarios(0)
+619         self\&.lista_horarios_removidos=[]
+
+.fi
+.SS "def \fBview\&.Funcionarios_Window\&.mostrar_Funcionarios\fP (self)"
+.PP
+Mostra todos os funcionarios na lista\&. 
+.PP
+Definido na linha 447 do ficheiro view\&.py\&.
+.PP
+.nf
+447 
+448     def mostrar_Funcionarios(self):
+449         funcionarios=self\&.db\&.obter_Funcionarios()
+450         if funcionarios==False:
+451             return False
+452         for funcionario in funcionarios:
+453             self\&.adiciona_ListView_Funcionarios(funcionario['nome'],funcionario['id_funcionario'])
+
+.fi
+.SS "def \fBview\&.Funcionarios_Window\&.obter_Dados_Horarios\fP (self)"
+.PP
+Obtem os dados do horario atual que esta sendo adicionado\&. 
+.PP
+Definido na linha 584 do ficheiro view\&.py\&.
+.PP
+.nf
+584 
+585     def obter_Dados_Horarios(self):
+586         dados={}
+587         dados['horario_inicial']=str(string_2_Time(self\&.timeEdit_entrada\&.time()\&.toString('HH:mm:ss')))
+588         dados['horario_final']=str(string_2_Time(self\&.timeEdit_saida\&.time()\&.toString('HH:mm:ss')))
+589         dados['dia_da_semana']=self\&.comboBox_dias_semana\&.currentIndex()
+590         return dados
+
+.fi
+.SS "def \fBview\&.Funcionarios_Window\&.obter_Dados_Janela\fP (self)"
+.PP
+Obtem todos os dados do funcionario incluindo os horarios\&. 
+.PP
+Definido na linha 575 do ficheiro view\&.py\&.
+.PP
+.nf
+575 
+576     def obter_Dados_Janela(self):
+577         dados={}
+578         dados['nome']=self\&.lineEdit_nome\&.text()
+579         dados['matricula']=self\&.lineEdit_matricula\&.text()
+580         dados['rfid']=None
+581         dados['horarios']=self\&.lista_horarios
+582         return dados
+
+.fi
+.SS "def \fBview\&.Funcionarios_Window\&.pushButton_Adicionar_Horario_Clicked\fP (self)"
+.PP
+Adiciona horarios para o funcionario atual\&. 
+.PP
+Definido na linha 592 do ficheiro view\&.py\&.
+.PP
+.nf
+592 
+593     def pushButton_Adicionar_Horario_Clicked(self):
+594         if not hasattr(self,'lista_funcionarios'):
+595             self\&.lista_funcionarios=[]
+596         dados=self\&.obter_Dados_Horarios()
+597         for i in self\&.lista_horarios:
+598             if i['dia_da_semana']==dados['dia_da_semana'] and i['horario_inicial']==dados['horario_inicial']:
+599                 msgBox = QMessageBox()
+600                 msgBox\&.setText(u'Não é possivel adicionar horarios de entrada iguais')
+601                 msgBox\&.exec_()
+602                 return
+603         self\&.adiciona_TableView_Horarios(dados['dia_da_semana'],dados['horario_inicial'],dados['horario_final'],None)
+
+.fi
+.SS "def \fBview\&.Funcionarios_Window\&.pushButton_Remover_Horario_Clicked\fP (self)"
+.PP
+Remove os horarios selecionados do funcionario\&. 
+.PP
+Definido na linha 605 do ficheiro view\&.py\&.
+.PP
+.nf
+605 
+606     def pushButton_Remover_Horario_Clicked(self):
+607         index=[]
+608         for i in self\&.tableView_horarios\&.selectionModel()\&.selectedIndexes():
+609             if i\&.row() not in index:
+610                 index\&.append(i\&.row())
+611                 self\&.remove_TableView_Horarios(i\&.row())
+
+.fi
+.SS "def \fBview\&.Funcionarios_Window\&.remove_ListView_Funcionarios\fP (self, func, id_funcionario)"
+.PP
+Definido na linha 467 do ficheiro view\&.py\&.
+.PP
+.nf
+467 
+468     def remove_ListView_Funcionarios(self,func,id_funcionario):
+469         if not hasattr(self,'lista_funcionarios'):
+470             self\&.lista_funcionarios=[]
+471             return False
+472         if len(self\&.lista_funcionarios)<=0:
+473             return False
+474         for i in range(len(self\&.lista_funcionarios)):
+475             if isinstance(id_funcionario, str) or isinstance(id_funcionario, unicode) or isinstance(id_funcionario, long) or isinstance(id_funcionario, int):
+476                 if self\&.lista_funcionarios[i]['id_funcionario']==id_funcionario:
+477                     self\&.model_funcionarios\&.takeRow(i)
+478                     del self\&.lista_funcionarios[i]
+479                     break
+480             elif isinstance(func, str) or isinstance(func, unicode):
+481                 if self\&.lista_funcionarios[i]['func']==func:
+482                     self\&.model_funcionarios\&.takeRow(i)
+483                     del self\&.lista_funcionarios[i]
+484                     break
+485         return True
+
+.fi
+.SS "def \fBview\&.Funcionarios_Window\&.remove_TableView_Horarios\fP (self, posicao, id_horario = \fCNone\fP)"
+.PP
+Adiciona um horario na lista de horarios  posicao Indice inteiro do horario na lista  id_horario Id do horario para ser removido\&. 
+.PP
+Definido na linha 543 do ficheiro view\&.py\&.
+.PP
+Referenciado por view\&.Funcionarios_Window\&.limpar_Campos() e view\&.Funcionarios_Window\&.pushButton_Remover_Horario_Clicked()\&.
+.PP
+.nf
+543 
+544     def remove_TableView_Horarios(self,posicao,id_horario=None):
+545         if not hasattr(self,'lista_horarios'):
+546             self\&.lista_horarios=[]
+547             return False
+548         if len(self\&.lista_horarios)<=0:
+549             return False
+550 
+551         if isinstance(posicao, int):
+552             try:
+553                 if self\&.lista_horarios[posicao]['id_horario']!=None:
+554                     self\&.lista_horarios_removidos\&.append(self\&.lista_horarios[posicao])
+555                 del self\&.lista_horarios[posicao]
+556                 self\&.model_horarios\&.takeRow(posicao)
+557                 return True
+558             except Exception:
+559                 return False
+560 
+561         if isinstance(id_horario, int):
+562             for i in range(len(self\&.lista_horarios)):
+563                     if self\&.lista_horarios[i]['id_horario']==id_horario:
+564                         if self\&.lista_horarios[i]['id_horario']!=None:
+565                             self\&.lista_horarios_removidos\&.append(self\&.lista_horarios[i])
+566                         del self\&.lista_horarios[i]
+567                         self\&.model_horarios\&.takeRow(i)
+568                         return True
+569         return False
+
+.fi
+.SS "def \fBview\&.Funcionarios_Window\&.timeEdit_Entrada_Editing_Finished\fP (self)"
+.PP
+Evento chamado para setar o horario minimo de saida maior ou igual ao de entrada\&. 
+.PP
+Definido na linha 571 do ficheiro view\&.py\&.
+.PP
+.nf
+571 
+572     def timeEdit_Entrada_Editing_Finished (self):
+573         self\&.timeEdit_saida\&.setMinimumTime(self\&.timeEdit_entrada\&.time())
+
+.fi
+.SH "Documentação dos dados membro"
+.PP 
+.SS "\fBview\&.Funcionarios_Window::db\fP"
+.PP
+Definido na linha 412 do ficheiro view\&.py\&.
+.SS "\fBview\&.Funcionarios_Window::lista_funcionarios\fP"
+.PP
+Definido na linha 457 do ficheiro view\&.py\&.
+.PP
+Referenciado por view\&.Funcionarios_Window::atualiza_ListView_Funcionarios(), view\&.Funcionarios_Window::pushButton_Adicionar_Horario_Clicked() e view\&.Funcionarios_Window::remove_ListView_Funcionarios()\&.
+.SS "\fBview\&.Funcionarios_Window::lista_horarios\fP"
+.PP
+Definido na linha 412 do ficheiro view\&.py\&.
+.PP
+Referenciado por view\&.Funcionarios_Window\&.adiciona_TableView_Horarios(), view\&.Funcionarios_Window\&.limpar_Campos(), view\&.Funcionarios_Window\&.obter_Dados_Janela(), view\&.Funcionarios_Window\&.pushButton_Adicionar_Horario_Clicked() e view\&.Funcionarios_Window\&.remove_TableView_Horarios()\&.
+.SS "\fBview\&.Funcionarios_Window::lista_horarios_removidos\fP"
+.PP
+Definido na linha 412 do ficheiro view\&.py\&.
+.PP
+Referenciado por view\&.Funcionarios_Window\&.limpar_Campos()\&.
+.SS "\fBview\&.Funcionarios_Window::model_funcionarios\fP"
+.PP
+Definido na linha 438 do ficheiro view\&.py\&.
+.SS "\fBview\&.Funcionarios_Window::model_horarios\fP"
+.PP
+Definido na linha 438 do ficheiro view\&.py\&.
+.PP
+Referenciado por view\&.Funcionarios_Window\&.adiciona_TableView_Horarios()\&.
+
+.SH "Autor"
+.PP 
+Gerado automaticamente por Doxygen para Controle de Acesso a partir do código fonte\&.

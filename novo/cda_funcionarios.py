@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'funcionarios.ui'
 #
-# Created: Sat Dec 14 23:43:29 2013
+# Created: Sun Dec 15 14:38:46 2013
 #      by: pyside-uic 0.2.13 running on PySide 1.1.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -133,9 +133,9 @@ class Ui_Add_Funcionarios_Window(object):
         self.label = QtGui.QLabel(self.layoutWidget1)
         self.label.setObjectName("label")
         self.verticalLayout_2.addWidget(self.label)
-        self.listWidget_funcionarios = QtGui.QListWidget(self.layoutWidget1)
-        self.listWidget_funcionarios.setObjectName("listWidget_funcionarios")
-        self.verticalLayout_2.addWidget(self.listWidget_funcionarios)
+        self.listView_funcionarios = QtGui.QListView(self.layoutWidget1)
+        self.listView_funcionarios.setObjectName("listView_funcionarios")
+        self.verticalLayout_2.addWidget(self.listView_funcionarios)
         Add_Funcionarios_Window.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(Add_Funcionarios_Window)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 674, 25))
@@ -152,7 +152,7 @@ class Ui_Add_Funcionarios_Window(object):
         Add_Funcionarios_Window.setTabOrder(self.timeEdit_saida, self.pushButton_adicionar_horario)
         Add_Funcionarios_Window.setTabOrder(self.pushButton_adicionar_horario, self.pushButton_remover_horario)
         Add_Funcionarios_Window.setTabOrder(self.pushButton_remover_horario, self.pushButton_adicionar)
-        Add_Funcionarios_Window.setTabOrder(self.pushButton_adicionar, self.listWidget_funcionarios)
+        Add_Funcionarios_Window.setTabOrder(self.pushButton_adicionar, self.listView_funcionarios)
 
     def retranslateUi(self, Add_Funcionarios_Window):
         Add_Funcionarios_Window.setWindowTitle(QtGui.QApplication.translate("Add_Funcionarios_Window", "Adicionar Funcionarios", None, QtGui.QApplication.UnicodeUTF8))
