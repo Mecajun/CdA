@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from MySQLdb import Connect
 from auxiliares import criptografar_Senha
+import datetime
 
 ##  Classe de conexão e acesso ao banco de dados
 class Connect_MySQL:
@@ -34,7 +35,7 @@ class Connect_MySQL:
     def criar_Tabelas(self):
         self.curs.execute("CREATE TABLE IF NOT EXISTS funcionarios (id_funcionario INT NOT NULL AUTO_INCREMENT PRIMARY KEY, nome VARCHAR(100), matricula VARCHAR(40) NOT NULL, rfid VARCHAR(20), ativo BOOLEAN NOT NULL)")
         self.curs.execute("CREATE TABLE IF NOT EXISTS horarios (id_horario INT NOT NULL AUTO_INCREMENT PRIMARY KEY, id_funcionario INT NOT NULL, dia_da_semana INT NOT NULL, hora_inicial TIME NOT NULL, hora_final TIME NOT NULL)")
-        self.curs.execute("CREATE TABLE IF NOT EXISTS pontos (id_ponto INT NOT NULL AUTO_INCREMENT PRIMARY KEY, id_funcionario INT NOT NULL, id_horario INT NOT NULL, horario_entrada DATETIME NOT NULL, horario_saida DATETIME, presenca INT)")
+        self.curs.execute("CREATE TABLE IF Not EXISTS pontos (id_ponto INT NOT NULL AUTO_INCREMENT PRIMARY KEY, id_funcionario INT NOT NULL, id_horario INT NOT NULL, horario_entrada DATETIME NOT NULL, horario_saida DATETIME, presenca INT)")
         self.curs.execute("CREATE TABLE IF NOT EXISTS log_porta (id_log INT NOT NULL AUTO_INCREMENT PRIMARY KEY, id_funcionario INT NOT NULL, horario_entrada DATETIME NOT NULL)")
         self.curs.execute("CREATE TABLE IF NOT EXISTS configuracoes (id_config INT NOT NULL AUTO_INCREMENT PRIMARY KEY, tipo VARCHAR(100) NOT NULL, dado VARCHAR(100) NOT NULL)")
 
@@ -58,7 +59,7 @@ class Instalar():
         db.criar_Configuracoes('tol_sai_ant','00:30:00')
         db.criar_Configuracoes('tol_sai_dep','00:30:00')
         db.criar_Configuracoes('considerar_atraso','00:10:00')
-        db.criar_Configuracoes('ultima_verificacao','1970-01-01 00:00:01.0')
+        db.criar_Configuracoes('ultima_verificacao',str(datetime.datetime.now()))
 
 if __name__ == "__main__":
     db=Connect_MySQL('localhost','root','42')

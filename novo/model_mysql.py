@@ -337,16 +337,16 @@ class Connect_Db:
     #   @param data_inicial Data inicial no formato YYYY-MM-DD HH:MM:SS
     #   @param data_final Data final no formato YYYY-MM-DD HH:MM:SS
     #   @param dia_da_semana Dia da semana inteiro
-    #   @param hora Hora no formato HH:MM:SS
-    def obter_Pontos_Faltando(self,data_inicial,data_final,dia_da_semana=None,hora=None):
+    #   @param limite_superior_ent Limite superior de entrada no formato HH:MM:SS
+    def obter_Pontos_Faltando(self,data_inicial,data_final,dia_da_semana=None,limite_superior_ent=None):
         sql='SELECT id_horario_2,id_funcionario, hora_inicial,dia_da_semana FROM (SELECT pontos2.id_horario AS id_horario_1,horarios.id_horario AS id_horario_2, horarios.id_funcionario,horarios.hora_inicial,horarios.dia_da_semana FROM (SELECT pontos.* FROM pontos where horario_entrada>=%s and horario_entrada<=%s) AS pontos2 right join horarios on pontos2.id_horario=horarios.id_horario'
         dados=(data_inicial,data_final)
         if  dia_da_semana!=None:
             sql=sql+" where horarios.dia_da_semana=%s "
             dados=(data_inicial,data_final,dia_da_semana)
-        if hora!=None:
-            sql=sql+"and horarios.hora_inicial<=%s"
-            dados=(data_inicial,data_final,dia_da_semana,hora)
+        if limite_superior_ent!=None:
+            sql=sql+"and SUBTIME(curtime(),time(horarios.hora_inicial))<=time(%s)"
+            dados=(data_inicial,data_final,dia_da_semana,limite_superior_ent)
         sql=sql+") AS tabelaTemp where id_horario_1 IS NULL"
         self.curs.execute(sql,dados)
         linhas = self.curs.fetchall()

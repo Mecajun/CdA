@@ -365,7 +365,8 @@ class Faltas_e_Atrazos(QThread):
 				for i in horarios:
 					self.db.criar_Ponto_Falta(i[1],i[0],str(inicial.date()),str(i[2]))
 			inicial=inicial+timedelta(days=1)
-		horarios=self.db.obter_Pontos_Faltando(inicial,inicial+timedelta(days=1),get_Week_Day(inicial),final.time())
+		limite_superior_ent=self.db.obter_Configuracoes('tol_ent_dep')
+		horarios=self.db.obter_Pontos_Faltando(inicial,inicial+timedelta(days=1),get_Week_Day(inicial),limite_superior_ent)
 		if horarios!=False:
 			for i in horarios:
 				self.db.criar_Ponto_Falta(i[1],i[0],str(inicial.date()),str(i[2]))

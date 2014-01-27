@@ -273,6 +273,18 @@
      <height>25</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuEditar_Funcionarios">
+    <property name="title">
+     <string>Editar Funcionarios</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuRemover_Funcionarios">
+    <property name="title">
+     <string>Remover Funcionarios</string>
+    </property>
+   </widget>
+   <addaction name="menuEditar_Funcionarios"/>
+   <addaction name="menuRemover_Funcionarios"/>
   </widget>
  </widget>
  <tabstops>

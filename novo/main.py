@@ -1,6 +1,7 @@
 import view
 import model_mysql
 import sys
+import MySQLdb
 
 from auxiliares import set_proc_name
 from PySide.QtGui import *
@@ -15,5 +16,5 @@ try:
 	app = QApplication(sys.argv)
 	ex = view.Controle_De_Acesso_Window(None,db_dados)
 	sys.exit(app.exec_())
-except Exception:
-	pass
+except MySQLdb.Error as err:
+	print err
