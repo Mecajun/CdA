@@ -311,6 +311,13 @@ class Connect_Db:
         self.conn.commit()
         return True
 
+    ##  Adiciona no log da porta o funcionario que entrou e o horario
+    #   @param id_funcionario Id do funcionario
+    def adicionar_Log_Porta(self,id_funcionario):
+        sql="INSERT INTO log_porta (id_funcionario,horario_entrada) VALUES (%s,now())"
+        self.curs.execute(sql,(id_funcionario))
+        self.conn.commit()
+
     ##  Obtem o log da porta dentro de um periodo de tempo
     #   @param data_inicial Data inicial do log. Formato YYYY-MM-DD HH:MM:SS
     #   @param data_final Data final do log. Formato YYYY-MM-DD HH:MM:SS    

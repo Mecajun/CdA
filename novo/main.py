@@ -8,7 +8,7 @@ from PySide.QtGui import *
 from PySide.QtCore import *
 
 
-set_proc_name('Controle de Acesso')
+#set_proc_name('Controle de Acesso')
 
 db_dados={'host':'localhost','user':'root','passwd':'42'}
 

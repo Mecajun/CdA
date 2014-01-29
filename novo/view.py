@@ -295,7 +295,9 @@ class Controle_De_Acesso_Window(QMainWindow,Ui_Controle_De_Acesso_Window):
 		print self.lineEdit_matricula.text()
 		id_funcionario=self.db.obter_Id_Funcionario_por_Matricula(self.lineEdit_matricula.text())
 		if id_funcionario!=False:
+			self.dar_Log_Porta(id_funcionario)
 			self.dar_Ponto(id_funcionario)
+			self.lineEdit_matricula.setText("")
 		else:
 			print "Erro lineEdit_Matricula_ReturnPressed"
 
@@ -329,6 +331,12 @@ class Controle_De_Acesso_Window(QMainWindow,Ui_Controle_De_Acesso_Window):
 		if id_horario!=False:
 			self.db.criar_Ponto(id_funcionario,id_horario,-1)
 			return
+
+	##	Registra o log da porta quando um funcionario entra ou sai
+	##	@parm id_funcionario Id do funcionario 
+	def dar_Log_Porta(self,id_funcionario):
+		self.db.adicionar_Log_Porta(id_funcionario)
+		return
 
 	##	Chama a thread de verificar faltas
 	def verificar_Faltas(self):
@@ -965,6 +973,8 @@ class Relatorios(QThread):
 	##	Gera o relatorio de pontos
 	def relatorio_Pontos(self,dados):
 		relatorio=self.db.obter_Log_Pontos(dados['data_inicial'],dados['data_final'])
+		if relatorio==None:
+			return
 		full_path = os.path.realpath(__file__)
 		directory=os.path.dirname(full_path)
 		if directory[-1]!='/':
@@ -981,6 +991,8 @@ class Relatorios(QThread):
 	##	Gera o relatorio de logs da porta
 	def relatorio_Porta(self,dados):
 		relatorio=self.db.obter_Log_Porta(dados['data_inicial'],dados['data_final'])
+		if relatorio==None:
+			return
 		full_path = os.path.realpath(__file__)
 		directory=os.path.dirname(full_path)
 		if directory[-1]!='/':
