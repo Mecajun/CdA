@@ -83,7 +83,7 @@ def falar(ponto,nome):
     if ponto==2:
         mensagem='Ola '.encode('utf-8')+nome+" , seu ponto de entrada foi registrado".encode('utf-8')
     if ponto==3:
-        mensagem=u"Tiau ".encode('utf-8')+nome+" , seu ponto de saída foi registrado".encode('utf-8')
+        mensagem=u"Tiau ".encode('utf-8')+nome+" , seu ponto de saida foi registrado".encode('utf-8')
     if ponto==1:
         mensagem=u'Ola '+nome+" , voce nao tem ponto nesse horario mas vou abrir a porta para voce, s2"
     comando=u'espeak -v brazil "'+mensagem+'"'

@@ -379,6 +379,10 @@ class Controle_De_Acesso_Window(QMainWindow,Ui_Controle_De_Acesso_Window):
 			return
 		resposta=self.dar_Ponto(id_funcionario)
 		self.emit(SIGNAL('respondeHardware(QString)'), str(resposta))
+		if platform.system()=='Linux':
+			dados=self.db.obter_Funcionario(id_funcionario)
+			if dados!=False:
+				falar(resposta,dados['nome'])
 		return
 
 ##	Thread para verificar funcionarios que faltaram ou estão atrazados
@@ -432,7 +436,6 @@ class Hardware(QThread):
 		portas=('/dev/ttyUSB%d','/dev/ttyACM%d','COM%d')
 		self.conectado=False
 		linux=platform.system()=='Linux'
-		linux=True
 		windows=platform.system()=='Windows'
 		if linux==False and windows==False:
 			linux=True
@@ -440,18 +443,17 @@ class Hardware(QThread):
 		for i in xrange(10):
 			if linux:
 				try:
+					print portas[0]%(i,)
 					self.ser = serial.Serial(portas[0]%(i,), 9600)
 					self.conectado = True
-					print portas[0]%(i,)
 					break
 				except Exception, e:
-					continue
+					pass
 			if linux:
 				try:
-					# self.ser = serial.Serial(portas[1]%(i,), 9600)
-					self.ser = serial.Serial('/dev/ttyACM0', 9600)
+					print portas[1]%(i,)
+					self.ser = serial.Serial(portas[1]%(i,), 9600)
 					self.conectado = True
-					print "conectado"
 					break
 				except Exception, e:
 					continue
