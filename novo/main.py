@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import view
 import model_mysql
 import sys

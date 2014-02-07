@@ -49,14 +49,18 @@ class Connect_Db:
     #   @param rfid RFID do funcionario
     def atualizar_Funcionario(self,id_funcionario, nome=None, matricula=None, rfid=None):
         sql="UPDATE funcionarios SET "
+        lista=[]
         if nome != None:
-            sql=sql+"nome='"+nome+"',";
+            sql=sql+"nome=%s,";
+            lista.append(nome)
         if matricula != None:
-            sql=sql+"matricula='"+matricula+"',";
-        if rfid != None:
-            sql=sql+"rfid='"+rfid+"',";
+            sql=sql+"matricula=%s,";
+            lista.append(matricula)
+        sql=sql+"rfid=%s,";
+        lista.append(rfid)
+        lista.append(id_funcionario)
         sql=sql[0:-1] + " WHERE id_funcionario=%s"
-        self.curs.execute(sql,(id_funcionario))
+        self.curs.execute(sql,tuple(lista))
         self.conn.commit()
 
     ##  Retorna o Id do funcionario com o nome igual o da entrada
@@ -75,6 +79,16 @@ class Connect_Db:
         if not (isinstance(matricula, str) or isinstance(matricula, unicode)):
             return False
         self.curs.execute("SELECT id_funcionario FROM funcionarios WHERE matricula=%s AND ativo=true",(matricula))       
+        linhas = self.curs.fetchall()
+        self.conn.commit()
+        return linhas[0][0] if len(linhas)>0 else False
+
+    ##  Retorna o Id do funcionario com a matricula igual a da entrada
+    #   @param matricula Matricula do funcionario    
+    def obter_Id_Funcionario_por_Rfid(self, rfid):
+        if not (isinstance(rfid, str) or isinstance(rfid, unicode)):
+            return False
+        self.curs.execute("SELECT id_funcionario FROM funcionarios WHERE rfid=%s AND ativo=true",(rfid))       
         linhas = self.curs.fetchall()
         self.conn.commit()
         return linhas[0][0] if len(linhas)>0 else False
@@ -287,7 +301,7 @@ class Connect_Db:
     #   @param limite_inferior Limite inferior para busca. Formato HH:MM:SS
     #   @param limite_superior Limite superior para a busca. Formato HH:MM:SS
     def buscar_Horario_Mais_Proximo_de_Funcionario(self,id_funcionario,dia_da_semana,limite_inferior,limite_superior):
-        sql="SELECT id_horario FROM horarios WHERE (id_funcionario=%s AND dia_da_semana=%s AND SUBTIME(curtime(),time(hora_inicial))<=time(%s) AND SUBTIME(curtime(),time(hora_final))<=time(%s)) ORDER BY ABS(SUBTIME(%s,curtime())) LIMIT 1"
+        sql="SELECT id_horario FROM horarios WHERE (id_funcionario=%s AND dia_da_semana=%s AND curtime()>SUBTIME(time(hora_inicial),time(%s)) AND curtime()<ADDTIME(time(hora_inicial),time(%s))) ORDER BY ABS(SUBTIME(%s,curtime())) LIMIT 1"
         self.curs.execute(sql,(id_funcionario,dia_da_semana,limite_inferior,limite_superior,limite_inferior))
         linhas = self.curs.fetchall()
         self.conn.commit()
@@ -326,7 +340,7 @@ class Connect_Db:
         self.curs.execute("SELECT funcionarios.nome,funcionarios.matricula,log_porta.horario_entrada FROM log_porta INNER JOIN funcionarios on log_porta.id_funcionario = funcionarios.id_funcionario WHERE (log_porta.horario_entrada >= %s AND log_porta.horario_entrada <= %s )",(data_inicial,data_final))
         linhas = self.curs.fetchall()
         return linhas if len(linhas)>0 else None
-        
+      
     ##  Obtem o log dos pontos dentro de um periodo de tempo
     #   @param data_inicial Data inicial do log. Formato YYYY-MM-DD HH:MM:SS
     #   @param data_final Data final do log. Formato YYYY-MM-DD HH:MM:SS  

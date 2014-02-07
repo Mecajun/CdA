@@ -77,3 +77,14 @@ def data_Atual(string=False):
     if string==True:
         return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     return datetime.now()
+
+def falar(ponto,nome):
+    mensagem=u""
+    if ponto==2:
+        mensagem='Ola '.encode('utf-8')+nome+" , seu ponto de entrada foi registrado".encode('utf-8')
+    if ponto==3:
+        mensagem=u"Tiau ".encode('utf-8')+nome+" , seu ponto de saída foi registrado".encode('utf-8')
+    if ponto==1:
+        mensagem=u'Ola '+nome+" , voce nao tem ponto nesse horario mas vou abrir a porta para voce, s2"
+    comando=u'espeak -v brazil "'+mensagem+'"'
+    os.system(comando)

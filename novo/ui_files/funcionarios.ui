@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>674</width>
-    <height>483</height>
+    <width>660</width>
+    <height>525</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,26 +17,13 @@
    <locale language="Portuguese" country="Brazil"/>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="pushButton_adicionar">
-    <property name="geometry">
-     <rect>
-      <x>480</x>
-      <y>410</y>
-      <width>181</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Adicionar Funcionario</string>
-    </property>
-   </widget>
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>290</x>
       <y>40</y>
-      <width>371</width>
-      <height>341</height>
+      <width>345</width>
+      <height>427</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -101,11 +88,25 @@
       </layout>
      </item>
      <item>
-      <widget class="QLabel" name="label_RFID">
-       <property name="text">
-        <string/>
+      <layout class="QHBoxLayout" name="horizontalLayout_9">
+       <property name="sizeConstraint">
+        <enum>QLayout::SetDefaultConstraint</enum>
        </property>
-      </widget>
+       <item>
+        <widget class="QPushButton" name="pushButton_apagar">
+         <property name="text">
+          <string>Apagar</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_RFID">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -236,6 +237,13 @@
        </item>
       </layout>
      </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_adicionar">
+       <property name="text">
+        <string>Adicionar Funcionario</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </widget>
    <widget class="QWidget" name="layoutWidget">
@@ -260,31 +268,16 @@
      </item>
     </layout>
    </widget>
-   <zorder>layoutWidget</zorder>
-   <zorder>layoutWidget</zorder>
-   <zorder>pushButton_adicionar</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>674</width>
+     <width>660</width>
      <height>25</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuEditar_Funcionarios">
-    <property name="title">
-     <string>Editar Funcionarios</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menuRemover_Funcionarios">
-    <property name="title">
-     <string>Remover Funcionarios</string>
-    </property>
-   </widget>
-   <addaction name="menuEditar_Funcionarios"/>
-   <addaction name="menuRemover_Funcionarios"/>
   </widget>
  </widget>
  <tabstops>

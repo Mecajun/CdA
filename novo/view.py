@@ -6,6 +6,10 @@
 import sys
 import os
 import time
+import serial
+import time
+import platform
+
 from datetime import datetime,timedelta
 from PySide.QtGui import *
 from PySide.QtCore import *
@@ -20,6 +24,7 @@ from cda_relatorios import Ui_Relatorios_Window
 from cda_tolerancias import Ui_Tolerancias_Window
 from cda_validarsenha import Ui_Adm_Senha_Window
 from cda_removerfuncionario import Ui_Remover_Funcionarios_Window
+from cda_obterRfid import Ui_Obter_Rfid_Window
 
 ##	Janela principal do programa
 class Controle_De_Acesso_Window(QMainWindow,Ui_Controle_De_Acesso_Window):
@@ -73,6 +78,7 @@ class Controle_De_Acesso_Window(QMainWindow,Ui_Controle_De_Acesso_Window):
 		self.connect(timer3, SIGNAL("timeout()"), self.verificar_Faltas)
 		timer3.start(1000*60)
 		self.verificar_Faltas()
+		self.conecta_Arduino()
 
 	##	Atualiza a lista de funcionarios esperados
 	def atualiza_Funcionarios_Esperados(self):
@@ -295,11 +301,14 @@ class Controle_De_Acesso_Window(QMainWindow,Ui_Controle_De_Acesso_Window):
 		print self.lineEdit_matricula.text()
 		id_funcionario=self.db.obter_Id_Funcionario_por_Matricula(self.lineEdit_matricula.text())
 		if id_funcionario!=False:
-			self.dar_Log_Porta(id_funcionario)
-			self.dar_Ponto(id_funcionario)
+			ponto=self.dar_Ponto(id_funcionario)
 			self.lineEdit_matricula.setText("")
 		else:
 			print "Erro lineEdit_Matricula_ReturnPressed"
+		if platform.system()=='Linux':
+			dados=self.db.obter_Funcionario(id_funcionario)
+			if dados!=False:
+				falar(ponto,dados['nome'])
 
 	##	Fecha a janela Horarios_Window e cria a janela Horarios_Window
 	def pushButton_Horarios_Clicked(self):
@@ -309,6 +318,7 @@ class Controle_De_Acesso_Window(QMainWindow,Ui_Controle_De_Acesso_Window):
 	##	Da o ponto de entrada ou saida apartir do id de um funcionario
 	##	@parm id_funcionario Id do funcionario 
 	def dar_Ponto(self,id_funcionario):
+		self.dar_Log_Porta(id_funcionario)
 		# Obtem os limites de tempo para considerar o ponto entrada
 		limite_inferior_entrada=string_2_Timedelta(self.db.obter_Configuracoes('tol_ent_ant'))
 		limite_superior_entrada=string_2_Timedelta(self.db.obter_Configuracoes('tol_ent_dep'))
@@ -325,12 +335,15 @@ class Controle_De_Acesso_Window(QMainWindow,Ui_Controle_De_Acesso_Window):
 			#	Ponto normal
 			elif ((ponto_antigo['hora_final']-limite_inferior_saida) <= data_Atual()) and ((ponto_antigo['hora_final']+limite_superior_saida) >= data_Atual()):
 				self.db.finaliza_Ponto(id_funcionario,data_Atual(True),1)
-				return
+				return 3
+			else:
+				return 1
 
 		id_horario=self.db.buscar_Horario_Mais_Proximo_de_Funcionario(id_funcionario,get_Week_Day(),limite_inferior_entrada,limite_superior_entrada)
 		if id_horario!=False:
 			self.db.criar_Ponto(id_funcionario,id_horario,-1)
-			return
+			return 2
+		return 1
 
 	##	Registra o log da porta quando um funcionario entra ou sai
 	##	@parm id_funcionario Id do funcionario 
@@ -342,6 +355,31 @@ class Controle_De_Acesso_Window(QMainWindow,Ui_Controle_De_Acesso_Window):
 	def verificar_Faltas(self):
 		self.thread1=Faltas_e_Atrazos(self,self.db_dados)
 		self.thread1.start()
+
+	def conecta_Arduino(self):
+		self.bufferMensagens={}
+		self.bufferMensagens['rfid']=None
+		self.bufferMensagens['resposta']=None
+		self.thread2=Hardware(self)
+		self.connect( self.thread2, SIGNAL("updateBuffer(QString,QString)"), self.atualiza_Buffer_Mensagens )
+		self.thread2.start()
+		# self.connect(self.adm_window,SIGNAL("resultado_Validacao_Senha()"),self.menu_Remover_Funcionarios)
+
+	def atualiza_Buffer_Mensagens(self,tipo,mensagem):
+		print tipo,"=",mensagem
+		if tipo=="rfid":
+			self.emit(SIGNAL('RFID_Novo(QString)'), mensagem)
+		self.bufferMensagens[tipo]=(mensagem,datetime.now())
+		self.responde_Hardware(mensagem)
+
+	def responde_Hardware(self,mensagem):
+		id_funcionario=self.db.obter_Id_Funcionario_por_Rfid(mensagem)
+		if id_funcionario==False: # Nao funcionario
+			self.emit(SIGNAL('respondeHardware(QString)'), "0")
+			return
+		resposta=self.dar_Ponto(id_funcionario)
+		self.emit(SIGNAL('respondeHardware(QString)'), str(resposta))
+		return
 
 ##	Thread para verificar funcionarios que faltaram ou estão atrazados
 class Faltas_e_Atrazos(QThread):
@@ -379,6 +417,68 @@ class Faltas_e_Atrazos(QThread):
 			for i in horarios:
 				self.db.criar_Ponto_Falta(i[1],i[0],str(inicial.date()),str(i[2]))
 		self.db.atualizar_Configuracoes('ultima_verificacao',str(final))
+
+##	Faz a cominicação com o hardware
+class Hardware(QThread):
+	def __init__(self, parent = None):
+		QThread.__init__(self, parent)
+		self.connect( parent, SIGNAL("respondeHardware(QString)"), self.envia)
+		self.conecta()
+		self.bufferMensagens={}
+		self.bufferMensagens['rfid']=None
+		self.bufferMensagens['resposta']=None
+
+	def conecta(self):
+		portas=('/dev/ttyUSB%d','/dev/ttyACM%d','COM%d')
+		self.conectado=False
+		linux=platform.system()=='Linux'
+		windows=platform.system()=='Windows'
+		if linux==False and windows==False:
+			linux=True
+			windows=True
+		for i in xrange(10):
+			if linux:
+				try:
+					self.ser = serial.Serial(portas[0]%(i,), 9600)
+					self.conectado = True
+					break
+				except Exception, e:
+					continue
+			if linux:
+				try:
+					self.ser = serial.Serial(portas[1]%(i,), 9600)
+					self.conectado = True
+					break
+				except Exception, e:
+					continue
+			if windows:
+				try:
+					self.ser = serial.Serial(portas[2]%(i,), 9600)
+					self.conectado = True
+					break
+				except Exception, e:
+					continue
+		if self.conectado==True:
+			self.r=self.ser.readline
+			self.w=self.ser.write
+
+	def run(self):
+		self.recebe()		
+
+	def recebe(self):
+		while self.conectado:
+			mensagem=self.r()
+			if mensagem[0]=='@' and mensagem[-2]=='#':
+				self.bufferMensagens['rfid']=(mensagem[1:-2],datetime.now())
+				self.emit(SIGNAL('updateBuffer(QString,QString)'), "rfid",mensagem[1:-2])
+			if mensagem[0]=='!' and mensagem[-2]=='$':
+				self.bufferMensagens['resposta']=(mensagem[1:-2],datetime.now())
+				self.emit(SIGNAL('updateBuffer(QString,QString)'), "resposta",mensagem[1:-2])
+			time.sleep(0.1)
+
+	def envia(self,mensagem):
+		if self.conectado:
+			self.w(mensagem)
 
 ##	Janela para digitar senha de administrador
 class Adm_Senha_Window(QMainWindow,Ui_Adm_Senha_Window):
@@ -472,12 +572,15 @@ class Funcionarios_Window(QMainWindow,Ui_Add_Funcionarios_Window):
 		self._configure()
 		self.show()
 		self.mostrar_Funcionarios()
+		self.mainWindow=parent
 
 	##	Faz todas a conexões de eventos
 	def _set_connections(self):
 		self.connect(self.timeEdit_entrada,SIGNAL("editingFinished()"),self.timeEdit_Entrada_Editing_Finished)
 		self.connect(self.pushButton_adicionar_horario,SIGNAL("clicked()"),self.pushButton_Adicionar_Horario_Clicked)
 		self.connect(self.pushButton_remover_horario,SIGNAL("clicked()"),self.pushButton_Remover_Horario_Clicked)
+		self.connect(self.pushButton_obter_rfid,SIGNAL("clicked()"),self.pushButton_Obter_Rfid_Clicked)
+		self.connect(self.pushButton_apagar,SIGNAL("clicked()"),self.apagar_Rfid)
 
 	##	Centraliza a janela
 	def center(self):
@@ -494,6 +597,7 @@ class Funcionarios_Window(QMainWindow,Ui_Add_Funcionarios_Window):
 		self.model_horarios.setHorizontalHeaderLabels(['Dia da Semana','Entrada','Saida'])
 		self.tableView_horarios.setModel(self.model_horarios)
 		self.tableView_horarios.setShowGrid(False)
+		self.pushButton_apagar.hide()
 
 	##	Mostra todos os funcionarios na lista
 	def mostrar_Funcionarios(self):
@@ -628,7 +732,10 @@ class Funcionarios_Window(QMainWindow,Ui_Add_Funcionarios_Window):
 		dados={}
 		dados['nome']=self.lineEdit_nome.text()
 		dados['matricula']=self.lineEdit_matricula.text()
-		dados['rfid']=None
+		if self.label_RFID.text()!="":
+			dados['rfid']=self.label_RFID.text()
+		else:
+			dados['rfid']=None
 		dados['horarios']=self.lista_horarios
 		return dados
 
@@ -661,10 +768,26 @@ class Funcionarios_Window(QMainWindow,Ui_Add_Funcionarios_Window):
 				index.append(i.row())
 				self.remove_TableView_Horarios(i.row())
 
+	##	Botão de obter o RFID
+	def pushButton_Obter_Rfid_Clicked(self):
+		self.rfid_window=Obter_Rfid_Window(self,self.mainWindow)
+		self.connect(self.rfid_window,SIGNAL("RFID_Obtido(QString)"),self.troca_Label_Rfid)
+
+	def troca_Label_Rfid(self,rfid):
+		if rfid!="":
+			self.label_RFID.setText(rfid)
+			self.pushButton_apagar.show()
+
+	def apagar_Rfid(self):
+		self.label_RFID.setText("")
+		self.pushButton_apagar.hide()
+
 	##	Limpa os campos
 	def limpar_Campos(self):
 		self.lineEdit_nome.setText("")
 		self.lineEdit_matricula.setText("")
+		self.label_RFID.setText("")
+		self.pushButton_apagar.hide()
 		while len(self.lista_horarios)>0:
 			self.remove_TableView_Horarios(0)
 		self.lista_horarios_removidos=[]
@@ -674,9 +797,64 @@ class Funcionarios_Window(QMainWindow,Ui_Add_Funcionarios_Window):
 		self.limpar_Campos()
 		self.lineEdit_nome.setText(nome)
 		self.lineEdit_matricula.setText(matricula)
+		if rfid!=None:
+			self.label_RFID.setText(rfid)
+			self.pushButton_apagar.show()
 		if horarios!=False:
 			for horario in horarios:
 				self.adiciona_TableView_Horarios(horario['dia_da_semana'],str(horario['hora_inicial']),str(horario['hora_final']),horario['id_horario'])
+
+##	Janela para obter o RFID
+class Obter_Rfid_Window(QMainWindow,Ui_Obter_Rfid_Window):
+
+	def __init__(self,parent=None,mainWindow=None):
+		super(Obter_Rfid_Window, self).__init__(parent)
+		self.setupUi(self)
+		self.tempo=60
+		self.rfid=""
+		self.mainWindow=mainWindow
+		self.inicio=datetime.now()
+		self.connect(self.pushButton_Cancelar,SIGNAL("clicked()"),self.pushButton_Cancelar_Clicked)
+		self.connect(self.pushButton_Salvar,SIGNAL("clicked()"),self.pushButton_Salvar_Clicked)
+		self.connect( mainWindow, SIGNAL("RFID_Novo(QString)"), self.rfid_Novo)
+		self.timer = QTimer(self)
+		self.connect(self.timer, SIGNAL("timeout()"), self.atualiza_Tempo)
+		self.timer.start(1000)
+		self.center()
+		self.show()
+
+	##	Centraliza a janela
+	def center(self):
+		qr = self.frameGeometry()
+		cp = QDesktopWidget().availableGeometry().center()
+		qr.moveCenter(cp)
+		self.move(qr.topLeft())
+
+	##	Cancela tudo e não salva
+	def pushButton_Cancelar_Clicked(self):
+		self.close()
+
+	##	Salva o RFID
+	def pushButton_Salvar_Clicked(self):
+		self.emit(SIGNAL('RFID_Obtido(QString)'),self.rfid)
+		self.close()
+
+	def rfid_Novo(self,rfid):
+		if self.rfid=="":
+			self.rfid=rfid
+			self.label_RFID.setText("RFID = "+rfid)
+			self.tempo=0
+			self.disconnect( self.mainWindow, SIGNAL("RFID_Novo(QString)"))
+
+	##	Atualiza o tempo que falta
+	def atualiza_Tempo(self):
+		if self.tempo<=0:
+			self.timer.stop()
+			if self.rfid=="":
+				self.close()
+		else:
+			self.tempo=self.tempo-1
+		self.label_Tempo.setText(str(self.tempo))
 
 ##	Janela para adicionar funcionarios
 class Add_Funcionarios_Window(Funcionarios_Window):
@@ -688,6 +866,17 @@ class Add_Funcionarios_Window(Funcionarios_Window):
 	##	Adiciona um funcionario
 	def pushButton_Adicionar_Clicked(self):
 		dados=self.obter_Dados_Janela()
+		if len(dados['nome'])<1:
+			msgBox = QMessageBox()
+			msgBox.setText("Digite o nome")
+			msgBox.exec_()
+			return
+		if len(dados['matricula'])<1:
+			msgBox = QMessageBox()
+			msgBox.setText("Digite a matricula")
+			msgBox.exec_()
+			return
+
 		existe=self.db.verifica_Ja_Existe(dados['nome'],dados['matricula'],dados['rfid'])
 		if existe['existe']==True:
 			erro_string=u"Erro\n"
@@ -729,6 +918,16 @@ class Atualiza_Funcionarios_Window(Funcionarios_Window):
 		funcionario=self.lista_funcionarios[self.listView_funcionarios.selectedIndexes()[0].row()]
 		id_funcionario=funcionario['id_funcionario']
 		dados=self.obter_Dados_Janela()
+		if len(dados['nome'])<1:
+			msgBox = QMessageBox()
+			msgBox.setText("Digite o nome")
+			msgBox.exec_()
+			return
+		if len(dados['matricula'])<1:
+			msgBox = QMessageBox()
+			msgBox.setText("Digite a matricula")
+			msgBox.exec_()
+			return
 		existe=self.db.verifica_Ja_Existe(dados['nome'],dados['matricula'],dados['rfid'],id_funcionario)
 		if existe['existe']==True:
 			erro_string=u"Erro\n"
