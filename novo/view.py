@@ -353,7 +353,7 @@ class Controle_De_Acesso_Window(QMainWindow,Ui_Controle_De_Acesso_Window):
 
 	##	Chama a thread de verificar faltas
 	def verificar_Faltas(self):
-		self.thread1=Faltas_e_Atrazos(self,self.db_dados)
+		self.thread1=Faltas_e_atrasos(self,self.db_dados)
 		self.thread1.start()
 
 	def conecta_Arduino(self):
@@ -386,7 +386,7 @@ class Controle_De_Acesso_Window(QMainWindow,Ui_Controle_De_Acesso_Window):
 		return
 
 ##	Thread para verificar funcionarios que faltaram ou estão atrazados
-class Faltas_e_Atrazos(QThread):
+class Faltas_e_atrasos(QThread):
 	def __init__(self, parent = None,db_dados = None):
 		QThread.__init__(self, parent)
 		self.db=Connect_Db(db_dados)
@@ -484,7 +484,7 @@ class Hardware(QThread):
 
 	def envia(self,mensagem):
 		if self.conectado:
-			self.w(mensagem)
+			self.w(str(mensagem))
 
 ##	Janela para digitar senha de administrador
 class Adm_Senha_Window(QMainWindow,Ui_Adm_Senha_Window):
@@ -912,6 +912,7 @@ class Atualiza_Funcionarios_Window(Funcionarios_Window):
 	def __init__(self,parent=None,db_dados=None):
 		super(Atualiza_Funcionarios_Window, self).__init__(parent,db_dados)
 		self.connect(self.pushButton_adicionar,SIGNAL("clicked()"),self.pushButton_Atualizar_Clicked)
+		self.listView_funcionarios_model = self.listView_funcionarios.selectionModel()
 		self.listView_funcionarios.selectionModel().selectionChanged.connect(self.model_Funcionarios_Selection_Changed)
 		self.troca_Nomes()
 
@@ -1232,6 +1233,11 @@ class Tolerancias_Window(QMainWindow,Ui_Tolerancias_Window):
 	##	Faz as configurações basicas
 	def _configure(self):
 		dados=self.obter_Tolerancias()
+		self.timeEdit_entrada_antes.setDisplayFormat("HH:mm:ss")
+		self.timeEdit_entrada_depois.setDisplayFormat("HH:mm:ss")
+		self.timeEdit_saida_antes.setDisplayFormat("HH:mm:ss")
+		self.timeEdit_saida_depois.setDisplayFormat("HH:mm:ss")
+		self.timeEdit_atraso.setDisplayFormat("HH:mm:ss")
 		self.timeEdit_entrada_antes.setTime(QTime.fromString(dados['entrada_antes'],'HH:mm:ss'))
 		self.timeEdit_entrada_depois.setTime(QTime.fromString(dados['entrada_depois'],'HH:mm:ss'))
 		self.timeEdit_saida_antes.setTime(QTime.fromString(dados['saida_antes'],'HH:mm:ss'))
