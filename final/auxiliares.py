@@ -95,4 +95,4 @@ def falar(ponto,nome):
     if ponto==1:
         mensagem=u'Ola '+nome+" , voce nao tem ponto nesse horario mas vou abrir a porta para voce, s2"
     comando=u'espeak -v brazil "'+mensagem+'"'
-    os.system(comando)
+    # os.system(comando)
