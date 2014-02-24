@@ -1,0 +1,345 @@
+.TH "cda_mainWindow.Ui_Controle_De_Acesso_Window" 3 "Terça, 24 de Dezembro de 2013" "Version 2" "Controle de Acesso" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+cda_mainWindow.Ui_Controle_De_Acesso_Window \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Herdado por \fBview\&.Controle_De_Acesso_Window\fP\&.
+.SS "Membros públicos"
+
+.in +1c
+.ti -1c
+.RI "def \fBsetupUi\fP"
+.br
+.ti -1c
+.RI "def \fBretranslateUi\fP"
+.br
+.in -1c
+.SS "Atributos Públicos"
+
+.in +1c
+.ti -1c
+.RI "\fBcentralwidget\fP"
+.br
+.ti -1c
+.RI "\fBwidget_logo\fP"
+.br
+.ti -1c
+.RI "\fBlayoutWidget\fP"
+.br
+.ti -1c
+.RI "\fBverticalLayout\fP"
+.br
+.ti -1c
+.RI "\fBlabel_empresa\fP"
+.br
+.ti -1c
+.RI "\fBlabel_descricao\fP"
+.br
+.ti -1c
+.RI "\fBhorizontalLayout\fP"
+.br
+.ti -1c
+.RI "\fBlabel_matricula\fP"
+.br
+.ti -1c
+.RI "\fBlineEdit_matricula\fP"
+.br
+.ti -1c
+.RI "\fBlabel_funcionarios\fP"
+.br
+.ti -1c
+.RI "\fBlistView_funcionarios_horarios\fP"
+.br
+.ti -1c
+.RI "\fBlayoutWidget1\fP"
+.br
+.ti -1c
+.RI "\fBverticalLayout_2\fP"
+.br
+.ti -1c
+.RI "\fBlabel_relogio\fP"
+.br
+.ti -1c
+.RI "\fBpushButton_horarios\fP"
+.br
+.ti -1c
+.RI "\fBmenubar\fP"
+.br
+.ti -1c
+.RI "\fBmenuAdministra_o\fP"
+.br
+.ti -1c
+.RI "\fBmenuAjuda\fP"
+.br
+.ti -1c
+.RI "\fBstatusbar\fP"
+.br
+.ti -1c
+.RI "\fBactionAlterar_Senha\fP"
+.br
+.ti -1c
+.RI "\fBactionAdicionar_Funcionarios\fP"
+.br
+.ti -1c
+.RI "\fBactionRemover_Funcionarios\fP"
+.br
+.ti -1c
+.RI "\fBactionEditar_Funcionarios\fP"
+.br
+.ti -1c
+.RI "\fBactionConfigurar_Tolerancias\fP"
+.br
+.ti -1c
+.RI "\fBactionGerar_Relatorios\fP"
+.br
+.ti -1c
+.RI "\fBactionManual\fP"
+.br
+.ti -1c
+.RI "\fBactionSobre_Mecajun\fP"
+.br
+.ti -1c
+.RI "\fBactionSobre_Qt\fP"
+.br
+.in -1c
+.SH "Descrição detalhada"
+.PP 
+Definido na linha 18 do ficheiro cda_mainWindow\&.py\&.
+.SH "Documentação dos métodos"
+.PP 
+.SS "def \fBcda_mainWindow\&.Ui_Controle_De_Acesso_Window\&.retranslateUi\fP (self, Controle_De_Acesso_Window)"
+.PP
+Definido na linha 127 do ficheiro cda_mainWindow\&.py\&.
+.PP
+.nf
+127 
+128     def retranslateUi(self, Controle_De_Acesso_Window):
+129         Controle_De_Acesso_Window\&.setWindowTitle(QtGui\&.QApplication\&.translate('Controle_De_Acesso_Window', 'Controle de Acesso', None, QtGui\&.QApplication\&.UnicodeUTF8))
+130         self\&.label_empresa\&.setText(QtGui\&.QApplication\&.translate('Controle_De_Acesso_Window', 'Mecajun\n'
+131 'Mecatrônica Júnior de Brasília', None, QtGui\&.QApplication\&.UnicodeUTF8))
+132         self\&.label_descricao\&.setText(QtGui\&.QApplication\&.translate('Controle_De_Acesso_Window', 'Digite sua matrícula e aperte \'Enter\'', None, QtGui\&.QApplication\&.UnicodeUTF8))
+133         self\&.label_matricula\&.setText(QtGui\&.QApplication\&.translate('Controle_De_Acesso_Window', 'Matricula:     ', None, QtGui\&.QApplication\&.UnicodeUTF8))
+134         self\&.label_funcionarios\&.setText(QtGui\&.QApplication\&.translate('Controle_De_Acesso_Window', 'Funcionarios do horario:', None, QtGui\&.QApplication\&.UnicodeUTF8))
+135         self\&.label_relogio\&.setText(QtGui\&.QApplication\&.translate('Controle_De_Acesso_Window', '00:00:00', None, QtGui\&.QApplication\&.UnicodeUTF8))
+136         self\&.pushButton_horarios\&.setText(QtGui\&.QApplication\&.translate('Controle_De_Acesso_Window', 'Horarios', None, QtGui\&.QApplication\&.UnicodeUTF8))
+137         self\&.menuAdministra_o\&.setTitle(QtGui\&.QApplication\&.translate('Controle_De_Acesso_Window', 'Administração', None, QtGui\&.QApplication\&.UnicodeUTF8))
+138         self\&.menuAjuda\&.setTitle(QtGui\&.QApplication\&.translate('Controle_De_Acesso_Window', 'Ajuda', None, QtGui\&.QApplication\&.UnicodeUTF8))
+139         self\&.actionAlterar_Senha\&.setText(QtGui\&.QApplication\&.translate('Controle_De_Acesso_Window', 'Alterar Senha', None, QtGui\&.QApplication\&.UnicodeUTF8))
+140         self\&.actionAdicionar_Funcionarios\&.setText(QtGui\&.QApplication\&.translate('Controle_De_Acesso_Window', 'Adicionar Funcionarios', None, QtGui\&.QApplication\&.UnicodeUTF8))
+141         self\&.actionRemover_Funcionarios\&.setText(QtGui\&.QApplication\&.translate('Controle_De_Acesso_Window', 'Remover Funcionarios', None, QtGui\&.QApplication\&.UnicodeUTF8))
+142         self\&.actionEditar_Funcionarios\&.setText(QtGui\&.QApplication\&.translate('Controle_De_Acesso_Window', 'Editar Funcionarios', None, QtGui\&.QApplication\&.UnicodeUTF8))
+143         self\&.actionConfigurar_Tolerancias\&.setText(QtGui\&.QApplication\&.translate('Controle_De_Acesso_Window', 'Configurar Tolerancias', None, QtGui\&.QApplication\&.UnicodeUTF8))
+144         self\&.actionGerar_Relatorios\&.setText(QtGui\&.QApplication\&.translate('Controle_De_Acesso_Window', 'Gerar Relatorios', None, QtGui\&.QApplication\&.UnicodeUTF8))
+145         self\&.actionManual\&.setText(QtGui\&.QApplication\&.translate('Controle_De_Acesso_Window', 'Manual', None, QtGui\&.QApplication\&.UnicodeUTF8))
+146         self\&.actionSobre_Mecajun\&.setText(QtGui\&.QApplication\&.translate('Controle_De_Acesso_Window', 'Sobre Mecajun', None, QtGui\&.QApplication\&.UnicodeUTF8))
+        self\&.actionSobre_Qt\&.setText(QtGui\&.QApplication\&.translate('Controle_De_Acesso_Window', 'Sobre Qt', None, QtGui\&.QApplication\&.UnicodeUTF8))
+.fi
+.SS "def \fBcda_mainWindow\&.Ui_Controle_De_Acesso_Window\&.setupUi\fP (self, Controle_De_Acesso_Window)"
+.PP
+Definido na linha 19 do ficheiro cda_mainWindow\&.py\&.
+.PP
+.nf
+19 
+20     def setupUi(self, Controle_De_Acesso_Window):
+21         logo = QtGui\&.QPixmap('imagens/logo\&.png')
+22         Controle_De_Acesso_Window\&.setObjectName('Controle_De_Acesso_Window')
+23         Controle_De_Acesso_Window\&.resize(599, 292)
+24         icon = QtGui\&.QIcon()
+25         icon\&.addPixmap(QtGui\&.QPixmap(':/imagens/logo\&.png'), QtGui\&.QIcon\&.Normal, QtGui\&.QIcon\&.Off)
+26         Controle_De_Acesso_Window\&.setWindowIcon(icon)
+27         Controle_De_Acesso_Window\&.setLocale(QtCore\&.QLocale(QtCore\&.QLocale\&.Portuguese, QtCore\&.QLocale\&.Brazil))
+28         self\&.centralwidget = QtGui\&.QWidget(Controle_De_Acesso_Window)
+29         self\&.centralwidget\&.setObjectName('centralwidget')
+30         self\&.widget_logo = QtGui\&.QLabel(self\&.centralwidget)
+31         self\&.widget_logo\&.setGeometry(QtCore\&.QRect(20, 10, 201, 121))
+32         self\&.widget_logo\&.setObjectName(_fromUtf8('widget_logo'))
+33         self\&.widget_logo\&.setPixmap(logo)
+34         self\&.layoutWidget = QtGui\&.QWidget(self\&.centralwidget)
+35         self\&.layoutWidget\&.setGeometry(QtCore\&.QRect(240, 10, 341, 231))
+36         self\&.layoutWidget\&.setObjectName('layoutWidget')
+37         self\&.verticalLayout = QtGui\&.QVBoxLayout(self\&.layoutWidget)
+38         self\&.verticalLayout\&.setContentsMargins(0, 0, 0, 0)
+39         self\&.verticalLayout\&.setObjectName('verticalLayout')
+40         self\&.label_empresa = QtGui\&.QLabel(self\&.layoutWidget)
+41         font = QtGui\&.QFont()
+42         font\&.setPointSize(16)
+43         self\&.label_empresa\&.setFont(font)
+44         self\&.label_empresa\&.setAlignment(QtCore\&.Qt\&.AlignCenter)
+45         self\&.label_empresa\&.setObjectName('label_empresa')
+46         self\&.verticalLayout\&.addWidget(self\&.label_empresa)
+47         self\&.label_descricao = QtGui\&.QLabel(self\&.layoutWidget)
+48         self\&.label_descricao\&.setAlignment(QtCore\&.Qt\&.AlignCenter)
+49         self\&.label_descricao\&.setObjectName('label_descricao')
+50         self\&.verticalLayout\&.addWidget(self\&.label_descricao)
+51         self\&.horizontalLayout = QtGui\&.QHBoxLayout()
+52         self\&.horizontalLayout\&.setObjectName('horizontalLayout')
+53         self\&.label_matricula = QtGui\&.QLabel(self\&.layoutWidget)
+54         self\&.label_matricula\&.setObjectName('label_matricula')
+55         self\&.horizontalLayout\&.addWidget(self\&.label_matricula)
+56         self\&.lineEdit_matricula = QtGui\&.QLineEdit(self\&.layoutWidget)
+57         self\&.lineEdit_matricula\&.setObjectName('lineEdit_matricula')
+58         self\&.horizontalLayout\&.addWidget(self\&.lineEdit_matricula)
+59         self\&.verticalLayout\&.addLayout(self\&.horizontalLayout)
+60         self\&.label_funcionarios = QtGui\&.QLabel(self\&.layoutWidget)
+61         self\&.label_funcionarios\&.setObjectName('label_funcionarios')
+62         self\&.verticalLayout\&.addWidget(self\&.label_funcionarios)
+63         self\&.listView_funcionarios_horarios = QtGui\&.QListView(self\&.layoutWidget)
+64         self\&.listView_funcionarios_horarios\&.setObjectName('listView_funcionarios_horarios')
+65         self\&.verticalLayout\&.addWidget(self\&.listView_funcionarios_horarios)
+66         self\&.layoutWidget1 = QtGui\&.QWidget(self\&.centralwidget)
+67         self\&.layoutWidget1\&.setGeometry(QtCore\&.QRect(30, 140, 181, 101))
+68         self\&.layoutWidget1\&.setObjectName('layoutWidget1')
+69         self\&.verticalLayout_2 = QtGui\&.QVBoxLayout(self\&.layoutWidget1)
+70         self\&.verticalLayout_2\&.setContentsMargins(0, 0, 0, 0)
+71         self\&.verticalLayout_2\&.setObjectName('verticalLayout_2')
+72         self\&.label_relogio = QtGui\&.QLabel(self\&.layoutWidget1)
+73         self\&.label_relogio\&.setAlignment(QtCore\&.Qt\&.AlignCenter)
+74         self\&.label_relogio\&.setObjectName('label_relogio')
+75         self\&.verticalLayout_2\&.addWidget(self\&.label_relogio)
+76         self\&.pushButton_horarios = QtGui\&.QPushButton(self\&.layoutWidget1)
+77         self\&.pushButton_horarios\&.setObjectName('pushButton_horarios')
+78         self\&.verticalLayout_2\&.addWidget(self\&.pushButton_horarios)
+79         Controle_De_Acesso_Window\&.setCentralWidget(self\&.centralwidget)
+80         self\&.menubar = QtGui\&.QMenuBar(Controle_De_Acesso_Window)
+81         self\&.menubar\&.setGeometry(QtCore\&.QRect(0, 0, 599, 25))
+82         self\&.menubar\&.setObjectName('menubar')
+83         self\&.menuAdministra_o = QtGui\&.QMenu(self\&.menubar)
+84         self\&.menuAdministra_o\&.setObjectName('menuAdministra_o')
+85         self\&.menuAjuda = QtGui\&.QMenu(self\&.menubar)
+86         self\&.menuAjuda\&.setObjectName('menuAjuda')
+87         Controle_De_Acesso_Window\&.setMenuBar(self\&.menubar)
+88         self\&.statusbar = QtGui\&.QStatusBar(Controle_De_Acesso_Window)
+89         self\&.statusbar\&.setObjectName('statusbar')
+90         Controle_De_Acesso_Window\&.setStatusBar(self\&.statusbar)
+91         self\&.actionAlterar_Senha = QtGui\&.QAction(Controle_De_Acesso_Window)
+92         self\&.actionAlterar_Senha\&.setObjectName('actionAlterar_Senha')
+93         self\&.actionAdicionar_Funcionarios = QtGui\&.QAction(Controle_De_Acesso_Window)
+94         self\&.actionAdicionar_Funcionarios\&.setObjectName('actionAdicionar_Funcionarios')
+95         self\&.actionRemover_Funcionarios = QtGui\&.QAction(Controle_De_Acesso_Window)
+96         self\&.actionRemover_Funcionarios\&.setObjectName('actionRemover_Funcionarios')
+97         self\&.actionEditar_Funcionarios = QtGui\&.QAction(Controle_De_Acesso_Window)
+98         self\&.actionEditar_Funcionarios\&.setObjectName('actionEditar_Funcionarios')
+99         self\&.actionConfigurar_Tolerancias = QtGui\&.QAction(Controle_De_Acesso_Window)
+100         self\&.actionConfigurar_Tolerancias\&.setObjectName('actionConfigurar_Tolerancias')
+101         self\&.actionGerar_Relatorios = QtGui\&.QAction(Controle_De_Acesso_Window)
+102         self\&.actionGerar_Relatorios\&.setObjectName('actionGerar_Relatorios')
+103         self\&.actionManual = QtGui\&.QAction(Controle_De_Acesso_Window)
+104         self\&.actionManual\&.setObjectName('actionManual')
+105         self\&.actionSobre_Mecajun = QtGui\&.QAction(Controle_De_Acesso_Window)
+106         self\&.actionSobre_Mecajun\&.setObjectName('actionSobre_Mecajun')
+107         self\&.actionSobre_Qt = QtGui\&.QAction(Controle_De_Acesso_Window)
+108         self\&.actionSobre_Qt\&.setObjectName('actionSobre_Qt')
+109         self\&.menuAdministra_o\&.addAction(self\&.actionAlterar_Senha)
+110         self\&.menuAdministra_o\&.addSeparator()
+111         self\&.menuAdministra_o\&.addAction(self\&.actionAdicionar_Funcionarios)
+112         self\&.menuAdministra_o\&.addAction(self\&.actionEditar_Funcionarios)
+113         self\&.menuAdministra_o\&.addAction(self\&.actionRemover_Funcionarios)
+114         self\&.menuAdministra_o\&.addSeparator()
+115         self\&.menuAdministra_o\&.addAction(self\&.actionConfigurar_Tolerancias)
+116         self\&.menuAdministra_o\&.addSeparator()
+117         self\&.menuAdministra_o\&.addAction(self\&.actionGerar_Relatorios)
+118         self\&.menuAjuda\&.addAction(self\&.actionManual)
+119         self\&.menuAjuda\&.addSeparator()
+120         self\&.menuAjuda\&.addAction(self\&.actionSobre_Mecajun)
+121         self\&.menuAjuda\&.addAction(self\&.actionSobre_Qt)
+122         self\&.menubar\&.addAction(self\&.menuAdministra_o\&.menuAction())
+123         self\&.menubar\&.addAction(self\&.menuAjuda\&.menuAction())
+124 
+125         self\&.retranslateUi(Controle_De_Acesso_Window)
+126         QtCore\&.QMetaObject\&.connectSlotsByName(Controle_De_Acesso_Window)
+
+.fi
+.SH "Documentação dos dados membro"
+.PP 
+.SS "\fBcda_mainWindow\&.Ui_Controle_De_Acesso_Window::actionAdicionar_Funcionarios\fP"
+.PP
+Definido na linha 19 do ficheiro cda_mainWindow\&.py\&.
+.SS "\fBcda_mainWindow\&.Ui_Controle_De_Acesso_Window::actionAlterar_Senha\fP"
+.PP
+Definido na linha 19 do ficheiro cda_mainWindow\&.py\&.
+.SS "\fBcda_mainWindow\&.Ui_Controle_De_Acesso_Window::actionConfigurar_Tolerancias\fP"
+.PP
+Definido na linha 19 do ficheiro cda_mainWindow\&.py\&.
+.SS "\fBcda_mainWindow\&.Ui_Controle_De_Acesso_Window::actionEditar_Funcionarios\fP"
+.PP
+Definido na linha 19 do ficheiro cda_mainWindow\&.py\&.
+.SS "\fBcda_mainWindow\&.Ui_Controle_De_Acesso_Window::actionGerar_Relatorios\fP"
+.PP
+Definido na linha 19 do ficheiro cda_mainWindow\&.py\&.
+.SS "\fBcda_mainWindow\&.Ui_Controle_De_Acesso_Window::actionManual\fP"
+.PP
+Definido na linha 19 do ficheiro cda_mainWindow\&.py\&.
+.SS "\fBcda_mainWindow\&.Ui_Controle_De_Acesso_Window::actionRemover_Funcionarios\fP"
+.PP
+Definido na linha 19 do ficheiro cda_mainWindow\&.py\&.
+.SS "\fBcda_mainWindow\&.Ui_Controle_De_Acesso_Window::actionSobre_Mecajun\fP"
+.PP
+Definido na linha 19 do ficheiro cda_mainWindow\&.py\&.
+.SS "\fBcda_mainWindow\&.Ui_Controle_De_Acesso_Window::actionSobre_Qt\fP"
+.PP
+Definido na linha 19 do ficheiro cda_mainWindow\&.py\&.
+.SS "\fBcda_mainWindow\&.Ui_Controle_De_Acesso_Window::centralwidget\fP"
+.PP
+Definido na linha 19 do ficheiro cda_mainWindow\&.py\&.
+.SS "\fBcda_mainWindow\&.Ui_Controle_De_Acesso_Window::horizontalLayout\fP"
+.PP
+Definido na linha 19 do ficheiro cda_mainWindow\&.py\&.
+.SS "\fBcda_mainWindow\&.Ui_Controle_De_Acesso_Window::label_descricao\fP"
+.PP
+Definido na linha 19 do ficheiro cda_mainWindow\&.py\&.
+.SS "\fBcda_mainWindow\&.Ui_Controle_De_Acesso_Window::label_empresa\fP"
+.PP
+Definido na linha 19 do ficheiro cda_mainWindow\&.py\&.
+.SS "\fBcda_mainWindow\&.Ui_Controle_De_Acesso_Window::label_funcionarios\fP"
+.PP
+Definido na linha 19 do ficheiro cda_mainWindow\&.py\&.
+.SS "\fBcda_mainWindow\&.Ui_Controle_De_Acesso_Window::label_matricula\fP"
+.PP
+Definido na linha 19 do ficheiro cda_mainWindow\&.py\&.
+.SS "\fBcda_mainWindow\&.Ui_Controle_De_Acesso_Window::label_relogio\fP"
+.PP
+Definido na linha 19 do ficheiro cda_mainWindow\&.py\&.
+.SS "\fBcda_mainWindow\&.Ui_Controle_De_Acesso_Window::layoutWidget\fP"
+.PP
+Definido na linha 19 do ficheiro cda_mainWindow\&.py\&.
+.SS "\fBcda_mainWindow\&.Ui_Controle_De_Acesso_Window::layoutWidget1\fP"
+.PP
+Definido na linha 19 do ficheiro cda_mainWindow\&.py\&.
+.SS "\fBcda_mainWindow\&.Ui_Controle_De_Acesso_Window::lineEdit_matricula\fP"
+.PP
+Definido na linha 19 do ficheiro cda_mainWindow\&.py\&.
+.SS "\fBcda_mainWindow\&.Ui_Controle_De_Acesso_Window::listView_funcionarios_horarios\fP"
+.PP
+Definido na linha 19 do ficheiro cda_mainWindow\&.py\&.
+.SS "\fBcda_mainWindow\&.Ui_Controle_De_Acesso_Window::menuAdministra_o\fP"
+.PP
+Definido na linha 19 do ficheiro cda_mainWindow\&.py\&.
+.SS "\fBcda_mainWindow\&.Ui_Controle_De_Acesso_Window::menuAjuda\fP"
+.PP
+Definido na linha 19 do ficheiro cda_mainWindow\&.py\&.
+.SS "\fBcda_mainWindow\&.Ui_Controle_De_Acesso_Window::menubar\fP"
+.PP
+Definido na linha 19 do ficheiro cda_mainWindow\&.py\&.
+.SS "\fBcda_mainWindow\&.Ui_Controle_De_Acesso_Window::pushButton_horarios\fP"
+.PP
+Definido na linha 19 do ficheiro cda_mainWindow\&.py\&.
+.SS "\fBcda_mainWindow\&.Ui_Controle_De_Acesso_Window::statusbar\fP"
+.PP
+Definido na linha 19 do ficheiro cda_mainWindow\&.py\&.
+.SS "\fBcda_mainWindow\&.Ui_Controle_De_Acesso_Window::verticalLayout\fP"
+.PP
+Definido na linha 19 do ficheiro cda_mainWindow\&.py\&.
+.SS "\fBcda_mainWindow\&.Ui_Controle_De_Acesso_Window::verticalLayout_2\fP"
+.PP
+Definido na linha 19 do ficheiro cda_mainWindow\&.py\&.
+.SS "\fBcda_mainWindow\&.Ui_Controle_De_Acesso_Window::widget_logo\fP"
+.PP
+Definido na linha 19 do ficheiro cda_mainWindow\&.py\&.
+
+.SH "Autor"
+.PP 
+Gerado automaticamente por Doxygen para Controle de Acesso a partir do código fonte\&.

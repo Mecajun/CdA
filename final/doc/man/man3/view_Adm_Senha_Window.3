@@ -1,0 +1,103 @@
+.TH "view.Adm_Senha_Window" 3 "Terça, 24 de Dezembro de 2013" "Version 2" "Controle de Acesso" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+view.Adm_Senha_Window \- 
+.PP
+Janela para digitar senha de administrador\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Derivada de \fBcda_validarsenha\&.Ui_Adm_Senha_Window\fP\&.
+.SS "Membros públicos"
+
+.in +1c
+.ti -1c
+.RI "def \fB__init__\fP"
+.br
+.ti -1c
+.RI "def \fBcenter\fP"
+.br
+.RI "\fICentraliza a janela\&. \fP"
+.ti -1c
+.RI "def \fBvalidar_Senha\fP"
+.br
+.RI "\fIVerifica se as senhas esta correta\&. \fP"
+.in -1c
+.SS "Atributos Públicos"
+
+.in +1c
+.ti -1c
+.RI "\fBdb\fP"
+.br
+.in -1c
+.SH "Descrição detalhada"
+.PP 
+Janela para digitar senha de administrador\&. 
+.PP
+Definido na linha 332 do ficheiro view\&.py\&.
+.SH "Documentação dos Construtores & Destrutor"
+.PP 
+.SS "def \fBview\&.Adm_Senha_Window\&.__init__\fP (self, parent = \fCNone\fP, db_dados = \fCNone\fP)"
+.PP
+Definido na linha 334 do ficheiro view\&.py\&.
+.PP
+.nf
+334 
+335     def __init__(self,parent=None,db_dados=None):
+336         super(Adm_Senha_Window, self)\&.__init__(parent)
+337         self\&.setupUi(self)
+338         self\&.db=Connect_Db(db_dados)
+339         self\&.center()
+340         self\&._set_connections()
+341         self\&.show()
+
+.fi
+.SH "Documentação dos métodos"
+.PP 
+.SS "def \fBview\&.Adm_Senha_Window\&.center\fP (self)"
+.PP
+Centraliza a janela\&. 
+.PP
+Definido na linha 347 do ficheiro view\&.py\&.
+.PP
+.nf
+347 
+348     def center(self):
+349         qr = self\&.frameGeometry()
+350         cp = QDesktopWidget()\&.availableGeometry()\&.center()
+351         qr\&.moveCenter(cp)
+352         self\&.move(qr\&.topLeft())
+
+.fi
+.SS "def \fBview\&.Adm_Senha_Window\&.validar_Senha\fP (self)"
+.PP
+Verifica se as senhas esta correta\&. 
+.PP
+Definido na linha 354 do ficheiro view\&.py\&.
+.PP
+.nf
+354 
+355     def validar_Senha(self):
+356         senha=self\&.db\&.obter_Configuracoes('adm_senha')
+357         if len(self\&.lineEdit_senha\&.text())>0 and senha!=False:
+358             if criptografar_Senha(self\&.lineEdit_senha\&.text())==senha:
+359                 self\&.emit(SIGNAL('resultado_Validacao_Senha()'))
+360             else:
+361                 self\&.lineEdit_senha\&.setText('')
+362                 msgBox = QMessageBox(self)
+363                 msgBox\&.setText(u'Senha errada')
+364                 msgBox\&.exec_()
+
+.fi
+.SH "Documentação dos dados membro"
+.PP 
+.SS "\fBview\&.Adm_Senha_Window::db\fP"
+.PP
+Definido na linha 334 do ficheiro view\&.py\&.
+
+.SH "Autor"
+.PP 
+Gerado automaticamente por Doxygen para Controle de Acesso a partir do código fonte\&.

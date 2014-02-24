@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Controle_De_Acesso_Window</class>
+ <widget class="QMainWindow" name="Controle_De_Acesso_Window">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>599</width>
+    <height>292</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Controle de Acesso</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../resource.qrc">
+    <normaloff>:/imagens/logo.png</normaloff>:/imagens/logo.png</iconset>
+  </property>
+  <property name="locale">
+   <locale language="Portuguese" country="Brazil"/>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="widget_logo" native="true">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>201</width>
+      <height>121</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>10</y>
+      <width>341</width>
+      <height>231</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLabel" name="label_empresa">
+       <property name="font">
+        <font>
+         <pointsize>16</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Mecajun
+Mecatrônica Júnior de Brasília</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_descricao">
+       <property name="text">
+        <string>Digite sua matrícula e aperte &quot;Enter&quot;</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLabel" name="label_matricula">
+         <property name="text">
+          <string>Matricula:     </string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_matricula"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_funcionarios">
+       <property name="text">
+        <string>Funcionarios do horario:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QListView" name="listView_funcionarios_horarios"/>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>140</y>
+      <width>181</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QLabel" name="label_relogio">
+       <property name="text">
+        <string>00:00:00</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_horarios">
+       <property name="text">
+        <string>Horarios</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <zorder>layoutWidget</zorder>
+   <zorder>layoutWidget</zorder>
+   <zorder>widget_logo</zorder>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>599</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuAdministra_o">
+    <property name="title">
+     <string>Administração</string>
+    </property>
+    <addaction name="actionAlterar_Senha"/>
+    <addaction name="separator"/>
+    <addaction name="actionAdicionar_Funcionarios"/>
+    <addaction name="actionEditar_Funcionarios"/>
+    <addaction name="actionRemover_Funcionarios"/>
+    <addaction name="separator"/>
+    <addaction name="actionConfigurar_Tolerancias"/>
+    <addaction name="separator"/>
+    <addaction name="actionGerar_Relatorios"/>
+   </widget>
+   <widget class="QMenu" name="menuAjuda">
+    <property name="title">
+     <string>Ajuda</string>
+    </property>
+    <addaction name="actionManual"/>
+    <addaction name="separator"/>
+    <addaction name="actionSobre_Mecajun"/>
+    <addaction name="actionSobre_Qt"/>
+   </widget>
+   <addaction name="menuAdministra_o"/>
+   <addaction name="menuAjuda"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionAlterar_Senha">
+   <property name="text">
+    <string>Alterar Senha</string>
+   </property>
+  </action>
+  <action name="actionAdicionar_Funcionarios">
+   <property name="text">
+    <string>Adicionar Funcionarios</string>
+   </property>
+  </action>
+  <action name="actionRemover_Funcionarios">
+   <property name="text">
+    <string>Remover Funcionarios</string>
+   </property>
+  </action>
+  <action name="actionEditar_Funcionarios">
+   <property name="text">
+    <string>Editar Funcionarios</string>
+   </property>
+  </action>
+  <action name="actionConfigurar_Tolerancias">
+   <property name="text">
+    <string>Configurar Tolerancias</string>
+   </property>
+  </action>
+  <action name="actionGerar_Relatorios">
+   <property name="text">
+    <string>Gerar Relatorios</string>
+   </property>
+  </action>
+  <action name="actionManual">
+   <property name="text">
+    <string>Manual</string>
+   </property>
+  </action>
+  <action name="actionSobre_Mecajun">
+   <property name="text">
+    <string>Sobre Mecajun</string>
+   </property>
+  </action>
+  <action name="actionSobre_Qt">
+   <property name="text">
+    <string>Sobre Qt</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="../resource.qrc"/>
+ </resources>
+ <connections/>
+ <slots>
+  <slot>horarios_clicado()</slot>
+ </slots>
+</ui>

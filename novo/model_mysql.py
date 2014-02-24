@@ -339,7 +339,7 @@ class Connect_Db:
     def obter_Log_Porta(self,data_inicial,data_final):
         self.curs.execute("SELECT funcionarios.nome,funcionarios.matricula,log_porta.horario_entrada FROM log_porta INNER JOIN funcionarios on log_porta.id_funcionario = funcionarios.id_funcionario WHERE (log_porta.horario_entrada >= %s AND log_porta.horario_entrada <= %s )",(data_inicial,data_final))
         linhas = self.curs.fetchall()
-        return linhas if len(linhas)>0 else None
+        return linhas if len(linhas)>0 else False
       
     ##  Obtem o log dos pontos dentro de um periodo de tempo
     #   @param data_inicial Data inicial do log. Formato YYYY-MM-DD HH:MM:SS
@@ -352,7 +352,7 @@ class Connect_Db:
         sql="SELECT funcionarios.nome,funcionarios.matricula,pontos.horario_entrada,pontos.horario_saida,SUBTIME(TIME(pontos.horario_saida),TIME(pontos.horario_entrada)),pontos.presenca FROM pontos INNER JOIN funcionarios on pontos.id_funcionario = funcionarios.id_funcionario WHERE (pontos.horario_entrada >= %s AND pontos.horario_entrada <= %s)"
         self.curs.execute(sql,(data_inicial,data_final))
         linhas = self.curs.fetchall()
-        return linhas if len(linhas)>0 else None
+        return linhas if len(linhas)>0 else False
    
     ##  Obtem os pontos que não foram dados
     #   @param data_inicial Data inicial no formato YYYY-MM-DD HH:MM:SS

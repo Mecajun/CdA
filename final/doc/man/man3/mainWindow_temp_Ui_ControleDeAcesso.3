@@ -1,0 +1,238 @@
+.TH "mainWindow_temp.Ui_ControleDeAcesso" 3 "Terça, 24 de Dezembro de 2013" "Version 2" "Controle de Acesso" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mainWindow_temp.Ui_ControleDeAcesso \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Membros públicos"
+
+.in +1c
+.ti -1c
+.RI "def \fBsetupUi\fP"
+.br
+.ti -1c
+.RI "def \fBretranslateUi\fP"
+.br
+.in -1c
+.SS "Atributos Públicos"
+
+.in +1c
+.ti -1c
+.RI "\fBcentralwidget\fP"
+.br
+.ti -1c
+.RI "\fBwidget_logo\fP"
+.br
+.ti -1c
+.RI "\fBwidget\fP"
+.br
+.ti -1c
+.RI "\fBverticalLayout\fP"
+.br
+.ti -1c
+.RI "\fBlabel_empresa\fP"
+.br
+.ti -1c
+.RI "\fBlabel_descricao\fP"
+.br
+.ti -1c
+.RI "\fBhorizontalLayout\fP"
+.br
+.ti -1c
+.RI "\fBlabel_matricula\fP"
+.br
+.ti -1c
+.RI "\fBlineEdit_matricula\fP"
+.br
+.ti -1c
+.RI "\fBlabel_funcionarios\fP"
+.br
+.ti -1c
+.RI "\fBlistView_funcionarios_horarios\fP"
+.br
+.ti -1c
+.RI "\fBwidget1\fP"
+.br
+.ti -1c
+.RI "\fBverticalLayout_2\fP"
+.br
+.ti -1c
+.RI "\fBlabel_relogio\fP"
+.br
+.ti -1c
+.RI "\fBpushButton_Administracao\fP"
+.br
+.ti -1c
+.RI "\fBpushButton_horarios\fP"
+.br
+.ti -1c
+.RI "\fBmenubar\fP"
+.br
+.ti -1c
+.RI "\fBstatusbar\fP"
+.br
+.in -1c
+.SH "Descrição detalhada"
+.PP 
+Definido na linha 17 do ficheiro mainWindow_temp\&.py\&.
+.SH "Documentação dos métodos"
+.PP 
+.SS "def \fBmainWindow_temp\&.Ui_ControleDeAcesso\&.retranslateUi\fP (self, ControleDeAcesso)"
+.PP
+Definido na linha 90 do ficheiro mainWindow_temp\&.py\&.
+.PP
+.nf
+90 
+91     def retranslateUi(self, ControleDeAcesso):
+92         ControleDeAcesso\&.setWindowTitle(QtGui\&.QApplication\&.translate('ControleDeAcesso', 'Controle de Acesso', None, QtGui\&.QApplication\&.UnicodeUTF8))
+93         self\&.label_empresa\&.setText(QtGui\&.QApplication\&.translate('ControleDeAcesso', 'Mecajun\n'
+94 'Mecatrônica Júnior de Brasília', None, QtGui\&.QApplication\&.UnicodeUTF8))
+95         self\&.label_descricao\&.setText(QtGui\&.QApplication\&.translate('ControleDeAcesso', 'Digite sua matrícula e aperte \'Enter\'', None, QtGui\&.QApplication\&.UnicodeUTF8))
+96         self\&.label_matricula\&.setText(QtGui\&.QApplication\&.translate('ControleDeAcesso', 'Matricula:     ', None, QtGui\&.QApplication\&.UnicodeUTF8))
+97         self\&.label_funcionarios\&.setText(QtGui\&.QApplication\&.translate('ControleDeAcesso', 'Funcionarios do horario:', None, QtGui\&.QApplication\&.UnicodeUTF8))
+98         self\&.label_relogio\&.setText(QtGui\&.QApplication\&.translate('ControleDeAcesso', '00:00:00', None, QtGui\&.QApplication\&.UnicodeUTF8))
+99         self\&.pushButton_Administracao\&.setText(QtGui\&.QApplication\&.translate('ControleDeAcesso', 'Administração', None, QtGui\&.QApplication\&.UnicodeUTF8))
+100         self\&.pushButton_horarios\&.setText(QtGui\&.QApplication\&.translate('ControleDeAcesso', 'Horarios', None, QtGui\&.QApplication\&.UnicodeUTF8))
+101 
+.fi
+.SS "def \fBmainWindow_temp\&.Ui_ControleDeAcesso\&.setupUi\fP (self, ControleDeAcesso)"
+.PP
+Definido na linha 18 do ficheiro mainWindow_temp\&.py\&.
+.PP
+.nf
+18 
+19     def setupUi(self, ControleDeAcesso):
+20         
+21         logo = QtGui\&.QPixmap('logo\&.png')
+22 
+23         ControleDeAcesso\&.setObjectName(_fromUtf8('ControleDeAcesso'))
+24         ControleDeAcesso\&.resize(599, 292)
+25         self\&.centralwidget = QtGui\&.QWidget(ControleDeAcesso)
+26         self\&.centralwidget\&.setObjectName(_fromUtf8('centralwidget'))
+27         self\&.widget_logo = QtGui\&.QLabel(self\&.centralwidget)
+28         self\&.widget_logo\&.setGeometry(QtCore\&.QRect(20, 10, 201, 121))
+29         self\&.widget_logo\&.setObjectName(_fromUtf8('widget_logo'))
+30         self\&.widget_logo\&.setPixmap(logo)
+31         self\&.widget = QtGui\&.QWidget(self\&.centralwidget)
+32         self\&.widget\&.setGeometry(QtCore\&.QRect(240, 10, 341, 231))
+33         self\&.widget\&.setObjectName(_fromUtf8('widget'))
+34         self\&.verticalLayout = QtGui\&.QVBoxLayout(self\&.widget)
+35         self\&.verticalLayout\&.setMargin(0)
+36         self\&.verticalLayout\&.setObjectName(_fromUtf8('verticalLayout'))
+37         self\&.label_empresa = QtGui\&.QLabel(self\&.widget)
+38         font = QtGui\&.QFont()
+39         font\&.setPointSize(16)
+40         self\&.label_empresa\&.setFont(font)
+41         self\&.label_empresa\&.setAlignment(QtCore\&.Qt\&.AlignCenter)
+42         self\&.label_empresa\&.setObjectName(_fromUtf8('label_empresa'))
+43         self\&.verticalLayout\&.addWidget(self\&.label_empresa)
+44         self\&.label_descricao = QtGui\&.QLabel(self\&.widget)
+45         self\&.label_descricao\&.setAlignment(QtCore\&.Qt\&.AlignCenter)
+46         self\&.label_descricao\&.setObjectName(_fromUtf8('label_descricao'))
+47         self\&.verticalLayout\&.addWidget(self\&.label_descricao)
+48         self\&.horizontalLayout = QtGui\&.QHBoxLayout()
+49         self\&.horizontalLayout\&.setObjectName(_fromUtf8('horizontalLayout'))
+50         self\&.label_matricula = QtGui\&.QLabel(self\&.widget)
+51         self\&.label_matricula\&.setObjectName(_fromUtf8('label_matricula'))
+52         self\&.horizontalLayout\&.addWidget(self\&.label_matricula)
+53         self\&.lineEdit_matricula = QtGui\&.QLineEdit(self\&.widget)
+54         self\&.lineEdit_matricula\&.setObjectName(_fromUtf8('lineEdit_matricula'))
+55         self\&.horizontalLayout\&.addWidget(self\&.lineEdit_matricula)
+56         self\&.verticalLayout\&.addLayout(self\&.horizontalLayout)
+57         self\&.label_funcionarios = QtGui\&.QLabel(self\&.widget)
+58         self\&.label_funcionarios\&.setObjectName(_fromUtf8('label_funcionarios'))
+59         self\&.verticalLayout\&.addWidget(self\&.label_funcionarios)
+60         self\&.listView_funcionarios_horarios = QtGui\&.QListView(self\&.widget)
+61         self\&.listView_funcionarios_horarios\&.setObjectName(_fromUtf8('listView_funcionarios_horarios'))
+62         self\&.verticalLayout\&.addWidget(self\&.listView_funcionarios_horarios)
+63         self\&.widget1 = QtGui\&.QWidget(self\&.centralwidget)
+64         self\&.widget1\&.setGeometry(QtCore\&.QRect(30, 140, 171, 101))
+65         self\&.widget1\&.setObjectName(_fromUtf8('widget1'))
+66         self\&.verticalLayout_2 = QtGui\&.QVBoxLayout(self\&.widget1)
+67         self\&.verticalLayout_2\&.setMargin(0)
+68         self\&.verticalLayout_2\&.setObjectName(_fromUtf8('verticalLayout_2'))
+69         self\&.label_relogio = QtGui\&.QLabel(self\&.widget1)
+70         self\&.label_relogio\&.setAlignment(QtCore\&.Qt\&.AlignCenter)
+71         self\&.label_relogio\&.setObjectName(_fromUtf8('label_relogio'))
+72         self\&.verticalLayout_2\&.addWidget(self\&.label_relogio)
+73         self\&.pushButton_Administracao = QtGui\&.QPushButton(self\&.widget1)
+74         self\&.pushButton_Administracao\&.setObjectName(_fromUtf8('pushButton_Administracao'))
+75         self\&.verticalLayout_2\&.addWidget(self\&.pushButton_Administracao)
+76         self\&.pushButton_horarios = QtGui\&.QPushButton(self\&.widget1)
+77         self\&.pushButton_horarios\&.setObjectName(_fromUtf8('pushButton_horarios'))
+78         self\&.verticalLayout_2\&.addWidget(self\&.pushButton_horarios)
+79         ControleDeAcesso\&.setCentralWidget(self\&.centralwidget)
+80         self\&.menubar = QtGui\&.QMenuBar(ControleDeAcesso)
+81         self\&.menubar\&.setGeometry(QtCore\&.QRect(0, 0, 599, 25))
+82         self\&.menubar\&.setObjectName(_fromUtf8('menubar'))
+83         ControleDeAcesso\&.setMenuBar(self\&.menubar)
+84         self\&.statusbar = QtGui\&.QStatusBar(ControleDeAcesso)
+85         self\&.statusbar\&.setObjectName(_fromUtf8('statusbar'))
+86         ControleDeAcesso\&.setStatusBar(self\&.statusbar)
+87 
+88         self\&.retranslateUi(ControleDeAcesso)
+89         QtCore\&.QMetaObject\&.connectSlotsByName(ControleDeAcesso)
+
+.fi
+.SH "Documentação dos dados membro"
+.PP 
+.SS "\fBmainWindow_temp\&.Ui_ControleDeAcesso::centralwidget\fP"
+.PP
+Definido na linha 18 do ficheiro mainWindow_temp\&.py\&.
+.SS "\fBmainWindow_temp\&.Ui_ControleDeAcesso::horizontalLayout\fP"
+.PP
+Definido na linha 18 do ficheiro mainWindow_temp\&.py\&.
+.SS "\fBmainWindow_temp\&.Ui_ControleDeAcesso::label_descricao\fP"
+.PP
+Definido na linha 18 do ficheiro mainWindow_temp\&.py\&.
+.SS "\fBmainWindow_temp\&.Ui_ControleDeAcesso::label_empresa\fP"
+.PP
+Definido na linha 18 do ficheiro mainWindow_temp\&.py\&.
+.SS "\fBmainWindow_temp\&.Ui_ControleDeAcesso::label_funcionarios\fP"
+.PP
+Definido na linha 18 do ficheiro mainWindow_temp\&.py\&.
+.SS "\fBmainWindow_temp\&.Ui_ControleDeAcesso::label_matricula\fP"
+.PP
+Definido na linha 18 do ficheiro mainWindow_temp\&.py\&.
+.SS "\fBmainWindow_temp\&.Ui_ControleDeAcesso::label_relogio\fP"
+.PP
+Definido na linha 18 do ficheiro mainWindow_temp\&.py\&.
+.SS "\fBmainWindow_temp\&.Ui_ControleDeAcesso::lineEdit_matricula\fP"
+.PP
+Definido na linha 18 do ficheiro mainWindow_temp\&.py\&.
+.SS "\fBmainWindow_temp\&.Ui_ControleDeAcesso::listView_funcionarios_horarios\fP"
+.PP
+Definido na linha 18 do ficheiro mainWindow_temp\&.py\&.
+.SS "\fBmainWindow_temp\&.Ui_ControleDeAcesso::menubar\fP"
+.PP
+Definido na linha 18 do ficheiro mainWindow_temp\&.py\&.
+.SS "\fBmainWindow_temp\&.Ui_ControleDeAcesso::pushButton_Administracao\fP"
+.PP
+Definido na linha 18 do ficheiro mainWindow_temp\&.py\&.
+.SS "\fBmainWindow_temp\&.Ui_ControleDeAcesso::pushButton_horarios\fP"
+.PP
+Definido na linha 18 do ficheiro mainWindow_temp\&.py\&.
+.SS "\fBmainWindow_temp\&.Ui_ControleDeAcesso::statusbar\fP"
+.PP
+Definido na linha 18 do ficheiro mainWindow_temp\&.py\&.
+.SS "\fBmainWindow_temp\&.Ui_ControleDeAcesso::verticalLayout\fP"
+.PP
+Definido na linha 18 do ficheiro mainWindow_temp\&.py\&.
+.SS "\fBmainWindow_temp\&.Ui_ControleDeAcesso::verticalLayout_2\fP"
+.PP
+Definido na linha 18 do ficheiro mainWindow_temp\&.py\&.
+.SS "\fBmainWindow_temp\&.Ui_ControleDeAcesso::widget\fP"
+.PP
+Definido na linha 18 do ficheiro mainWindow_temp\&.py\&.
+.SS "\fBmainWindow_temp\&.Ui_ControleDeAcesso::widget1\fP"
+.PP
+Definido na linha 18 do ficheiro mainWindow_temp\&.py\&.
+.SS "\fBmainWindow_temp\&.Ui_ControleDeAcesso::widget_logo\fP"
+.PP
+Definido na linha 18 do ficheiro mainWindow_temp\&.py\&.
+
+.SH "Autor"
+.PP 
+Gerado automaticamente por Doxygen para Controle de Acesso a partir do código fonte\&.

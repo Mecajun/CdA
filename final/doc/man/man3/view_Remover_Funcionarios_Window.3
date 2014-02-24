@@ -1,0 +1,184 @@
+.TH "view.Remover_Funcionarios_Window" 3 "Terça, 24 de Dezembro de 2013" "Version 2" "Controle de Acesso" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+view.Remover_Funcionarios_Window \- 
+.PP
+Janela para remover funcionarios\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Derivada de \fBcda_removerfuncionario\&.Ui_Remover_Funcionarios_Window\fP\&.
+.SS "Membros públicos"
+
+.in +1c
+.ti -1c
+.RI "def \fB__init__\fP"
+.br
+.ti -1c
+.RI "def \fBcenter\fP"
+.br
+.RI "\fICentraliza a janela\&. \fP"
+.ti -1c
+.RI "def \fBmostrar_Funcionarios\fP"
+.br
+.RI "\fIMostra todos os funcionarios na lista\&. \fP"
+.ti -1c
+.RI "def \fBadiciona_ListView_Funcionarios\fP"
+.br
+.ti -1c
+.RI "def \fBremove_ListView_Funcionarios\fP"
+.br
+.ti -1c
+.RI "def \fBpushButton_Remover_Funcionario_Clicked\fP"
+.br
+.RI "\fIRemove o funcionario\&. \fP"
+.in -1c
+.SS "Atributos Públicos"
+
+.in +1c
+.ti -1c
+.RI "\fBdb\fP"
+.br
+.ti -1c
+.RI "\fBmodel_funcionarios\fP"
+.br
+.ti -1c
+.RI "\fBlista_funcionarios\fP"
+.br
+.in -1c
+.SH "Descrição detalhada"
+.PP 
+Janela para remover funcionarios\&. 
+.PP
+Definido na linha 712 do ficheiro view\&.py\&.
+.SH "Documentação dos Construtores & Destrutor"
+.PP 
+.SS "def \fBview\&.Remover_Funcionarios_Window\&.__init__\fP (self, parent = \fCNone\fP, db_dados = \fCNone\fP)"
+.PP
+Definido na linha 714 do ficheiro view\&.py\&.
+.PP
+.nf
+714 
+715     def __init__(self,parent=None,db_dados=None):
+716         super(Remover_Funcionarios_Window, self)\&.__init__(parent)
+717         self\&.setupUi(self)
+718         self\&.db=Connect_Db(db_dados)
+719         self\&.center()
+720         self\&._set_connections()
+721         self\&.show()
+722         self\&.model_funcionarios = QStandardItemModel(self\&.listView_funcionarios)
+723         self\&.listView_funcionarios\&.setModel(self\&.model_funcionarios)
+724         self\&.mostrar_Funcionarios()
+
+.fi
+.SH "Documentação dos métodos"
+.PP 
+.SS "def \fBview\&.Remover_Funcionarios_Window\&.adiciona_ListView_Funcionarios\fP (self, func = \fCNone\fP, id_funcionario = \fCNone\fP)"
+.PP
+Definido na linha 747 do ficheiro view\&.py\&.
+.PP
+Referenciado por view\&.Add_Funcionarios_Window\&.pushButton_Adicionar_Clicked()\&.
+.PP
+.nf
+747 
+748     def adiciona_ListView_Funcionarios(self,func=None,id_funcionario=None):
+749         if not hasattr(self,'lista_funcionarios'):
+750             self\&.lista_funcionarios=[]
+751         novo = QStandardItem(func)
+752         self\&.model_funcionarios\&.appendRow(novo)
+753         self\&.lista_funcionarios\&.append({'func':func,'id_funcionario':id_funcionario})
+    
+.fi
+.SS "def \fBview\&.Remover_Funcionarios_Window\&.center\fP (self)"
+.PP
+Centraliza a janela\&. 
+.PP
+Definido na linha 730 do ficheiro view\&.py\&.
+.PP
+.nf
+730 
+731     def center(self):
+732         qr = self\&.frameGeometry()
+733         cp = QDesktopWidget()\&.availableGeometry()\&.center()
+734         qr\&.moveCenter(cp)
+735         self\&.move(qr\&.topLeft())
+
+.fi
+.SS "def \fBview\&.Remover_Funcionarios_Window\&.mostrar_Funcionarios\fP (self)"
+.PP
+Mostra todos os funcionarios na lista\&. 
+.PP
+Definido na linha 737 do ficheiro view\&.py\&.
+.PP
+.nf
+737 
+738     def mostrar_Funcionarios(self):
+739         funcionarios=self\&.db\&.obter_Funcionarios()
+740         if funcionarios==False:
+741             return False
+742         for funcionario in funcionarios:
+743             self\&.adiciona_ListView_Funcionarios(funcionario['nome'],funcionario['id_funcionario'])
+
+.fi
+.SS "def \fBview\&.Remover_Funcionarios_Window\&.pushButton_Remover_Funcionario_Clicked\fP (self)"
+.PP
+Remove o funcionario\&. 
+.PP
+Definido na linha 777 do ficheiro view\&.py\&.
+.PP
+.nf
+777 
+778     def pushButton_Remover_Funcionario_Clicked(self):
+779         for i in self\&.listView_funcionarios\&.selectedIndexes():
+780             self\&.db\&.remover_Funcionario(self\&.lista_funcionarios[i\&.row()]['id_funcionario'])
+781             self\&.remove_ListView_Funcionarios(None,self\&.lista_funcionarios[i\&.row()]['id_funcionario'])
+
+.fi
+.SS "def \fBview\&.Remover_Funcionarios_Window\&.remove_ListView_Funcionarios\fP (self, func, id_funcionario)"
+.PP
+Definido na linha 757 do ficheiro view\&.py\&.
+.PP
+Referenciado por view\&.Remover_Funcionarios_Window\&.pushButton_Remover_Funcionario_Clicked()\&.
+.PP
+.nf
+757 
+758     def remove_ListView_Funcionarios(self,func,id_funcionario):
+759         if not hasattr(self,'lista_funcionarios'):
+760             self\&.lista_funcionarios=[]
+761             return False
+762         if len(self\&.lista_funcionarios)<=0:
+763             return False
+764         for i in range(len(self\&.lista_funcionarios)):
+765             if isinstance(id_funcionario, str) or isinstance(id_funcionario, unicode) or isinstance(id_funcionario, long) or isinstance(id_funcionario, int):
+766                 if self\&.lista_funcionarios[i]['id_funcionario']==id_funcionario:
+767                     self\&.model_funcionarios\&.takeRow(i)
+768                     del self\&.lista_funcionarios[i]
+769                     break
+770             elif isinstance(func, str) or isinstance(func, unicode):
+771                 if self\&.lista_funcionarios[i]['func']==func:
+772                     self\&.model_funcionarios\&.takeRow(i)
+773                     del self\&.lista_funcionarios[i]
+774                     break
+775         return True
+
+.fi
+.SH "Documentação dos dados membro"
+.PP 
+.SS "\fBview\&.Remover_Funcionarios_Window::db\fP"
+.PP
+Definido na linha 714 do ficheiro view\&.py\&.
+.SS "\fBview\&.Remover_Funcionarios_Window::lista_funcionarios\fP"
+.PP
+Definido na linha 747 do ficheiro view\&.py\&.
+.PP
+Referenciado por view\&.Atualiza_Funcionarios_Window::model_Funcionarios_Selection_Changed(), view\&.Atualiza_Funcionarios_Window::pushButton_Atualizar_Clicked(), view\&.Remover_Funcionarios_Window::pushButton_Remover_Funcionario_Clicked() e view\&.Remover_Funcionarios_Window::remove_ListView_Funcionarios()\&.
+.SS "\fBview\&.Remover_Funcionarios_Window::model_funcionarios\fP"
+.PP
+Definido na linha 714 do ficheiro view\&.py\&.
+
+.SH "Autor"
+.PP 
+Gerado automaticamente por Doxygen para Controle de Acesso a partir do código fonte\&.

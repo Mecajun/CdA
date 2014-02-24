@@ -1,0 +1,127 @@
+.TH "view.Atualiza_Funcionarios_Window" 3 "Terça, 24 de Dezembro de 2013" "Version 2" "Controle de Acesso" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+view.Atualiza_Funcionarios_Window \- 
+.PP
+Janela para atualizar funcionarios\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Derivada de \fBview\&.Funcionarios_Window\fP\&.
+.SS "Membros públicos"
+
+.in +1c
+.ti -1c
+.RI "def \fB__init__\fP"
+.br
+.ti -1c
+.RI "def \fBtroca_Nomes\fP"
+.br
+.ti -1c
+.RI "def \fBpushButton_Atualizar_Clicked\fP"
+.br
+.RI "\fIAdiciona um funcionario\&. \fP"
+.ti -1c
+.RI "def \fBmodel_Funcionarios_Selection_Changed\fP"
+.br
+.in -1c
+.SH "Descrição detalhada"
+.PP 
+Janela para atualizar funcionarios\&. 
+.PP
+Definido na linha 663 do ficheiro view\&.py\&.
+.SH "Documentação dos Construtores & Destrutor"
+.PP 
+.SS "def \fBview\&.Atualiza_Funcionarios_Window\&.__init__\fP (self, parent = \fCNone\fP, db_dados = \fCNone\fP)"
+.PP
+Reimplementado de \fBview\&.Funcionarios_Window\fP\&.
+.PP
+Definido na linha 665 do ficheiro view\&.py\&.
+.PP
+.nf
+665 
+666     def __init__(self,parent=None,db_dados=None):
+667         super(Atualiza_Funcionarios_Window, self)\&.__init__(parent,db_dados)
+668         self\&.connect(self\&.pushButton_adicionar,SIGNAL('clicked()'),self\&.pushButton_Atualizar_Clicked)
+669         self\&.listView_funcionarios\&.selectionModel()\&.selectionChanged\&.connect(self\&.model_Funcionarios_Selection_Changed)
+670         self\&.troca_Nomes()
+
+.fi
+.SH "Documentação dos métodos"
+.PP 
+.SS "def \fBview\&.Atualiza_Funcionarios_Window\&.model_Funcionarios_Selection_Changed\fP (self)"
+.PP
+Definido na linha 705 do ficheiro view\&.py\&.
+.PP
+Referenciado por view\&.Atualiza_Funcionarios_Window\&.__init__()\&.
+.PP
+.nf
+705 
+706     def model_Funcionarios_Selection_Changed(self):
+707         funcionario=self\&.lista_funcionarios[self\&.listView_funcionarios\&.selectedIndexes()[0]\&.row()]
+708         horarios=self\&.db\&.buscar_Horarios_de_Funcionario(funcionario['id_funcionario'])
+709         dados=self\&.db\&.obter_Funcionario(funcionario['id_funcionario'])
+710         self\&.inicializa_Campos(dados['nome'],dados['matricula'],dados['rfid'],horarios)
+
+.fi
+.SS "def \fBview\&.Atualiza_Funcionarios_Window\&.pushButton_Atualizar_Clicked\fP (self)"
+.PP
+Adiciona um funcionario\&. 
+.PP
+Definido na linha 676 do ficheiro view\&.py\&.
+.PP
+Referenciado por view\&.Atualiza_Funcionarios_Window\&.__init__()\&.
+.PP
+.nf
+676 
+677     def pushButton_Atualizar_Clicked(self):
+678         funcionario=self\&.lista_funcionarios[self\&.listView_funcionarios\&.selectedIndexes()[0]\&.row()]
+679         id_funcionario=funcionario['id_funcionario']
+680         dados=self\&.obter_Dados_Janela()
+681         existe=self\&.db\&.verifica_Ja_Existe(dados['nome'],dados['matricula'],dados['rfid'],id_funcionario)
+682         if existe['existe']==True:
+683             erro_string=u'Erro\n'
+684             if existe['nome']:
+685                 erro_string+=u'Nome ja existe\n'
+686             if existe['matricula']:
+687                 erro_string+=u'Matricula ja existe\n'
+688             if existe['rfid']:
+689                 erro_string+=u'Rfid ja existe\n'
+690             msgBox = QMessageBox()
+691             msgBox\&.setText(erro_string)
+692             msgBox\&.exec_()
+693         else:
+694             self\&.db\&.atualizar_Funcionario(id_funcionario,dados['nome'],dados['matricula'],dados['rfid'])
+695             for horario in dados['horarios']:
+696                 if horario['id_horario']==None:
+697                     self\&.db\&.criar_Horario(id_funcionario,horario['dia_da_semana'],horario['horario_inicial'],horario['horario_final'])
+698             for horario in self\&.lista_horarios_removidos:
+699                 self\&.db\&.remover_Horario(horario['id_horario'])
+700             self\&.atualiza_ListView_Funcionarios(None,id_funcionario,dados['nome'])
+701             msgBox = QMessageBox()
+702             msgBox\&.setText('Funcionario atualizado')
+703             msgBox\&.exec_()
+704             self\&.limpar_Campos()
+
+.fi
+.SS "def \fBview\&.Atualiza_Funcionarios_Window\&.troca_Nomes\fP (self)"
+.PP
+Definido na linha 671 do ficheiro view\&.py\&.
+.PP
+Referenciado por view\&.Atualiza_Funcionarios_Window\&.__init__()\&.
+.PP
+.nf
+671 
+672     def troca_Nomes(self):
+673         self\&.setWindowTitle('Editar Funcionarios')
+674         self\&.pushButton_adicionar\&.setText('Atualizar Funcionario')
+
+.fi
+
+
+.SH "Autor"
+.PP 
+Gerado automaticamente por Doxygen para Controle de Acesso a partir do código fonte\&.

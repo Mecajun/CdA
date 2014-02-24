@@ -1,0 +1,87 @@
+.TH "view.Add_Funcionarios_Window" 3 "Terça, 24 de Dezembro de 2013" "Version 2" "Controle de Acesso" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+view.Add_Funcionarios_Window \- 
+.PP
+Janela para adicionar funcionarios\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Derivada de \fBview\&.Funcionarios_Window\fP\&.
+.SS "Membros públicos"
+
+.in +1c
+.ti -1c
+.RI "def \fB__init__\fP"
+.br
+.ti -1c
+.RI "def \fBpushButton_Adicionar_Clicked\fP"
+.br
+.RI "\fIAdiciona um funcionario\&. \fP"
+.in -1c
+.SH "Descrição detalhada"
+.PP 
+Janela para adicionar funcionarios\&. 
+.PP
+Definido na linha 630 do ficheiro view\&.py\&.
+.SH "Documentação dos Construtores & Destrutor"
+.PP 
+.SS "def \fBview\&.Add_Funcionarios_Window\&.__init__\fP (self, parent = \fCNone\fP, db_dados = \fCNone\fP)"
+.PP
+Reimplementado de \fBview\&.Funcionarios_Window\fP\&.
+.PP
+Definido na linha 632 do ficheiro view\&.py\&.
+.PP
+.nf
+632 
+633     def __init__(self,parent=None,db_dados=None):
+634         super(Add_Funcionarios_Window, self)\&.__init__(parent,db_dados)
+635         self\&.connect(self\&.pushButton_adicionar,SIGNAL('clicked()'),self\&.pushButton_Adicionar_Clicked)
+
+.fi
+.SH "Documentação dos métodos"
+.PP 
+.SS "def \fBview\&.Add_Funcionarios_Window\&.pushButton_Adicionar_Clicked\fP (self)"
+.PP
+Adiciona um funcionario\&. 
+.PP
+Definido na linha 637 do ficheiro view\&.py\&.
+.PP
+Referenciado por view\&.Add_Funcionarios_Window\&.__init__()\&.
+.PP
+.nf
+637 
+638     def pushButton_Adicionar_Clicked(self):
+639         dados=self\&.obter_Dados_Janela()
+640         existe=self\&.db\&.verifica_Ja_Existe(dados['nome'],dados['matricula'],dados['rfid'])
+641         if existe['existe']==True:
+642             erro_string=u'Erro\n'
+643             if existe['nome']:
+644                 erro_string+=u'Nome ja existe\n'
+645             if existe['matricula']:
+646                 erro_string+=u'Matricula ja existe\n'
+647             if existe['rfid']:
+648                 erro_string+=u'Rfid ja existe\n'
+649             msgBox = QMessageBox()
+650             msgBox\&.setText(erro_string)
+651             msgBox\&.exec_()
+652         else:
+653             self\&.db\&.criar_Funcionario(dados['nome'],dados['matricula'],dados['rfid'])
+654             id_funcionario=self\&.db\&.obter_Id_Funcionario_por_Nome(dados['nome'])
+655             for horario in dados['horarios']:
+656                 self\&.db\&.criar_Horario(id_funcionario,horario['dia_da_semana'],horario['horario_inicial'],horario['horario_final'])
+657             self\&.adiciona_ListView_Funcionarios(dados['nome'],id_funcionario)
+658             msgBox = QMessageBox()
+659             msgBox\&.setText('Funcionario adicionado')
+660             msgBox\&.exec_()
+661             self\&.limpar_Campos()
+
+.fi
+
+
+.SH "Autor"
+.PP 
+Gerado automaticamente por Doxygen para Controle de Acesso a partir do código fonte\&.

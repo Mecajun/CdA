@@ -1,0 +1,706 @@
+.TH "view.Controle_De_Acesso_Window" 3 "Terça, 24 de Dezembro de 2013" "Version 2" "Controle de Acesso" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+view.Controle_De_Acesso_Window \- 
+.PP
+Janela principal do programa\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Derivada de \fBcda_mainWindow\&.Ui_Controle_De_Acesso_Window\fP\&.
+.SS "Membros públicos"
+
+.in +1c
+.ti -1c
+.RI "def \fB__init__\fP"
+.br
+.RI "\fIConstrutor da classe\&. \fP"
+.ti -1c
+.RI "def \fBatualiza_Funcionarios_Esperados\fP"
+.br
+.RI "\fIAtualiza a lista de funcionarios esperados\&. \fP"
+.ti -1c
+.RI "def \fBadiciona_Funcionarios_Horario\fP"
+.br
+.RI "\fIAdiciona funcionarios na lista de funcionarios do horario  func Nome do fucionario que sera adicionado  id_funcionario Id do funcionario que sera adicionado #param estado Estado de presença True ou False\&. \fP"
+.ti -1c
+.RI "def \fBremove_Funcionarios_Horario\fP"
+.br
+.RI "\fIRemove funcionarios na lista de funcionarios do horario utilizando como parametro o nome do funcionario ou id, somente um dos dois dados é necessario  func Nome do fucionario que sera removido  id_funcionario Id do funcionario que sera removido\&. \fP"
+.ti -1c
+.RI "def \fBatualiza_Funcionarios_Horario\fP"
+.br
+.RI "\fIAtualiza funcionarios na lista de funcionarios do horario utilizando como parametro o nome do funcionario ou id, somente um dos dois dados é necessario  func Nome do fucionario que sera atualizado  id_funcionario Id do funcionario que sera atualizado #param estado Estado de presença True ou False\&. \fP"
+.ti -1c
+.RI "def \fBcenter\fP"
+.br
+.RI "\fICentraliza a janela\&. \fP"
+.ti -1c
+.RI "def \fBatualiza_Relogio\fP"
+.br
+.RI "\fIAtualiza o relogio a cada segundo\&. \fP"
+.ti -1c
+.RI "def \fBfechar_Window\fP"
+.br
+.RI "\fIFecha uma das janelas do programa se estiverem abertas\&. \fP"
+.ti -1c
+.RI "def \fBmenu_Alterar_Senha_valida\fP"
+.br
+.RI "\fIFunção chamada quando menu administrativo de abrir a janela de alterar a senha é clicado A Função chama a janela que pede a senha do adm e conecta o sinal do resultado da validação\&. \fP"
+.ti -1c
+.RI "def \fBmenu_Adicionar_Funcionarios_valida\fP"
+.br
+.RI "\fIFunção chamada quando menu administrativo de adicionar funcionarios é clicado A Função chama a janela que pede a senha do adm e conecta o sinal do resultado da validação\&. \fP"
+.ti -1c
+.RI "def \fBmenu_Remover_Funcionarios_valida\fP"
+.br
+.RI "\fIFunção chamada quando menu administrativo de remover funcionarios é clicado A Função chama a janela que pede a senha do adm e conecta o sinal do resultado da validação\&. \fP"
+.ti -1c
+.RI "def \fBmenu_Editar_Funcionarios_valida\fP"
+.br
+.RI "\fIFunção chamada quando menu administrativo de editar funcionarios é clicado A Função chama a janela que pede a senha do adm e conecta o sinal do resultado da validação\&. \fP"
+.ti -1c
+.RI "def \fBmenu_Configurar_Tolerancias_valida\fP"
+.br
+.RI "\fIFunção chamada quando menu administrativo de configurar tolerancias é clicado A Função chama a janela que pede a senha do adm e conecta o sinal do resultado da validação\&. \fP"
+.ti -1c
+.RI "def \fBmenu_Gerar_Relatorios_valida\fP"
+.br
+.RI "\fIFunção chamada quando menu administrativo de gerar relatorios é clicado A Função chama a janela que pede a senha do adm e conecta o sinal do resultado da validação\&. \fP"
+.ti -1c
+.RI "def \fBmenu_Alterar_Senha\fP"
+.br
+.RI "\fIFecha as janelas abertas e chama cria a janela \fBAltera_Senha_Window\fP\&. \fP"
+.ti -1c
+.RI "def \fBmenu_Adicionar_Funcionarios\fP"
+.br
+.RI "\fIFecha as janelas abertas e chama cria a janela \fBAdd_Funcionarios_Window\fP\&. \fP"
+.ti -1c
+.RI "def \fBmenu_Remover_Funcionarios\fP"
+.br
+.ti -1c
+.RI "def \fBmenu_Editar_Funcionarios\fP"
+.br
+.ti -1c
+.RI "def \fBmenu_Configurar_Tolerancias\fP"
+.br
+.RI "\fIFecha as janelas abertas e chama cria a janela \fBTolerancias_Window\fP\&. \fP"
+.ti -1c
+.RI "def \fBmenu_Gerar_Relatorios\fP"
+.br
+.RI "\fIFecha as janelas abertas e chama cria a janela \fBRelatorios_Window\fP\&. \fP"
+.ti -1c
+.RI "def \fBmenu_Manual\fP"
+.br
+.ti -1c
+.RI "def \fBmenu_Sobre_Mecajun\fP"
+.br
+.ti -1c
+.RI "def \fBmenu_Sobre_Qt\fP"
+.br
+.ti -1c
+.RI "def \fBlineEdit_Matricula_ReturnPressed\fP"
+.br
+.RI "\fIFunção chamada quando usuario digita uma matricula e tecla enter\&. \fP"
+.ti -1c
+.RI "def \fBpushButton_Horarios_Clicked\fP"
+.br
+.RI "\fIFecha a janela \fBHorarios_Window\fP e cria a janela \fBHorarios_Window\fP\&. \fP"
+.ti -1c
+.RI "def \fBdar_Ponto\fP"
+.br
+.RI "\fIDa o ponto de entrada ou saida apartir do id de um funcionario  id_funcionario Id do funcionario\&. \fP"
+.in -1c
+.SS "Atributos Públicos"
+
+.in +1c
+.ti -1c
+.RI "\fBdb_dados\fP"
+.br
+.ti -1c
+.RI "\fBdb\fP"
+.br
+.ti -1c
+.RI "\fBadm_window\fP"
+.br
+.ti -1c
+.RI "\fBaltera_senha_window\fP"
+.br
+.ti -1c
+.RI "\fBadd_funcionarios_window\fP"
+.br
+.ti -1c
+.RI "\fBatualiza_funcionarios_window\fP"
+.br
+.ti -1c
+.RI "\fBtolerancias_window\fP"
+.br
+.ti -1c
+.RI "\fBrelatorios_window\fP"
+.br
+.ti -1c
+.RI "\fBhorarios_window\fP"
+.br
+.ti -1c
+.RI "\fBremover_funcionarios_window\fP"
+.br
+.ti -1c
+.RI "\fBfuncionarios_horario_list\fP"
+.br
+.ti -1c
+.RI "\fBmodel\fP"
+.br
+.ti -1c
+.RI "\fBlogados\fP"
+.br
+.ti -1c
+.RI "\fBnao_logados\fP"
+.br
+.in -1c
+.SH "Descrição detalhada"
+.PP 
+Janela principal do programa\&. 
+.PP
+Definido na linha 27 do ficheiro view\&.py\&.
+.SH "Documentação dos Construtores & Destrutor"
+.PP 
+.SS "def \fBview\&.Controle_De_Acesso_Window\&.__init__\fP (self, parent = \fCNone\fP, db_dados = \fCNone\fP)"
+.PP
+Construtor da classe\&. 
+.PP
+Definido na linha 29 do ficheiro view\&.py\&.
+.PP
+.nf
+29 
+30     def __init__(self,parent=None,db_dados=None):
+31         super(Controle_De_Acesso_Window, self)\&.__init__(parent)
+32         self\&.db_dados=db_dados
+33         self\&.setupUi(self)
+34         self\&.db=Connect_Db(db_dados)
+35         self\&._set_connections()
+36         self\&.adm_window=None
+37         self\&.altera_senha_window=None
+38         self\&.add_funcionarios_window=None
+39         self\&.atualiza_funcionarios_window=None
+40         self\&.tolerancias_window=None
+41         self\&.relatorios_window=None
+42         self\&.horarios_window=None
+43         self\&.remover_funcionarios_window=None
+44         self\&.funcionarios_horario_list=[]
+45         self\&._configure()
+46         self\&.show()
+
+.fi
+.SH "Documentação dos métodos"
+.PP 
+.SS "def \fBview\&.Controle_De_Acesso_Window\&.adiciona_Funcionarios_Horario\fP (self, func, id_funcionario, estado)"
+.PP
+Adiciona funcionarios na lista de funcionarios do horario  func Nome do fucionario que sera adicionado  id_funcionario Id do funcionario que sera adicionado #param estado Estado de presença True ou False\&. 
+.PP
+Definido na linha 117 do ficheiro view\&.py\&.
+.PP
+.nf
+117 
+118     def adiciona_Funcionarios_Horario(self,func,id_funcionario,estado):
+119         if not ( (isinstance(func, str) or isinstance(func, unicode)) and (isinstance(id_funcionario, str) or isinstance(id_funcionario, unicode))):
+120             return False
+121         item = QStandardItem(func)
+122         if estado==True:
+123             item\&.setIcon(QPixmap('imagens/yes_icon\&.png'))
+124         else:
+125             item\&.setIcon(QPixmap('imagens/no_icon\&.png'))
+126         self\&.model\&.appendRow(item)
+127         self\&.funcionarios_horario_list\&.append({'func':func,'id_funcionario':id_funcionario,'estado':estado})
+128         return True
+
+.fi
+.SS "def \fBview\&.Controle_De_Acesso_Window\&.atualiza_Funcionarios_Esperados\fP (self)"
+.PP
+Atualiza a lista de funcionarios esperados\&. 
+.PP
+Definido na linha 76 do ficheiro view\&.py\&.
+.PP
+.nf
+76 
+77     def atualiza_Funcionarios_Esperados(self):
+78         tol_ent_ant=self\&.db\&.obter_Configuracoes('tol_ent_ant')
+79         tol_sai_dep=self\&.db\&.obter_Configuracoes('tol_sai_dep')
+80         esperados=self\&.db\&.buscar_Funcionarios_Esperados(get_Week_Day(),tol_ent_ant,tol_sai_dep)
+81         funcionarios_horario_list_ids=[x['id_funcionario'] for x in self\&.funcionarios_horario_list]
+82 
+83         if esperados==False and len(funcionarios_horario_list_ids)>0:
+84             for i in funcionarios_horario_list_ids:
+85                 self\&.remove_Funcionarios_Horario(None,i)
+86 
+87         if esperados==False and len(funcionarios_horario_list_ids)==0:
+88             return True
+89 
+90         self\&.logados=self\&.db\&.buscar_Funcionarios_Esperados_Logados(get_Week_Day(),tol_ent_ant,tol_sai_dep)
+91         self\&.nao_logados=[]
+92         if self\&.logados==False:
+93             self\&.nao_logados=[x for x in esperados\&.keys()]
+94             self\&.logados=[]
+95         else:
+96             self\&.nao_logados=[x for x in esperados\&.keys() if x not in self\&.logados]
+97 
+98         for i in esperados\&.keys():
+99             if i not in funcionarios_horario_list_ids:
+100                 if i in self\&.logados:
+101                     self\&.adiciona_Funcionarios_Horario(esperados[i]['nome'],i,True)
+102                 if i in self\&.nao_logados:
+103                     self\&.adiciona_Funcionarios_Horario(esperados[i]['nome'],i,False)
+104             else:
+105                 if i in self\&.logados:
+106                     self\&.atualiza_Funcionarios_Horario(None,i,True)
+107                 if i in self\&.nao_logados:
+108                     self\&.atualiza_Funcionarios_Horario(None,i,False) 
+109 
+110         for i in funcionarios_horario_list_ids:
+111             if i not in esperados\&.keys():
+112                 self\&.remove_Funcionarios_Horario(None,i)
+
+.fi
+.SS "def \fBview\&.Controle_De_Acesso_Window\&.atualiza_Funcionarios_Horario\fP (self, func = \fCNone\fP, id_funcionario = \fCNone\fP, estado = \fCTrue\fP)"
+.PP
+Atualiza funcionarios na lista de funcionarios do horario utilizando como parametro o nome do funcionario ou id, somente um dos dois dados é necessario  func Nome do fucionario que sera atualizado  id_funcionario Id do funcionario que sera atualizado #param estado Estado de presença True ou False\&. 
+.PP
+Definido na linha 153 do ficheiro view\&.py\&.
+.PP
+.nf
+153 
+154     def atualiza_Funcionarios_Horario(self,func=None,id_funcionario=None,estado=True):
+155         if len(self\&.funcionarios_horario_list)<=0:
+156             return False
+157         i=0
+158         for i in range(len(self\&.funcionarios_horario_list)):
+159             if isinstance(id_funcionario, str) or isinstance(id_funcionario, unicode):
+160                 if self\&.funcionarios_horario_list[i]['id_funcionario']==id_funcionario:
+161                     if self\&.funcionarios_horario_list[i]['estado']==estado:
+162                         return True
+163                     self\&.model\&.takeRow(i)
+164                     item = QStandardItem(self\&.funcionarios_horario_list[i]['func'])
+165                     if estado==True:
+166                         item\&.setIcon(QPixmap('imagens/yes_icon\&.png'))
+167                     else:
+168                         item\&.setIcon(QPixmap('imagens/no_icon\&.png'))
+169                     self\&.model\&.insertRow(i,item)
+170                     self\&.funcionarios_horario_list[i]['estado']=estado
+171                     return True
+172             elif isinstance(func, str) or isinstance(func, unicode):
+173                 if self\&.funcionarios_horario_list[i]['func']==func:
+174                     if self\&.funcionarios_horario_list[i]['estado']==estado:
+175                         return True
+176                     self\&.model\&.takeRow(i)
+177                     item = QStandardItem(self\&.funcionarios_horario_list[i]['func'])
+178                     if estado==True:
+179                         item\&.setIcon(QPixmap('imagens/yes_icon\&.png'))
+180                     else:
+181                         item\&.setIcon(QPixmap('imagens/no_icon\&.png'))
+182                     self\&.model\&.insertRow(i,item)
+183                     self\&.funcionarios_horario_list[i]['estado']=estado
+184                     return True
+185         return True
+
+.fi
+.SS "def \fBview\&.Controle_De_Acesso_Window\&.atualiza_Relogio\fP (self)"
+.PP
+Atualiza o relogio a cada segundo\&. 
+.PP
+Definido na linha 194 do ficheiro view\&.py\&.
+.PP
+.nf
+194 
+195     def atualiza_Relogio(self):
+196         self\&.label_relogio\&.setText(datetime\&.now()\&.strftime('%Y/%m/%d\n%H:%M:%S'))
+
+.fi
+.SS "def \fBview\&.Controle_De_Acesso_Window\&.center\fP (self)"
+.PP
+Centraliza a janela\&. 
+.PP
+Definido na linha 187 do ficheiro view\&.py\&.
+.PP
+.nf
+187 
+188     def center(self):
+189         qr = self\&.frameGeometry()
+190         cp = QDesktopWidget()\&.availableGeometry()\&.center()
+191         qr\&.moveCenter(cp)
+192         self\&.move(qr\&.topLeft())
+
+.fi
+.SS "def \fBview\&.Controle_De_Acesso_Window\&.dar_Ponto\fP (self, id_funcionario)"
+.PP
+Da o ponto de entrada ou saida apartir do id de um funcionario  id_funcionario Id do funcionario\&. 
+.PP
+Definido na linha 307 do ficheiro view\&.py\&.
+.PP
+.nf
+307 
+308     def dar_Ponto(self,id_funcionario):
+309         # Obtem os limites de tempo para considerar o ponto entrada
+310         limite_inferior_entrada=string_2_Timedelta(self\&.db\&.obter_Configuracoes('tol_ent_ant'))
+311         limite_superior_entrada=string_2_Timedelta(self\&.db\&.obter_Configuracoes('tol_ent_dep'))
+312         #  Obtem os limites de tempo para considerar o ponto de saida
+313         limite_inferior_saida=string_2_Timedelta(self\&.db\&.obter_Configuracoes('tol_sai_ant'))
+314         limite_superior_saida=string_2_Timedelta(self\&.db\&.obter_Configuracoes('tol_sai_dep'))
+315 
+316         ponto_antigo=self\&.db\&.buscar_Ponto_Aberto_de_Funcionario(id_funcionario)
+317 
+318         if ponto_antigo!=False:
+319             #   Ponto que não foi fechado
+320             if (ponto_antigo['hora_final']+limite_superior_saida) < data_Atual():
+321                 self\&.db\&.finaliza_Ponto(id_funcionario,data_Atual(True),2)
+322             #   Ponto normal
+323             elif ((ponto_antigo['hora_final']-limite_inferior_saida) <= data_Atual()) and ((ponto_antigo['hora_final']+limite_superior_saida) >= data_Atual()):
+324                 self\&.db\&.finaliza_Ponto(id_funcionario,data_Atual(True),1)
+325                 return
+326 
+327         id_horario=self\&.db\&.buscar_Horario_Mais_Proximo_de_Funcionario(id_funcionario,get_Week_Day(),limite_inferior_entrada,limite_superior_entrada)
+328         if id_horario!=False:
+329             self\&.db\&.criar_Ponto(id_funcionario,id_horario,-1)
+330             return
+
+.fi
+.SS "def \fBview\&.Controle_De_Acesso_Window\&.fechar_Window\fP (self, window)"
+.PP
+Fecha uma das janelas do programa se estiverem abertas\&. \fBParâmetros:\fP
+.RS 4
+\fIwindow\fP janela que será fechada 
+.RE
+.PP
+
+.PP
+Definido na linha 199 do ficheiro view\&.py\&.
+.PP
+.nf
+199 
+200     def fechar_Window(self,window):
+201         try:
+202             window\&.close()
+203         except AttributeError:
+204             pass
+205         return
+
+.fi
+.SS "def \fBview\&.Controle_De_Acesso_Window\&.lineEdit_Matricula_ReturnPressed\fP (self)"
+.PP
+Função chamada quando usuario digita uma matricula e tecla enter\&. 
+.PP
+Definido na linha 292 do ficheiro view\&.py\&.
+.PP
+.nf
+292 
+293     def lineEdit_Matricula_ReturnPressed(self):
+294         print self\&.lineEdit_matricula\&.text()
+295         id_funcionario=self\&.db\&.obter_Id_Funcionario_por_Matricula(self\&.lineEdit_matricula\&.text())
+296         if id_funcionario!=False:
+297             self\&.dar_Ponto(id_funcionario)
+298         else:
+299             print 'Erro lineEdit_Matricula_ReturnPressed'
+
+.fi
+.SS "def \fBview\&.Controle_De_Acesso_Window\&.menu_Adicionar_Funcionarios\fP (self)"
+.PP
+Fecha as janelas abertas e chama cria a janela \fBAdd_Funcionarios_Window\fP\&. 
+.PP
+Definido na linha 255 do ficheiro view\&.py\&.
+.PP
+.nf
+255 
+256     def menu_Adicionar_Funcionarios(self):
+257         self\&.fechar_Window(self\&.adm_window)
+258         self\&.fechar_Window(self\&.add_funcionarios_window)
+259         self\&.add_funcionarios_window=Add_Funcionarios_Window(self,self\&.db_dados)
+
+.fi
+.SS "def \fBview\&.Controle_De_Acesso_Window\&.menu_Adicionar_Funcionarios_valida\fP (self)"
+.PP
+Função chamada quando menu administrativo de adicionar funcionarios é clicado A Função chama a janela que pede a senha do adm e conecta o sinal do resultado da validação\&. Caso a senha esteja correta a função  sera chamada 
+.PP
+Definido na linha 215 do ficheiro view\&.py\&.
+.PP
+.nf
+215 
+216     def menu_Adicionar_Funcionarios_valida(self):
+217         self\&.fechar_Window(self\&.adm_window)
+218         self\&.adm_window=Adm_Senha_Window(self,self\&.db_dados)
+219         self\&.connect(self\&.adm_window,SIGNAL('resultado_Validacao_Senha()'),self\&.menu_Adicionar_Funcionarios)
+
+.fi
+.SS "def \fBview\&.Controle_De_Acesso_Window\&.menu_Alterar_Senha\fP (self)"
+.PP
+Fecha as janelas abertas e chama cria a janela \fBAltera_Senha_Window\fP\&. 
+.PP
+Definido na linha 249 do ficheiro view\&.py\&.
+.PP
+.nf
+249 
+250     def menu_Alterar_Senha(self):
+251         self\&.fechar_Window(self\&.adm_window)
+252         self\&.fechar_Window(self\&.altera_senha_window)
+253         self\&.altera_senha_window=Altera_Senha_Window(self,self\&.db_dados)
+
+.fi
+.SS "def \fBview\&.Controle_De_Acesso_Window\&.menu_Alterar_Senha_valida\fP (self)"
+.PP
+Função chamada quando menu administrativo de abrir a janela de alterar a senha é clicado A Função chama a janela que pede a senha do adm e conecta o sinal do resultado da validação\&. Caso a senha esteja correta a função  sera chamada 
+.PP
+Definido na linha 208 do ficheiro view\&.py\&.
+.PP
+.nf
+208 
+209     def menu_Alterar_Senha_valida(self):
+210         self\&.fechar_Window(self\&.adm_window)
+211         self\&.adm_window=Adm_Senha_Window(self,self\&.db_dados)
+212         self\&.connect(self\&.adm_window,SIGNAL('resultado_Validacao_Senha()'),self\&.menu_Alterar_Senha)
+
+.fi
+.SS "def \fBview\&.Controle_De_Acesso_Window\&.menu_Configurar_Tolerancias\fP (self)"
+.PP
+Fecha as janelas abertas e chama cria a janela \fBTolerancias_Window\fP\&. 
+.PP
+Definido na linha 271 do ficheiro view\&.py\&.
+.PP
+.nf
+271 
+272     def menu_Configurar_Tolerancias(self):
+273         self\&.fechar_Window(self\&.adm_window)
+274         self\&.fechar_Window(self\&.tolerancias_window)
+275         self\&.tolerancias_window=Tolerancias_Window(self,self\&.db_dados)
+
+.fi
+.SS "def \fBview\&.Controle_De_Acesso_Window\&.menu_Configurar_Tolerancias_valida\fP (self)"
+.PP
+Função chamada quando menu administrativo de configurar tolerancias é clicado A Função chama a janela que pede a senha do adm e conecta o sinal do resultado da validação\&. Caso a senha esteja correta a função  sera chamada 
+.PP
+Definido na linha 236 do ficheiro view\&.py\&.
+.PP
+.nf
+236 
+237     def menu_Configurar_Tolerancias_valida(self):
+238         self\&.fechar_Window(self\&.adm_window)
+239         self\&.adm_window=Adm_Senha_Window(self,self\&.db_dados)
+240         self\&.connect(self\&.adm_window,SIGNAL('resultado_Validacao_Senha()'),self\&.menu_Configurar_Tolerancias)
+    
+.fi
+.SS "def \fBview\&.Controle_De_Acesso_Window\&.menu_Editar_Funcionarios\fP (self)"
+.PP
+Definido na linha 265 do ficheiro view\&.py\&.
+.PP
+.nf
+265 
+266     def menu_Editar_Funcionarios(self):
+267         self\&.fechar_Window(self\&.adm_window)
+268         self\&.fechar_Window(self\&.atualiza_funcionarios_window)
+269         self\&.atualiza_funcionarios_window=Atualiza_Funcionarios_Window(self,self\&.db_dados)
+
+.fi
+.SS "def \fBview\&.Controle_De_Acesso_Window\&.menu_Editar_Funcionarios_valida\fP (self)"
+.PP
+Função chamada quando menu administrativo de editar funcionarios é clicado A Função chama a janela que pede a senha do adm e conecta o sinal do resultado da validação\&. Caso a senha esteja correta a função  sera chamada 
+.PP
+Definido na linha 229 do ficheiro view\&.py\&.
+.PP
+.nf
+229 
+230     def menu_Editar_Funcionarios_valida(self):
+231         self\&.fechar_Window(self\&.adm_window)
+232         self\&.adm_window=Adm_Senha_Window(self,self\&.db_dados)
+233         self\&.connect(self\&.adm_window,SIGNAL('resultado_Validacao_Senha()'),self\&.menu_Editar_Funcionarios)
+
+.fi
+.SS "def \fBview\&.Controle_De_Acesso_Window\&.menu_Gerar_Relatorios\fP (self)"
+.PP
+Fecha as janelas abertas e chama cria a janela \fBRelatorios_Window\fP\&. 
+.PP
+Definido na linha 277 do ficheiro view\&.py\&.
+.PP
+.nf
+277 
+278     def menu_Gerar_Relatorios(self):
+279         self\&.fechar_Window(self\&.adm_window)
+280         self\&.fechar_Window(self\&.relatorios_window)
+281         self\&.relatorios_window=Relatorios_Window(self,self\&.db_dados)
+
+.fi
+.SS "def \fBview\&.Controle_De_Acesso_Window\&.menu_Gerar_Relatorios_valida\fP (self)"
+.PP
+Função chamada quando menu administrativo de gerar relatorios é clicado A Função chama a janela que pede a senha do adm e conecta o sinal do resultado da validação\&. Caso a senha esteja correta a função  sera chamada 
+.PP
+Definido na linha 243 do ficheiro view\&.py\&.
+.PP
+.nf
+243 
+244     def menu_Gerar_Relatorios_valida(self):
+245         self\&.fechar_Window(self\&.adm_window)
+246         self\&.adm_window=Adm_Senha_Window(self,self\&.db_dados)
+247         self\&.connect(self\&.adm_window,SIGNAL('resultado_Validacao_Senha()'),self\&.menu_Gerar_Relatorios)
+
+.fi
+.SS "def \fBview\&.Controle_De_Acesso_Window\&.menu_Manual\fP (self)"
+.PP
+Definido na linha 282 do ficheiro view\&.py\&.
+.PP
+.nf
+282 
+283     def menu_Manual(self):
+284         print 'Não implementado'
+
+.fi
+.SS "def \fBview\&.Controle_De_Acesso_Window\&.menu_Remover_Funcionarios\fP (self)"
+.PP
+Definido na linha 260 do ficheiro view\&.py\&.
+.PP
+.nf
+260 
+261     def menu_Remover_Funcionarios(self):
+262         self\&.fechar_Window(self\&.adm_window)
+263         self\&.fechar_Window(self\&.remover_funcionarios_window)
+264         self\&.remover_funcionarios_window=Remover_Funcionarios_Window(self,self\&.db_dados)
+
+.fi
+.SS "def \fBview\&.Controle_De_Acesso_Window\&.menu_Remover_Funcionarios_valida\fP (self)"
+.PP
+Função chamada quando menu administrativo de remover funcionarios é clicado A Função chama a janela que pede a senha do adm e conecta o sinal do resultado da validação\&. Caso a senha esteja correta a função  sera chamada 
+.PP
+Definido na linha 222 do ficheiro view\&.py\&.
+.PP
+.nf
+222 
+223     def menu_Remover_Funcionarios_valida(self):
+224         self\&.fechar_Window(self\&.adm_window)
+225         self\&.adm_window=Adm_Senha_Window(self,self\&.db_dados)
+226         self\&.connect(self\&.adm_window,SIGNAL('resultado_Validacao_Senha()'),self\&.menu_Remover_Funcionarios)
+
+.fi
+.SS "def \fBview\&.Controle_De_Acesso_Window\&.menu_Sobre_Mecajun\fP (self)"
+.PP
+Definido na linha 285 do ficheiro view\&.py\&.
+.PP
+.nf
+285 
+286     def menu_Sobre_Mecajun(self):
+287         print 'Não implementado'
+
+.fi
+.SS "def \fBview\&.Controle_De_Acesso_Window\&.menu_Sobre_Qt\fP (self)"
+.PP
+Definido na linha 288 do ficheiro view\&.py\&.
+.PP
+.nf
+288 
+289     def menu_Sobre_Qt(self):
+290         print 'Não implementado'
+
+.fi
+.SS "def \fBview\&.Controle_De_Acesso_Window\&.pushButton_Horarios_Clicked\fP (self)"
+.PP
+Fecha a janela \fBHorarios_Window\fP e cria a janela \fBHorarios_Window\fP\&. 
+.PP
+Definido na linha 301 do ficheiro view\&.py\&.
+.PP
+.nf
+301 
+302     def pushButton_Horarios_Clicked(self):
+303         self\&.fechar_Window(self\&.horarios_window)
+304         self\&.horarios_window=Horarios_Window(self,self\&.db_dados)
+
+.fi
+.SS "def \fBview\&.Controle_De_Acesso_Window\&.remove_Funcionarios_Horario\fP (self, func = \fCNone\fP, id_funcionario = \fCNone\fP)"
+.PP
+Remove funcionarios na lista de funcionarios do horario utilizando como parametro o nome do funcionario ou id, somente um dos dois dados é necessario  func Nome do fucionario que sera removido  id_funcionario Id do funcionario que sera removido\&. 
+.PP
+Definido na linha 132 do ficheiro view\&.py\&.
+.PP
+.nf
+132 
+133     def remove_Funcionarios_Horario(self,func=None,id_funcionario=None):
+134         if len(self\&.funcionarios_horario_list)<=0:
+135             return False
+136         i=0
+137         for i in range(len(self\&.funcionarios_horario_list)):
+138             if isinstance(id_funcionario, str) or isinstance(id_funcionario, unicode):
+139                 if self\&.funcionarios_horario_list[i]['id_funcionario']==id_funcionario:
+140                     self\&.model\&.takeRow(i)
+141                     del self\&.funcionarios_horario_list[i]
+142                     break
+143             elif isinstance(func, str) or isinstance(func, unicode):
+144                 if self\&.funcionarios_horario_list[i]['func']==func:
+145                     self\&.model\&.takeRow(i)
+146                     del self\&.funcionarios_horario_list[i]
+147                     break
+148         return True
+
+.fi
+.SH "Documentação dos dados membro"
+.PP 
+.SS "\fBview\&.Controle_De_Acesso_Window::add_funcionarios_window\fP"
+.PP
+Definido na linha 29 do ficheiro view\&.py\&.
+.PP
+Referenciado por view\&.Controle_De_Acesso_Window\&.menu_Adicionar_Funcionarios()\&.
+.SS "\fBview\&.Controle_De_Acesso_Window::adm_window\fP"
+.PP
+Definido na linha 29 do ficheiro view\&.py\&.
+.PP
+Referenciado por view\&.Controle_De_Acesso_Window\&.menu_Adicionar_Funcionarios(), view\&.Controle_De_Acesso_Window\&.menu_Adicionar_Funcionarios_valida(), view\&.Controle_De_Acesso_Window\&.menu_Alterar_Senha(), view\&.Controle_De_Acesso_Window\&.menu_Alterar_Senha_valida(), view\&.Controle_De_Acesso_Window\&.menu_Configurar_Tolerancias(), view\&.Controle_De_Acesso_Window\&.menu_Configurar_Tolerancias_valida(), view\&.Controle_De_Acesso_Window\&.menu_Editar_Funcionarios(), view\&.Controle_De_Acesso_Window\&.menu_Editar_Funcionarios_valida(), view\&.Controle_De_Acesso_Window\&.menu_Gerar_Relatorios(), view\&.Controle_De_Acesso_Window\&.menu_Gerar_Relatorios_valida(), view\&.Controle_De_Acesso_Window\&.menu_Remover_Funcionarios() e view\&.Controle_De_Acesso_Window\&.menu_Remover_Funcionarios_valida()\&.
+.SS "\fBview\&.Controle_De_Acesso_Window::altera_senha_window\fP"
+.PP
+Definido na linha 29 do ficheiro view\&.py\&.
+.PP
+Referenciado por view\&.Controle_De_Acesso_Window\&.menu_Alterar_Senha()\&.
+.SS "\fBview\&.Controle_De_Acesso_Window::atualiza_funcionarios_window\fP"
+.PP
+Definido na linha 29 do ficheiro view\&.py\&.
+.PP
+Referenciado por view\&.Controle_De_Acesso_Window\&.menu_Editar_Funcionarios()\&.
+.SS "\fBview\&.Controle_De_Acesso_Window::db\fP"
+.PP
+Definido na linha 29 do ficheiro view\&.py\&.
+.SS "\fBview\&.Controle_De_Acesso_Window::db_dados\fP"
+.PP
+Definido na linha 29 do ficheiro view\&.py\&.
+.PP
+Referenciado por view\&.Controle_De_Acesso_Window::menu_Adicionar_Funcionarios(), view\&.Controle_De_Acesso_Window::menu_Adicionar_Funcionarios_valida(), view\&.Controle_De_Acesso_Window::menu_Alterar_Senha(), view\&.Controle_De_Acesso_Window::menu_Alterar_Senha_valida(), view\&.Controle_De_Acesso_Window::menu_Configurar_Tolerancias(), view\&.Controle_De_Acesso_Window::menu_Configurar_Tolerancias_valida(), view\&.Controle_De_Acesso_Window::menu_Editar_Funcionarios(), view\&.Controle_De_Acesso_Window::menu_Editar_Funcionarios_valida(), view\&.Controle_De_Acesso_Window::menu_Gerar_Relatorios(), view\&.Controle_De_Acesso_Window::menu_Gerar_Relatorios_valida(), view\&.Controle_De_Acesso_Window::menu_Remover_Funcionarios(), view\&.Controle_De_Acesso_Window::menu_Remover_Funcionarios_valida() e view\&.Controle_De_Acesso_Window::pushButton_Horarios_Clicked()\&.
+.SS "\fBview\&.Controle_De_Acesso_Window::funcionarios_horario_list\fP"
+.PP
+Definido na linha 29 do ficheiro view\&.py\&.
+.PP
+Referenciado por view\&.Controle_De_Acesso_Window\&.atualiza_Funcionarios_Horario() e view\&.Controle_De_Acesso_Window\&.remove_Funcionarios_Horario()\&.
+.SS "\fBview\&.Controle_De_Acesso_Window::horarios_window\fP"
+.PP
+Definido na linha 29 do ficheiro view\&.py\&.
+.PP
+Referenciado por view\&.Controle_De_Acesso_Window\&.pushButton_Horarios_Clicked()\&.
+.SS "\fBview\&.Controle_De_Acesso_Window::logados\fP"
+.PP
+Definido na linha 76 do ficheiro view\&.py\&.
+.SS "\fBview\&.Controle_De_Acesso_Window::model\fP"
+.PP
+Definido na linha 48 do ficheiro view\&.py\&.
+.SS "\fBview\&.Controle_De_Acesso_Window::nao_logados\fP"
+.PP
+Definido na linha 76 do ficheiro view\&.py\&.
+.SS "\fBview\&.Controle_De_Acesso_Window::relatorios_window\fP"
+.PP
+Definido na linha 29 do ficheiro view\&.py\&.
+.PP
+Referenciado por view\&.Controle_De_Acesso_Window\&.menu_Gerar_Relatorios()\&.
+.SS "\fBview\&.Controle_De_Acesso_Window::remover_funcionarios_window\fP"
+.PP
+Definido na linha 29 do ficheiro view\&.py\&.
+.PP
+Referenciado por view\&.Controle_De_Acesso_Window\&.menu_Remover_Funcionarios()\&.
+.SS "\fBview\&.Controle_De_Acesso_Window::tolerancias_window\fP"
+.PP
+Definido na linha 29 do ficheiro view\&.py\&.
+.PP
+Referenciado por view\&.Controle_De_Acesso_Window\&.menu_Configurar_Tolerancias()\&.
+
+.SH "Autor"
+.PP 
+Gerado automaticamente por Doxygen para Controle de Acesso a partir do código fonte\&.
