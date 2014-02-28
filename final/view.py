@@ -1090,8 +1090,9 @@ class Horarios_Window(QMainWindow,Ui_Horarios_Window):
 	##	Mostra todos os funcionarios
 	def mostra_Todos(self):
 		horarios=self.db.obter_Horarios()
-		for horario in horarios:
-			self.adiciona_TableView_Horarios(horario[0],int(horario[1]),str(horario[2]),str(horario[3]))
+		if horarios!=False:
+			for horario in horarios:
+				self.adiciona_TableView_Horarios(horario[0],int(horario[1]),str(horario[2]),str(horario[3]))
 
 ##	Janela para gerar os relatorios
 class Relatorios_Window(QMainWindow,Ui_Relatorios_Window):
