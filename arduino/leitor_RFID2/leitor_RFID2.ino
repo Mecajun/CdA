@@ -36,11 +36,13 @@ void setup() {
 }
 
 /*funcao que testa a conexao de um em um segundo*/
+
+
 void teste()
 {
       Serial.print("42\n");
-      Serial.flush();
 }
+
 
 void abri()//funcao que abre a porta e liga o led verde para indicar acesso concedido
 {
@@ -111,7 +113,6 @@ void serialEvent()//funcao de interrupicao com gatilho serial
         else if(resposta == 4)
         {
           Serial.print("%42*\n");
-          Serial.flush();
         }      
 }
 
