@@ -383,6 +383,10 @@ class Controle_De_Acesso_Window(QMainWindow,Ui_Controle_De_Acesso_Window):
 				falar(resposta,dados['nome'])
 		return
 
+	##	Fecha a conexão com o baco de dados
+	def closeEvent(self, event):
+		del self.db
+
 ##	Thread para verificar funcionarios que faltaram ou estão atrazados
 class Faltas_e_atrasos(QThread):
 	def __init__(self, parent = None,db_dados = None):
@@ -391,6 +395,7 @@ class Faltas_e_atrasos(QThread):
 
 	def run(self):
 		self.verificar_Falta()
+		del self.db
 		self.quit()
 
 	def verificar_Falta(self):
@@ -419,6 +424,10 @@ class Faltas_e_atrasos(QThread):
 			for i in horarios:
 				self.db.criar_Ponto_Falta(i[1],i[0],str(inicial.date()),str(i[2]))
 		self.db.atualizar_Configuracoes('ultima_verificacao',str(final))
+
+	##	Fecha a conexão com o baco de dados
+	def closeEvent(self, event):
+		del self.db
 
 ##	Faz a cominicação com o hardware
 class Hardware(QThread):
@@ -515,6 +524,10 @@ class Adm_Senha_Window(QMainWindow,Ui_Adm_Senha_Window):
 				msgBox = QMessageBox(self)
 				msgBox.setText(u"Senha errada")
 				msgBox.exec_()
+	
+	##	Fecha a conexão com o baco de dados
+	def closeEvent(self, event):
+		del self.db
 
 ##	Janela para alterar senha de administrador
 class Altera_Senha_Window(QMainWindow,Ui_Altera_Senha_Window):
@@ -559,6 +572,10 @@ class Altera_Senha_Window(QMainWindow,Ui_Altera_Senha_Window):
 			self.close()
 		else:
 			print "Erro atualizar senha"
+
+	##	Fecha a conexão com o baco de dados
+	def closeEvent(self, event):
+		del self.db
 
 ##	Janela base para adicionar ou atualizar funcionarios
 class Funcionarios_Window(QMainWindow,Ui_Add_Funcionarios_Window):
@@ -858,6 +875,10 @@ class Obter_Rfid_Window(QMainWindow,Ui_Obter_Rfid_Window):
 			self.tempo=self.tempo-1
 		self.label_Tempo.setText(str(self.tempo))
 
+	##	Fecha a conexão com o baco de dados
+	def closeEvent(self, event):
+		del self.db
+
 ##	Janela para adicionar funcionarios
 class Add_Funcionarios_Window(Funcionarios_Window):
 
@@ -901,6 +922,10 @@ class Add_Funcionarios_Window(Funcionarios_Window):
 			msgBox.setText("Funcionario adicionado")
 			msgBox.exec_()
 			self.limpar_Campos()
+
+	##	Fecha a conexão com o baco de dados
+	def closeEvent(self, event):
+		del self.db
 
 ##	Janela para atualizar funcionarios
 class Atualiza_Funcionarios_Window(Funcionarios_Window):
@@ -961,6 +986,10 @@ class Atualiza_Funcionarios_Window(Funcionarios_Window):
 		horarios=self.db.buscar_Horarios_de_Funcionario(funcionario['id_funcionario'])
 		dados=self.db.obter_Funcionario(funcionario['id_funcionario'])
 		self.inicializa_Campos(dados['nome'],dados['matricula'],dados['rfid'],horarios)
+
+	##	Fecha a conexão com o baco de dados
+	def closeEvent(self, event):
+		del self.db
 
 ##	Janela para remover funcionarios
 class Remover_Funcionarios_Window(QMainWindow,Ui_Remover_Funcionarios_Window):
@@ -1033,6 +1062,10 @@ class Remover_Funcionarios_Window(QMainWindow,Ui_Remover_Funcionarios_Window):
 			self.db.remover_Funcionario(self.lista_funcionarios[i.row()]['id_funcionario'])
 			self.remove_ListView_Funcionarios(None,self.lista_funcionarios[i.row()]['id_funcionario'])
 
+	##	Fecha a conexão com o baco de dados
+	def closeEvent(self, event):
+		del self.db
+
 ##	Janela para visualizar os horarios dos funcionarios
 class Horarios_Window(QMainWindow,Ui_Horarios_Window):
 
@@ -1093,6 +1126,10 @@ class Horarios_Window(QMainWindow,Ui_Horarios_Window):
 		if horarios!=False:
 			for horario in horarios:
 				self.adiciona_TableView_Horarios(horario[0],int(horario[1]),str(horario[2]),str(horario[3]))
+
+	##	Fecha a conexão com o baco de dados
+	def closeEvent(self, event):
+		del self.db
 
 ##	Janela para gerar os relatorios
 class Relatorios_Window(QMainWindow,Ui_Relatorios_Window):
@@ -1157,6 +1194,10 @@ class Relatorios_Window(QMainWindow,Ui_Relatorios_Window):
 		dados=self.obter_Dados()
 		self.thread2 = Relatorios(self,self.db_dados,True,False,dados)
 		self.thread2.start()
+
+	##	Fecha a conexão com o baco de dados
+	def closeEvent(self, event):
+		del self.db
 
 ##	Thread para gerar os relatorios e não travar a interface grafica
 class Relatorios(QThread):
@@ -1301,3 +1342,7 @@ class Tolerancias_Window(QMainWindow,Ui_Tolerancias_Window):
 		msgBox.setText(u"As tolerancia foram alteradas")
 		msgBox.exec_()
 		self.close()
+
+	##	Fecha a conexão com o baco de dados
+	def closeEvent(self, event):
+		del self.db

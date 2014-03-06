@@ -17,6 +17,10 @@ class Connect_Db:
         self.passwd=db_dados['passwd']
         self.conecta()
 
+    def __del__(self):
+        self.curs.close()
+        self.conn.close()
+
     def conecta(self):
         self.conn = Connect(self.host, self.user, self.passwd,charset='utf8',use_unicode=True)
         self.curs = self.conn.cursor()
