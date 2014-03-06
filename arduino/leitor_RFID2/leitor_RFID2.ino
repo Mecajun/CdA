@@ -1,6 +1,8 @@
 //Incluses no cdigo para o funcionamento adequado do leitor de RFID
 #include <SPI.h>
 #include <MFRC522.h>
+//Incluindo funcoes para interrupcao por tempo
+#include <TimerOne.h>
 
 //Definies de pinos requeridas pela biblioteca
 #define SS_PIN 10
@@ -28,6 +30,16 @@ void setup() {
 		digitalWrite(ledverde, LOW);
 		digitalWrite(ledvermelho, LOW);
 		digitalWrite(rele, LOW);
+
+                Timer1.initialize(1000000); // set a timer of length 1000000 microseconds
+                Timer1.attachInterrupt(teste); // attach the service routine here
+}
+
+/*funcao que testa a conexao de um em um segundo*/
+void teste()
+{
+      Serial.print("42\n");
+      Serial.flush();
 }
 
 void abri()//funcao que abre a porta e liga o led verde para indicar acesso concedido
