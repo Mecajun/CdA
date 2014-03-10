@@ -26,6 +26,8 @@ from cda_validarsenha import Ui_Adm_Senha_Window
 from cda_removerfuncionario import Ui_Remover_Funcionarios_Window
 from cda_obterRfid import Ui_Obter_Rfid_Window
 
+caminho=os.path.dirname(os.path.realpath(__file__))
+
 ##	Janela principal do programa
 class Controle_De_Acesso_Window(QMainWindow,Ui_Controle_De_Acesso_Window):
 	##	Construtor da classe
@@ -127,9 +129,9 @@ class Controle_De_Acesso_Window(QMainWindow,Ui_Controle_De_Acesso_Window):
 			return False
 		item = QStandardItem(func)
 		if estado==True:
-			item.setIcon(QPixmap("imagens/yes_icon.png"))
+			item.setIcon(QPixmap(caminho+"/imagens/yes_icon.png"))
 		else:
-			item.setIcon(QPixmap("imagens/no_icon.png"))
+			item.setIcon(QPixmap(caminho+"/imagens/no_icon.png"))
 		self.model.appendRow(item)
 		self.funcionarios_horario_list.append({'func':func,'id_funcionario':id_funcionario,'estado':estado})
 		return True
@@ -170,9 +172,9 @@ class Controle_De_Acesso_Window(QMainWindow,Ui_Controle_De_Acesso_Window):
 					self.model.takeRow(i)
 					item = QStandardItem(self.funcionarios_horario_list[i]['func'])
 					if estado==True:
-						item.setIcon(QPixmap("imagens/yes_icon.png"))
+						item.setIcon(QPixmap(caminho+"/imagens/yes_icon.png"))
 					else:
-						item.setIcon(QPixmap("imagens/no_icon.png"))
+						item.setIcon(QPixmap(caminho+"/imagens/no_icon.png"))
 					self.model.insertRow(i,item)
 					self.funcionarios_horario_list[i]['estado']=estado
 					return True
@@ -183,9 +185,9 @@ class Controle_De_Acesso_Window(QMainWindow,Ui_Controle_De_Acesso_Window):
 					self.model.takeRow(i)
 					item = QStandardItem(self.funcionarios_horario_list[i]['func'])
 					if estado==True:
-						item.setIcon(QPixmap("imagens/yes_icon.png"))
+						item.setIcon(QPixmap(caminho+"/imagens/yes_icon.png"))
 					else:
-						item.setIcon(QPixmap("imagens/no_icon.png"))
+						item.setIcon(QPixmap(caminho+"/imagens/no_icon.png"))
 					self.model.insertRow(i,item)
 					self.funcionarios_horario_list[i]['estado']=estado
 					return True
