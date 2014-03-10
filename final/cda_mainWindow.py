@@ -8,7 +8,7 @@
 # WARNING! All changes made in this file will be lost!
 
 from PySide import QtCore, QtGui
-
+import os
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
@@ -16,7 +16,8 @@ except AttributeError:
 
 class Ui_Controle_De_Acesso_Window(object):
     def setupUi(self, Controle_De_Acesso_Window):
-        logo = QtGui.QPixmap("imagens/logo.png")
+        caminho=os.path.dirname(os.path.realpath(__file__))
+        logo = QtGui.QPixmap(caminho+"/imagens/logo.png")
         Controle_De_Acesso_Window.setObjectName("Controle_De_Acesso_Window")
         Controle_De_Acesso_Window.resize(599, 292)
         icon = QtGui.QIcon()
