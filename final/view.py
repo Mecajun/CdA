@@ -361,6 +361,7 @@ class Controle_De_Acesso_Window(QMainWindow,Ui_Controle_De_Acesso_Window):
 		self.bufferMensagens['resposta']=None
 		self.thread2=Hardware(self)
 		self.connect( self.thread2, SIGNAL("updateBuffer(QString,QString)"), self.atualiza_Buffer_Mensagens )
+		self.connect( self.thread2, SIGNAL("atualizaStatusBar(QString)"), self.escreveStatusBar )
 		self.thread2.start()
 		# self.connect(self.adm_window,SIGNAL("resultado_Validacao_Senha()"),self.menu_Remover_Funcionarios)
 
@@ -386,6 +387,10 @@ class Controle_De_Acesso_Window(QMainWindow,Ui_Controle_De_Acesso_Window):
 	##	Fecha a conexão com o baco de dados
 	def closeEvent(self, event):
 		del self.db
+
+	##	Recebe uma mansagem para a status bar
+	def escreveStatusBar(self,mensagem):
+		self.statusbar.showMessage("Arduino conectado="+mensagem)
 
 ##	Thread para verificar funcionarios que faltaram ou estão atrazados
 class Faltas_e_atrasos(QThread):
@@ -450,21 +455,21 @@ class Hardware(QThread):
 		for i in xrange(10):
 			if linux:
 				try:
-					self.ser = serial.Serial(portas[0]%(i,), 9600)
+					self.ser = serial.Serial(portas[0]%(i,), 9600,timeout=2)
 					self.conectado = True
 					break
 				except Exception, e:
 					pass
 			if linux:
 				try:
-					self.ser = serial.Serial(portas[1]%(i,), 9600)
+					self.ser = serial.Serial(portas[1]%(i,), 9600,timeout=2)
 					self.conectado = True
 					break
 				except Exception, e:
 					continue
 			if windows:
 				try:
-					self.ser = serial.Serial(portas[2]%(i,), 9600)
+					self.ser = serial.Serial(portas[2]%(i,), 9600,timeout=2)
 					self.conectado = True
 					break
 				except Exception, e:
@@ -472,20 +477,28 @@ class Hardware(QThread):
 		if self.conectado==True:
 			self.r=self.ser.readline
 			self.w=self.ser.write
+		self.emit(SIGNAL('atualizaStatusBar(QString)'), str(self.conectado))
 
 	def run(self):
-		self.recebe()		
+		while True:
+			self.recebe()		
+			if self.conectado==False:
+				self.conecta()
+				time.sleep(0.1)
 
 	def recebe(self):
 		while self.conectado:
-			mensagem=self.r()
-			if mensagem[0]=='@' and mensagem[-2]=='#':
-				self.bufferMensagens['rfid']=(mensagem[1:-2],datetime.now())
-				self.emit(SIGNAL('updateBuffer(QString,QString)'), "rfid",mensagem[1:-2])
-			if mensagem[0]=='!' and mensagem[-2]=='$':
-				self.bufferMensagens['resposta']=(mensagem[1:-2],datetime.now())
-				self.emit(SIGNAL('updateBuffer(QString,QString)'), "resposta",mensagem[1:-2])
-			time.sleep(0.1)
+			try:
+				mensagem=self.r()
+				if mensagem[0]=='@' and mensagem[-2]=='#':
+					self.bufferMensagens['rfid']=(mensagem[1:-2],datetime.now())
+					self.emit(SIGNAL('updateBuffer(QString,QString)'), "rfid",mensagem[1:-2])
+				if mensagem[0]=='!' and mensagem[-2]=='$':
+					self.bufferMensagens['resposta']=(mensagem[1:-2],datetime.now())
+					self.emit(SIGNAL('updateBuffer(QString,QString)'), "resposta",mensagem[1:-2])
+				time.sleep(0.1)
+			except Exception, e:
+				self.conectado=False
 
 	def envia(self,mensagem):
 		if self.conectado:
