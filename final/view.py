@@ -99,7 +99,10 @@ class Controle_De_Acesso_Window(QMainWindow,Ui_Controle_De_Acesso_Window):
 		self.logados=self.db.buscar_Funcionarios_Esperados_Logados(get_Week_Day(),tol_ent_ant,tol_sai_dep)
 		self.nao_logados=[]
 		if self.logados==False:
-			self.nao_logados=[x for x in esperados.keys()]
+			try:
+				self.nao_logados=[x for x in esperados.keys()]
+			except Exception, e:
+				pass
 			self.logados=[]
 		else:
 			self.nao_logados=[x for x in esperados.keys() if x not in self.logados]
@@ -306,10 +309,9 @@ class Controle_De_Acesso_Window(QMainWindow,Ui_Controle_De_Acesso_Window):
 			self.lineEdit_matricula.setText("")
 		else:
 			print "Erro lineEdit_Matricula_ReturnPressed"
-		if platform.system()=='Linux':
-			dados=self.db.obter_Funcionario(id_funcionario)
-			if dados!=False:
-				falar(ponto,dados['nome'])
+			print self.lineEdit_matricula.text()
+			print id_funcionario
+			print self.lineEdit_matricula
 
 	##	Fecha a janela Horarios_Window e cria a janela Horarios_Window
 	def pushButton_Horarios_Clicked(self):
@@ -388,7 +390,10 @@ class Controle_De_Acesso_Window(QMainWindow,Ui_Controle_De_Acesso_Window):
 
 	##	Fecha a conexão com o baco de dados
 	def closeEvent(self, event):
-		del self.db
+		try:
+			del self.db
+		except Exception, e:
+			pass
 
 	##	Recebe uma mansagem para a status bar
 	def escreveStatusBar(self,mensagem):
@@ -434,7 +439,10 @@ class Faltas_e_atrasos(QThread):
 
 	##	Fecha a conexão com o baco de dados
 	def closeEvent(self, event):
-		del self.db
+		try:
+			del self.db
+		except Exception, e:
+			pass
 
 ##	Faz a cominicação com o hardware
 class Hardware(QThread):
@@ -542,7 +550,10 @@ class Adm_Senha_Window(QMainWindow,Ui_Adm_Senha_Window):
 	
 	##	Fecha a conexão com o baco de dados
 	def closeEvent(self, event):
-		del self.db
+		try:
+			del self.db
+		except Exception, e:
+			print e
 
 ##	Janela para alterar senha de administrador
 class Altera_Senha_Window(QMainWindow,Ui_Altera_Senha_Window):
@@ -590,7 +601,10 @@ class Altera_Senha_Window(QMainWindow,Ui_Altera_Senha_Window):
 
 	##	Fecha a conexão com o baco de dados
 	def closeEvent(self, event):
-		del self.db
+		try:
+			del self.db
+		except Exception, e:
+			pass
 
 ##	Janela base para adicionar ou atualizar funcionarios
 class Funcionarios_Window(QMainWindow,Ui_Add_Funcionarios_Window):
@@ -892,7 +906,10 @@ class Obter_Rfid_Window(QMainWindow,Ui_Obter_Rfid_Window):
 
 	##	Fecha a conexão com o baco de dados
 	def closeEvent(self, event):
-		del self.db
+		try:
+			del self.db
+		except Exception, e:
+			pass
 
 ##	Janela para adicionar funcionarios
 class Add_Funcionarios_Window(Funcionarios_Window):
@@ -940,7 +957,10 @@ class Add_Funcionarios_Window(Funcionarios_Window):
 
 	##	Fecha a conexão com o baco de dados
 	def closeEvent(self, event):
-		del self.db
+		try:
+			del self.db
+		except Exception, e:
+			pass
 
 ##	Janela para atualizar funcionarios
 class Atualiza_Funcionarios_Window(Funcionarios_Window):
@@ -1004,7 +1024,10 @@ class Atualiza_Funcionarios_Window(Funcionarios_Window):
 
 	##	Fecha a conexão com o baco de dados
 	def closeEvent(self, event):
-		del self.db
+		try:
+			del self.db
+		except Exception, e:
+			pass
 
 ##	Janela para remover funcionarios
 class Remover_Funcionarios_Window(QMainWindow,Ui_Remover_Funcionarios_Window):
@@ -1079,7 +1102,10 @@ class Remover_Funcionarios_Window(QMainWindow,Ui_Remover_Funcionarios_Window):
 
 	##	Fecha a conexão com o baco de dados
 	def closeEvent(self, event):
-		del self.db
+		try:
+			del self.db
+		except Exception, e:
+			pass
 
 ##	Janela para visualizar os horarios dos funcionarios
 class Horarios_Window(QMainWindow,Ui_Horarios_Window):
@@ -1144,7 +1170,10 @@ class Horarios_Window(QMainWindow,Ui_Horarios_Window):
 
 	##	Fecha a conexão com o baco de dados
 	def closeEvent(self, event):
-		del self.db
+		try:
+			del self.db
+		except Exception, e:
+			pass
 
 ##	Janela para gerar os relatorios
 class Relatorios_Window(QMainWindow,Ui_Relatorios_Window):
@@ -1212,7 +1241,10 @@ class Relatorios_Window(QMainWindow,Ui_Relatorios_Window):
 
 	##	Fecha a conexão com o baco de dados
 	def closeEvent(self, event):
-		del self.db
+		try:
+			del self.db
+		except Exception, e:
+			pass
 
 ##	Thread para gerar os relatorios e não travar a interface grafica
 class Relatorios(QThread):
@@ -1360,4 +1392,7 @@ class Tolerancias_Window(QMainWindow,Ui_Tolerancias_Window):
 
 	##	Fecha a conexão com o baco de dados
 	def closeEvent(self, event):
-		del self.db
+		try:
+			del self.db
+		except Exception, e:
+			pass
