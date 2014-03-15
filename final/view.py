@@ -466,22 +466,31 @@ class Hardware(QThread):
 			if linux:
 				try:
 					self.ser = serial.Serial(portas[0]%(i,), 9600,timeout=2)
-					self.conectado = True
-					break
+					time.sleep(0.1)
+					mensagem=self.ser.readline()
+					if mensagem=="42\n":	
+						self.conectado = True
+						break
 				except Exception, e:
 					pass
 			if linux:
 				try:
 					self.ser = serial.Serial(portas[1]%(i,), 9600,timeout=2)
-					self.conectado = True
-					break
+					time.sleep(0.1)
+					mensagem=self.ser.readline()
+					if mensagem=="42\n":	
+						self.conectado = True
+						break
 				except Exception, e:
 					continue
 			if windows:
 				try:
 					self.ser = serial.Serial(portas[2]%(i,), 9600,timeout=2)
-					self.conectado = True
-					break
+					time.sleep(0.1)
+					mensagem=self.ser.readline()
+					if mensagem=="42\n":	
+						self.conectado = True
+						break
 				except Exception, e:
 					continue
 		if self.conectado==True:
@@ -492,9 +501,6 @@ class Hardware(QThread):
 	def run(self):
 		while True:
 			self.recebe()		
-			if self.conectado==False:
-				self.conecta()
-				time.sleep(0.1)
 
 	def recebe(self):
 		while self.conectado:
@@ -503,12 +509,19 @@ class Hardware(QThread):
 				if mensagem[0]=='@' and mensagem[-2]=='#':
 					self.bufferMensagens['rfid']=(mensagem[1:-2],datetime.now())
 					self.emit(SIGNAL('updateBuffer(QString,QString)'), "rfid",mensagem[1:-2])
-				if mensagem[0]=='!' and mensagem[-2]=='$':
+				elif mensagem[0]=='!' and mensagem[-2]=='$':
 					self.bufferMensagens['resposta']=(mensagem[1:-2],datetime.now())
 					self.emit(SIGNAL('updateBuffer(QString,QString)'), "resposta",mensagem[1:-2])
+				elif mensagem=='42\n':
+					self.conectado=True
+				else:
+					self.conectado=False
 				time.sleep(0.1)
 			except Exception, e:
 				self.conectado=False
+				while self.conectado==False:
+					self.conecta()
+					time.sleep(0.1)
 
 	def envia(self,mensagem):
 		if self.conectado:
