@@ -1,16 +1,23 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'mainWindow2.ui'
+# Form implementation generated from reading ui file 'mainWindow.ui'
 #
-# Created: Mon Jul  7 12:17:58 2014
+# Created: Mon Jul  7 12:25:52 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
 
 from PySide import QtCore, QtGui
+import os
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    _fromUtf8 = lambda s: s
 
 class Ui_Controle_De_Acesso_Window(object):
     def setupUi(self, Controle_De_Acesso_Window):
+        caminho=os.path.dirname(os.path.realpath(__file__))
+        logo = QtGui.QPixmap(caminho+"/imagens/logo.png")
         Controle_De_Acesso_Window.setObjectName("Controle_De_Acesso_Window")
         Controle_De_Acesso_Window.resize(599, 292)
         icon = QtGui.QIcon()
@@ -140,5 +147,3 @@ class Ui_Controle_De_Acesso_Window(object):
         self.actionManual.setText(QtGui.QApplication.translate("Controle_De_Acesso_Window", "Manual", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSobre_Mecajun.setText(QtGui.QApplication.translate("Controle_De_Acesso_Window", "Sobre Mecajun", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSobre_Qt.setText(QtGui.QApplication.translate("Controle_De_Acesso_Window", "Sobre Qt", None, QtGui.QApplication.UnicodeUTF8))
-
-import resource_rc

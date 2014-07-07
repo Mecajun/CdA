@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'validarsenha.ui'
 #
-# Created: Mon Jul  7 12:17:58 2014
+# Created: Mon Jul  7 12:25:53 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!

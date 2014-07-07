@@ -120,6 +120,13 @@ Mecatrônica Júnior de Brasília</string>
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_abrir_porta">
+       <property name="text">
+        <string>Abrir Porta</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </widget>
    <zorder>layoutWidget</zorder>
