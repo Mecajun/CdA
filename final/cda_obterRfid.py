@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'obterRfid.ui'
 #
-# Created: Thu Feb  6 01:16:33 2014
-#      by: pyside-uic 0.2.13 running on PySide 1.1.0
+# Created: Mon Jul  7 12:17:58 2014
+#      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
 

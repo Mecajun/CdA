@@ -1,23 +1,16 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'mainWindow.ui'
+# Form implementation generated from reading ui file 'mainWindow2.ui'
 #
-# Created: Thu Feb  6 01:16:33 2014
-#      by: pyside-uic 0.2.13 running on PySide 1.1.0
+# Created: Mon Jul  7 12:17:58 2014
+#      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
 
 from PySide import QtCore, QtGui
-import os
-try:
-    _fromUtf8 = QtCore.QString.fromUtf8
-except AttributeError:
-    _fromUtf8 = lambda s: s
 
 class Ui_Controle_De_Acesso_Window(object):
     def setupUi(self, Controle_De_Acesso_Window):
-        caminho=os.path.dirname(os.path.realpath(__file__))
-        logo = QtGui.QPixmap(caminho+"/imagens/logo.png")
         Controle_De_Acesso_Window.setObjectName("Controle_De_Acesso_Window")
         Controle_De_Acesso_Window.resize(599, 292)
         icon = QtGui.QIcon()
@@ -26,10 +19,9 @@ class Ui_Controle_De_Acesso_Window(object):
         Controle_De_Acesso_Window.setLocale(QtCore.QLocale(QtCore.QLocale.Portuguese, QtCore.QLocale.Brazil))
         self.centralwidget = QtGui.QWidget(Controle_De_Acesso_Window)
         self.centralwidget.setObjectName("centralwidget")
-        self.widget_logo = QtGui.QLabel(self.centralwidget)
+        self.widget_logo = QtGui.QWidget(self.centralwidget)
         self.widget_logo.setGeometry(QtCore.QRect(20, 10, 201, 121))
-        self.widget_logo.setObjectName(_fromUtf8("widget_logo"))
-        self.widget_logo.setPixmap(logo)
+        self.widget_logo.setObjectName("widget_logo")
         self.layoutWidget = QtGui.QWidget(self.centralwidget)
         self.layoutWidget.setGeometry(QtCore.QRect(240, 10, 341, 231))
         self.layoutWidget.setObjectName("layoutWidget")
@@ -75,6 +67,9 @@ class Ui_Controle_De_Acesso_Window(object):
         self.pushButton_horarios = QtGui.QPushButton(self.layoutWidget1)
         self.pushButton_horarios.setObjectName("pushButton_horarios")
         self.verticalLayout_2.addWidget(self.pushButton_horarios)
+        self.pushButton_abrir_porta = QtGui.QPushButton(self.layoutWidget1)
+        self.pushButton_abrir_porta.setObjectName("pushButton_abrir_porta")
+        self.verticalLayout_2.addWidget(self.pushButton_abrir_porta)
         Controle_De_Acesso_Window.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(Controle_De_Acesso_Window)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 599, 25))
@@ -133,6 +128,7 @@ class Ui_Controle_De_Acesso_Window(object):
         self.label_funcionarios.setText(QtGui.QApplication.translate("Controle_De_Acesso_Window", "Funcionarios do horario:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_relogio.setText(QtGui.QApplication.translate("Controle_De_Acesso_Window", "00:00:00", None, QtGui.QApplication.UnicodeUTF8))
         self.pushButton_horarios.setText(QtGui.QApplication.translate("Controle_De_Acesso_Window", "Horarios", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushButton_abrir_porta.setText(QtGui.QApplication.translate("Controle_De_Acesso_Window", "Abrir Porta", None, QtGui.QApplication.UnicodeUTF8))
         self.menuAdministra_o.setTitle(QtGui.QApplication.translate("Controle_De_Acesso_Window", "Administração", None, QtGui.QApplication.UnicodeUTF8))
         self.menuAjuda.setTitle(QtGui.QApplication.translate("Controle_De_Acesso_Window", "Ajuda", None, QtGui.QApplication.UnicodeUTF8))
         self.actionAlterar_Senha.setText(QtGui.QApplication.translate("Controle_De_Acesso_Window", "Alterar Senha", None, QtGui.QApplication.UnicodeUTF8))
@@ -144,3 +140,5 @@ class Ui_Controle_De_Acesso_Window(object):
         self.actionManual.setText(QtGui.QApplication.translate("Controle_De_Acesso_Window", "Manual", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSobre_Mecajun.setText(QtGui.QApplication.translate("Controle_De_Acesso_Window", "Sobre Mecajun", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSobre_Qt.setText(QtGui.QApplication.translate("Controle_De_Acesso_Window", "Sobre Qt", None, QtGui.QApplication.UnicodeUTF8))
+
+import resource_rc
