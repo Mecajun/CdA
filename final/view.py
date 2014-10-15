@@ -75,11 +75,15 @@ class Controle_De_Acesso_Window(QMainWindow,Ui_Controle_De_Acesso_Window):
 		timer.start(100)
 		timer2 = QTimer(self)
 		self.connect(timer2, SIGNAL("timeout()"), self.atualiza_Funcionarios_Esperados)
-		timer2.start(200)
-		timer3 = QTimer(self)
-		self.connect(timer3, SIGNAL("timeout()"), self.verificar_Faltas)
-		timer3.start(1000*60)
+		timer2.start(1000) #Tempo alterado de 200ms para 1000ms
+
+
+		# timer3 = QTimer(self)
+		# self.connect(timer3, SIGNAL("timeout()"), self.verificar_Faltas)
+		# timer3.start(1000*60*60*12) #Tempo alterado de 1000*60 ms para 1000*60*60*12 ms
 		self.verificar_Faltas()
+
+
 		self.conecta_Arduino()
 
 	##	Atualiza a lista de funcionarios esperados
@@ -111,8 +115,20 @@ class Controle_De_Acesso_Window(QMainWindow,Ui_Controle_De_Acesso_Window):
 			if i not in funcionarios_horario_list_ids:
 				if i in self.logados:
 					self.adiciona_Funcionarios_Horario(esperados[i]['nome'],i,True)
+
+					#Ponto de falta dado ao inicio da tolerancia minima de entrada
+					ponto_existente = self.db.procura_ponto_recente(i)
+					if ponto_existente == False:
+						self.db.criar_Ponto_Falta(i,esperados[i]['id_horario'],str(data_Atual().date()),str(esperados[i]['hora_inicial']))
+
 				if i in self.nao_logados:
 					self.adiciona_Funcionarios_Horario(esperados[i]['nome'],i,False)
+
+					#Ponto de falta dado ao inicio da tolerancia minima de entrada
+					ponto_existente = self.db.procura_ponto_recente(i)
+					if ponto_existente == False:
+						self.db.criar_Ponto_Falta(i,esperados[i]['id_horario'],str(data_Atual().date()),str(esperados[i]['hora_inicial']))
+
 			else:
 				if i in self.logados:
 					self.atualiza_Funcionarios_Horario(None,i,True)
@@ -121,6 +137,13 @@ class Controle_De_Acesso_Window(QMainWindow,Ui_Controle_De_Acesso_Window):
 
 		for i in funcionarios_horario_list_ids:
 			if i not in esperados.keys():
+
+				#Procura ponto nao fechado
+				ponto_recente = self.db.procura_ponto_recente(i,-1,-1)
+				if ponto_recente != False:
+					#Fecha ponto
+					self.db.fecha_ponto_ao_deslogar_usuario(ponto_recente['id_ponto'])
+
 				self.remove_Funcionarios_Horario(None,i)
 
 	##	Adiciona funcionarios na lista de funcionarios do horario
@@ -211,6 +234,9 @@ class Controle_De_Acesso_Window(QMainWindow,Ui_Controle_De_Acesso_Window):
 	#	@param window janela que será fechada
 	def fechar_Window(self,window):
 		try:
+
+			#Implementar fechamento de threads
+
 			window.close()
 		except AttributeError:
 			pass
@@ -344,7 +370,11 @@ class Controle_De_Acesso_Window(QMainWindow,Ui_Controle_De_Acesso_Window):
 
 		id_horario=self.db.buscar_Horario_Mais_Proximo_de_Funcionario(id_funcionario,get_Week_Day(),limite_inferior_entrada,limite_superior_entrada)
 		if id_horario!=False:
-			self.db.criar_Ponto(id_funcionario,id_horario,-1)
+
+			#Seta a presenca do funcionario
+			self.db.atualiza_Ponto(id_funcionario,data_Atual(True),limite_inferior_entrada,limite_superior_entrada)
+
+			#self.db.criar_Ponto(id_funcionario,id_horario,-1)
 			return 2
 		return 1
 
@@ -411,31 +441,35 @@ class Faltas_e_atrasos(QThread):
 		self.quit()
 
 	def verificar_Falta(self):
-		inicial=string_2_Datetime(self.db.obter_Configuracoes('ultima_verificacao'))
-		final=data_Atual()
-		dias=(final-inicial).days
-		horarios=[]
-		for i in xrange(dias//7):
-			horarios=self.db.obter_Pontos_Faltando(inicial,inicial+timedelta(days=7))
-			temp={}
-			for i in range(7):
-				temp[get_Week_Day(inicial+timedelta(days=i))]=inicial+timedelta(days=i)
-			if horarios!=False:
-				for i in horarios:
-					self.db.criar_Ponto_Falta(i[1],i[0],str(temp[i[3]].date()),str(i[2]))
-			inicial=inicial+timedelta(days=7)
-		for i in xrange(dias%7):
-			horarios=self.db.obter_Pontos_Faltando(inicial,inicial+timedelta(days=1),get_Week_Day(inicial))
-			if horarios!=False:
-				for i in horarios:
-					self.db.criar_Ponto_Falta(i[1],i[0],str(inicial.date()),str(i[2]))
-			inicial=inicial+timedelta(days=1)
-		limite_superior_ent=self.db.obter_Configuracoes('tol_ent_dep')
-		horarios=self.db.obter_Pontos_Faltando(inicial,inicial+timedelta(days=1),get_Week_Day(inicial),limite_superior_ent)
-		if horarios!=False:
-			for i in horarios:
-				self.db.criar_Ponto_Falta(i[1],i[0],str(inicial.date()),str(i[2]))
-		self.db.atualizar_Configuracoes('ultima_verificacao',str(final))
+
+		#Fecha todos os pontos abertos at'e o dia anterior
+		self.db.fecha_pontos_abertos()
+
+		# inicial=string_2_Datetime(self.db.obter_Configuracoes('ultima_verificacao'))
+		# final=data_Atual()
+		# dias=(final-inicial).days
+		# horarios=[]
+		# for i in xrange(dias//7):
+		# 	horarios=self.db.obter_Pontos_Faltando(inicial,inicial+timedelta(days=7))
+		# 	temp={}
+		# 	for i in range(7):
+		# 		temp[get_Week_Day(inicial+timedelta(days=i))]=inicial+timedelta(days=i)
+		# 	if horarios!=False:
+		# 		for i in horarios:
+		# 			self.db.criar_Ponto_Falta(i[1],i[0],str(temp[i[3]].date()),str(i[2]))
+		# 	inicial=inicial+timedelta(days=7)
+		# for i in xrange(dias%7):
+		# 	horarios=self.db.obter_Pontos_Faltando(inicial,inicial+timedelta(days=1),get_Week_Day(inicial))
+		# 	if horarios!=False:
+		# 		for i in horarios:
+		# 			self.db.criar_Ponto_Falta(i[1],i[0],str(inicial.date()),str(i[2]))
+		# 	inicial=inicial+timedelta(days=1)
+		# limite_superior_ent=self.db.obter_Configuracoes('tol_ent_dep')
+		# horarios=self.db.obter_Pontos_Faltando(inicial,inicial+timedelta(days=1),get_Week_Day(inicial),limite_superior_ent)
+		# if horarios!=False:
+		# 	for i in horarios:
+		# 		self.db.criar_Ponto_Falta(i[1],i[0],str(inicial.date()),str(i[2]))
+		# self.db.atualizar_Configuracoes('ultima_verificacao',str(final))
 
 	##	Fecha a conexão com o baco de dados
 	def closeEvent(self, event):
@@ -516,6 +550,11 @@ class Hardware(QThread):
 					self.conectado=True
 				else:
 					self.conectado=False
+
+					#Desconectar Arduino e reconectar.
+					self.ser.close()
+					raise Exception('ArduinoDesconectado')
+
 				time.sleep(0.1)
 			except Exception, e:
 				self.conectado=False

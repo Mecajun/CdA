@@ -255,12 +255,13 @@ class Connect_Db:
     #   @param limite_inferior Limite inferior para busca. Formato HH:MM:SS
     #   @param limite_superior Limite superior para a busca. Formato HH:MM:SS
     def buscar_Funcionarios_Esperados(self,dia_da_semana,limite_inferior,limite_superior):
-        self.curs.execute("SELECT funcionarios.nome, funcionarios.id_funcionario, horarios.hora_inicial, horarios.hora_final FROM horarios INNER JOIN funcionarios ON horarios.id_funcionario=funcionarios.id_funcionario WHERE horarios.dia_da_semana=%s AND curtime() >= subtime(horarios.hora_inicial,%s) AND curtime() <= addtime(horarios.hora_final,%s)",(dia_da_semana,limite_inferior,limite_superior))
+        #Adicionado campo horarios.id_horario
+        self.curs.execute("SELECT funcionarios.nome, funcionarios.id_funcionario, horarios.hora_inicial, horarios.hora_final, horarios.id_horario FROM horarios INNER JOIN funcionarios ON horarios.id_funcionario=funcionarios.id_funcionario WHERE horarios.dia_da_semana=%s AND curtime() >= subtime(horarios.hora_inicial,%s) AND curtime() <= addtime(horarios.hora_final,%s)",(dia_da_semana,limite_inferior,limite_superior))
         linhas = self.curs.fetchall()
         l={}
         if len(linhas)>0:
             for i in linhas:
-                l[str(i[1])]={'nome':i[0],'hora_inicial':i[2],'hora_final':i[3]}
+                l[str(i[1])]={'nome':i[0],'hora_inicial':i[2],'hora_final':i[3],'id_horario':i[4]}
         self.conn.commit()
         return l if len(l)>0 else False
 
@@ -280,7 +281,7 @@ class Connect_Db:
     ##  Verifica se existe ponto aberto de um funcionario
     #   @param id_funcionario Id do funcionario 
     def buscar_Ponto_Aberto_de_Funcionario(self,id_funcionario):
-        self.curs.execute("SELECT pontos.horario_entrada,horarios.hora_inicial,horarios.hora_final FROM pontos INNER JOIN horarios on pontos.id_horario = horarios.id_horario WHERE pontos.presenca=-1 AND pontos.id_funcionario=%s",(id_funcionario))
+        self.curs.execute("SELECT pontos.horario_entrada,horarios.hora_inicial,horarios.hora_final FROM pontos INNER JOIN horarios on pontos.id_horario = horarios.id_horario WHERE pontos.presenca=-1 AND pontos.id_funcionario=%s ORDER BY pontos.id_ponto DESC",(id_funcionario)) #Otimizado por ORDER BY
         linhas = self.curs.fetchall()
         l=False
         if len(linhas)>0:
@@ -376,3 +377,54 @@ class Connect_Db:
         self.curs.execute(sql,dados)
         linhas = self.curs.fetchall()
         return linhas if len(linhas)>0 else False
+
+
+
+
+
+    ##  Seta o funcionario como presente
+    #   @param id_funcionario Id do funcionario 
+    #   @param horario_entrada Horario de entrada do funcionario
+    #   @param limite_superior_entrada Tempo limite de entrada do funcionario
+    def atualiza_Ponto(self, id_funcionario, horario_entrada, limite_inferior_entrada, limite_superior_entrada):        
+        sql="UPDATE pontos SET horario_entrada=%s, presenca=%s WHERE id_funcionario=%s AND presenca=0 AND NOW() >= subtime(pontos.horario_entrada,%s) AND NOW() <= addtime(pontos.horario_entrada,%s)"
+        self.curs.execute(sql,(horario_entrada,-1,id_funcionario, limite_inferior_entrada, limite_superior_entrada))
+        self.conn.commit()
+        return True
+
+
+
+    ##  Fecha todos os pontos ainda abertos ate o dia anterior
+    def fecha_pontos_abertos(self):
+        sql="UPDATE pontos SET presenca=%s WHERE presenca=-1 AND subtime(NOW(),'1 0:0:0') > pontos.horario_entrada"
+        self.curs.execute(sql,(2))
+        self.conn.commit()
+        return True
+
+
+    ##	Procura ponto recente de funcionario
+    #   @param id_funcionario Id do funcionario
+    #   @param presenca1 Tipo de presenca a ser procurada
+    #   @param presenca2 Tipo de presenca a ser procurada
+    def procura_ponto_recente(self, id_funcionario, presenca1=-1, presenca2=0):
+        sql="SELECT pontos.id_ponto FROM pontos INNER JOIN horarios ON pontos.id_horario = horarios.id_horario WHERE pontos.id_funcionario = %s AND DATEDIFF(CURDATE(), pontos.horario_entrada) < 1 AND TIMEDIFF(CURTIME(), horarios.hora_final) < '00:00:00' AND ( pontos.presenca = %s OR pontos.presenca = %s )"
+        #sql="SELECT pontos.id_ponto FROM pontos INNER JOIN horarios ON pontos.id_horario = horarios.id_horario WHERE pontos.id_funcionario = %s AND DATEDIFF(CURDATE(), pontos.horario_entrada) < 1 AND TIMEDIFF(CURTIME(), horarios.hora_final) < '00:00:00'"
+        self.curs.execute(sql,(id_funcionario, presenca1, presenca2))
+        #self.curs.execute(sql,(id_funcionario))
+        linhas = self.curs.fetchall()
+        l=False
+        if len(linhas)>0:
+            i=linhas[0]
+            l={'id_ponto':i[0]}
+        self.conn.commit()
+        return l
+
+
+    ##	Fecha ponto ao deslogar o usuario
+    #   @param id_ponto Id do ponto
+    def fecha_ponto_ao_deslogar_usuario(self, id_ponto):
+    	sql="UPDATE pontos SET presenca=%s WHERE pontos.id_ponto = %s"
+        self.curs.execute(sql,(2, id_ponto))
+        self.conn.commit()
+        return True
+
