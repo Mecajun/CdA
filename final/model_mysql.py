@@ -407,15 +407,12 @@ class Connect_Db:
     #   @param presenca1 Tipo de presenca a ser procurada
     #   @param presenca2 Tipo de presenca a ser procurada
     def procura_ponto_recente(self, id_funcionario, presenca1=-1, presenca2=0):
-        sql="SELECT pontos.id_ponto FROM pontos INNER JOIN horarios ON pontos.id_horario = horarios.id_horario WHERE pontos.id_funcionario = %s AND DATEDIFF(CURDATE(), pontos.horario_entrada) < 1 AND TIMEDIFF(CURTIME(), horarios.hora_final) < '00:00:00' AND ( pontos.presenca = %s OR pontos.presenca = %s )"
-        #sql="SELECT pontos.id_ponto FROM pontos INNER JOIN horarios ON pontos.id_horario = horarios.id_horario WHERE pontos.id_funcionario = %s AND DATEDIFF(CURDATE(), pontos.horario_entrada) < 1 AND TIMEDIFF(CURTIME(), horarios.hora_final) < '00:00:00'"
+        sql="SELECT pontos.id_ponto FROM pontos INNER JOIN horarios ON pontos.id_horario = horarios.id_horario WHERE pontos.id_funcionario = %s AND DATEDIFF(CURDATE(), pontos.horario_entrada) < 1 AND (TIMEDIFF(CURTIME(), horarios.hora_final) < ADDTIME((SELECT dado FROM configuracoes WHERE tipo='tol_sai_dep'), '00:02:00') ) AND ( pontos.presenca = %s OR pontos.presenca = %s )"
         self.curs.execute(sql,(id_funcionario, presenca1, presenca2))
-        #self.curs.execute(sql,(id_funcionario))
         linhas = self.curs.fetchall()
         l=False
         if len(linhas)>0:
-            i=linhas[0]
-            l={'id_ponto':i[0]}
+            l=linhas[0][0]
         self.conn.commit()
         return l
 

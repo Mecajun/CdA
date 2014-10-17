@@ -96,6 +96,7 @@ class Controle_De_Acesso_Window(QMainWindow,Ui_Controle_De_Acesso_Window):
 		if esperados==False and len(funcionarios_horario_list_ids)>0:
 			for i in funcionarios_horario_list_ids:
 				self.remove_Funcionarios_Horario(None,i)
+			return True #funcionarios_horario_list_ids so sera atualizado na proxima chamada do metodo
 
 		if esperados==False and len(funcionarios_horario_list_ids)==0:
 			return True
@@ -137,13 +138,6 @@ class Controle_De_Acesso_Window(QMainWindow,Ui_Controle_De_Acesso_Window):
 
 		for i in funcionarios_horario_list_ids:
 			if i not in esperados.keys():
-
-				#Procura ponto nao fechado
-				ponto_recente = self.db.procura_ponto_recente(i,-1,-1)
-				if ponto_recente != False:
-					#Fecha ponto
-					self.db.fecha_ponto_ao_deslogar_usuario(ponto_recente['id_ponto'])
-
 				self.remove_Funcionarios_Horario(None,i)
 
 	##	Adiciona funcionarios na lista de funcionarios do horario
@@ -168,6 +162,16 @@ class Controle_De_Acesso_Window(QMainWindow,Ui_Controle_De_Acesso_Window):
 	def remove_Funcionarios_Horario(self,func=None,id_funcionario=None):
 		if len(self.funcionarios_horario_list)<=0:
 			return False
+
+		if not (id_funcionario == None):
+			#Procura ponto nao fechado
+			ponto_recente = self.db.procura_ponto_recente(id_funcionario,-1,-1)
+			if not (ponto_recente == False):
+
+				#Fecha ponto
+				self.db.fecha_ponto_ao_deslogar_usuario(ponto_recente)
+
+
 		i=0
 		for i in range(len(self.funcionarios_horario_list)):
 			if isinstance(id_funcionario, str) or isinstance(id_funcionario, unicode):
@@ -359,10 +363,10 @@ class Controle_De_Acesso_Window(QMainWindow,Ui_Controle_De_Acesso_Window):
 
 		if ponto_antigo!=False:
 			#	Ponto que não foi fechado
-			if (ponto_antigo['hora_final']+limite_superior_saida) < data_Atual():
-				self.db.finaliza_Ponto(id_funcionario,data_Atual(True),2)
+			# if (ponto_antigo['hora_final']+limite_superior_saida) < data_Atual():
+			# 	self.db.finaliza_Ponto(id_funcionario,data_Atual(True),2)
 			#	Ponto normal
-			elif ((ponto_antigo['hora_final']-limite_inferior_saida) <= data_Atual()) and ((ponto_antigo['hora_final']+limite_superior_saida) >= data_Atual()):
+			if ((ponto_antigo['hora_final']-limite_inferior_saida) <= data_Atual()) and ((ponto_antigo['hora_final']+limite_superior_saida) >= data_Atual()):
 				self.db.finaliza_Ponto(id_funcionario,data_Atual(True),1)
 				return 3
 			else:
